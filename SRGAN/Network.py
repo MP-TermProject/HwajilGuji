@@ -64,10 +64,3 @@ class UNet(nn.Module):
             x = m(x)
             x += d_sample[-(idx+2)]
         return x
-'''
-import torch
-dummy_img = torch.randn((1, 32, 256, 256))
-net = UNet(3, 32, res_num=12)
-result = net(dummy_img)
-print(result.shape)
-'''
