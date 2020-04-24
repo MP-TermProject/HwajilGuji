@@ -1,7 +1,5 @@
 package com.chlee.hwajilguji;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -9,51 +7,51 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
+import com.zhihu.matisse.engine.impl.PicassoEngine;
+import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class GalleryActivity extends AppCompatActivity{
+
     private static final int REQUEST_CODE_CHOOSE = 23;
 
+    @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        Button galleryBtn = findViewById(R.id.galleryBtn);
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint({"CheckResult", "ShowToast"})
-            @Override
-            public void onClick(View view) {
-                RxPermissions rxPermissions = new RxPermissions(MainActivity.this);
-                rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        .subscribe(permission -> {
-                            if (permission) {
-                                ImagePicker();
-                            } else {
-                                Toast.makeText(MainActivity.this, R.string.permission_request_denied, Toast.LENGTH_LONG);
-                            }
-                        });
-            }
-        });
+        setContentView(R.layout.activity_gallery);
+//        findViewById(R.id.dracula).setOnClickListener(this);
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe(permission -> {
+                    if (permission) {
+                        startAction();
+                    } else {
+                        Toast.makeText(GalleryActivity.this, R.string.permission_request_denied, Toast.LENGTH_LONG);
+                     }
+                });
 
     }
 
-    private void ImagePicker() {
-        Matisse.from(MainActivity.this)
+
+    private void startAction() {
+        Matisse.from(GalleryActivity.this)
                 .choose(MimeType.ofImage(), false)
                 .theme(R.style.Matisse_Dracula)
                 .countable(true)
@@ -89,4 +87,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
 }

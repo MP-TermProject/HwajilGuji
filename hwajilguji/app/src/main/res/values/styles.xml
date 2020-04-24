@@ -1,23 +1,31 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+<!-- Base application theme. -->
+<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <!-- Customize your theme here. -->
+    <item name="colorPrimary">@color/colorPrimary</item>
+    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <item name="colorAccent">@color/colorAccent</item>
+</style>
+
+
+<!-- Splash theme. -->
+<style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+    <item name="android:windowBackground">@drawable/splash_background</item>
+    <item name="android:windowContentOverlay">@null</item>
+</style>
+
+<color name="white">#ffffff</color>
+<color name="gray">#c4c4c4</color>
+<color name="dark_gray">#3f3f3f</color>
+<color name="dark_gray_status">#2a2a2a</color>
+
+
+    <style name="ZhihuOverlay" parent="ThemeOverlay.AppCompat">
+        <item name="colorButtonNormal">@color/zhihu_primary</item>
     </style>
 
-
-    <!-- Splash theme. -->
-    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@drawable/splash_background</item>
-        <item name="android:windowContentOverlay">@null</item>
+    <style name="DraculaOverlay" parent="ThemeOverlay.AppCompat">
+        <item name="colorButtonNormal">@color/dracula_primary</item>
     </style>
-
-    <color name="white">#ffffff</color>
-    <color name="gray">#c4c4c4</color>
-    <color name="dark_gray">#3f3f3f</color>
-    <color name="dark_gray_status">#2a2a2a</color>
-
 </resources>
