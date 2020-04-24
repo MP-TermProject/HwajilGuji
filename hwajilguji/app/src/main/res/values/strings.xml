@@ -1,8 +1,11 @@
 <resources>
     <string name="app_name">화질구지</string>
+<<<<<<< HEAD
 
 
     <!-- Image Picker-->
     <string name="permission_request_denied">권한 요청이 거부되었습니다.</string>
 
+=======
+>>>>>>> b6296f536c4ec708967b975ffc11cec19cdd9071
 </resources>

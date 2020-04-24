@@ -22,8 +22,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
+<<<<<<< HEAD
         <activity android:name=".Gallery" />
         <activity android:name=".GalleryActivity" />
+=======
+>>>>>>> b6296f536c4ec708967b975ffc11cec19cdd9071
     </application>
 
 </manifest>
