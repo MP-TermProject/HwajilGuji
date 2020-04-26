@@ -33,17 +33,17 @@ class Discriminatior(nn.Module):
             nn.LeakyReLU(0.2, inplace=True),
             net.BlockBn(nn.Conv2d, 64, 64, 4, stride=2, padding=1),
             nn.LeakyReLU(0.2, inplace=True),
-            net.BlockBn(nn.Conv2d, 64, 128, 4, stride=2, padding=1),
+            net.BlockBn(nn.Conv2d, 64, 128, 4, stride=1, padding=1),
             nn.LeakyReLU(0.2, inplace=True),
-            net.BlockBn(nn.Conv2d, 128, 128, 3, stride=1, padding=1),
+            net.BlockBn(nn.Conv2d, 128, 128, 3, stride=2, padding=1),
             nn.LeakyReLU(0.2, inplace=True),
-            net.BlockBn(nn.Conv2d, 128, 256, 4, stride=2, padding=1),
+            net.BlockBn(nn.Conv2d, 128, 256, 4, stride=1, padding=1),
             nn.LeakyReLU(0.2, inplace=True),
-            net.BlockBn(nn.Conv2d, 256, 256, 3, stride=1, padding=1),
+            net.BlockBn(nn.Conv2d, 256, 256, 3, stride=2, padding=1),
             nn.LeakyReLU(0.2, inplace=True),
-            net.BlockBn(nn.Conv2d, 256, 512, 4, stride=2, padding=1),
+            net.BlockBn(nn.Conv2d, 256, 512, 4, stride=1, padding=1),
             nn.LeakyReLU(0.2, inplace=True),
-            net.BlockBn(nn.Conv2d, 512, 512, 3, stride=1, padding=1),
+            net.BlockBn(nn.Conv2d, 512, 512, 3, stride=2, padding=1),
             nn.LeakyReLU(0.2, inplace=True),
         )
         size = 2048
@@ -54,9 +54,7 @@ class Discriminatior(nn.Module):
             nn.Sigmoid()
         )
     def forward(self, input):
+        x = self.main(input)
+        x_flat = x.view(-1,2048)
+        x = self.main2(x_flat)
         return x
-dummyimg = torch.randn((1, 3, 256, 256))
-
-net = Generator()
-result = net(dummyimg)
-print(result)
