@@ -12,7 +12,7 @@ class ImageLoader(DataLoader):
         self.img_list = os.listdir(path)
 
     def __len__(self):
-        return len(self.igm_list)
+        return len(self.img_list)
 
     def __getitem__(self, idx):
         fname = self.img_list[idx]
@@ -28,7 +28,7 @@ class ImageLoader(DataLoader):
             img = self.transform(img)
             small_img = self.transform(small_img)
         return img, small_img
-
+'''
 path = 'C:/Users/kjm04/Downloads/celeba-dataset/img_align_celeba/img_align_celeba'
 loader = ImageLoader(path=path)
 img, small_img = loader.__getitem__(1)
@@ -37,3 +37,4 @@ plt.imshow(img)
 plt.show()
 plt.imshow(small_img)
 plt.show()
+'''

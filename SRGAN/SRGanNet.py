@@ -25,9 +25,9 @@ class Generator(nn.Module):
         x = self.lastConv(x)
         return x
 
-class Discriminatior(nn.Module):
+class Discriminator(nn.Module):
     def __init__(self):
-        super(Discriminatior, self).__init__()
+        super(Discriminator, self).__init__()
         self.main = nn.Sequential(
             nn.Conv2d(3, 64, 3, stride=1, padding=1),
             nn.LeakyReLU(0.2, inplace=True),
