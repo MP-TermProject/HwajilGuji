@@ -48,4 +48,6 @@ dependencies {
     //noinspection GradleCompatible
     implementation "com.android.support:design:28.0.0"
     implementation "androidx.test:monitor:1.2.0@aar"
+    implementation 'org.pytorch:pytorch_android:1.4.0'
+    implementation 'org.pytorch:pytorch_android_torchvision:1.4.0'
 }

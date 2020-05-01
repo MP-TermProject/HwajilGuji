@@ -27,8 +27,6 @@ import com.zhihu.matisse.internal.entity.CaptureStrategy;
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_CHOOSE = 23;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
