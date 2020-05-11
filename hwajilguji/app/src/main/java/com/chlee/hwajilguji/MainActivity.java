@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.chlee.hwajilguji.vision.PytorchTestActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button galleryBtn = findViewById(R.id.galleryBtn);
+        Button pytorchTest = findViewById(R.id.pytorchTest);
+
         galleryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -41,6 +44,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        pytorchTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, PytorchTestActivity.class);
+                startActivityForResult(intent, 1);
+            }
+        });
     }
 
 
