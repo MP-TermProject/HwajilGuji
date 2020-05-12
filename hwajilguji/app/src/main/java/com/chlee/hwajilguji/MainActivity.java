@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.chlee.hwajilguji.vision.PytorchTestActivity;
+import com.chlee.hwajilguji.vision.testActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         pytorchTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, PytorchTestActivity.class);
+                Intent intent = new Intent(MainActivity.this, testActivity.class);
                 startActivityForResult(intent, 1);
             }
         });

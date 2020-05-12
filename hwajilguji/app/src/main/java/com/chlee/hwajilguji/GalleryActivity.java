@@ -36,14 +36,14 @@ public class GalleryActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
 
-        helper = new SQLiteHelper(
-                GalleryActivity.this, // context
-                "ImageDB.db", // DB 파일 이름을 적어주시면 됩니다.
-                null, // Factory
-                1 // 현재 생성하는 DB의 버전을 설정합니다.
-        );
-
-        sqlite = new SQLiteControl(helper);
+//        helper = new SQLiteHelper(
+//                GalleryActivity.this, // context
+//                "ImageDB.db", // DB 파일 이름을 적어주시면 됩니다.
+//                null, // Factory
+//                1 // 현재 생성하는 DB의 버전을 설정합니다.
+//        );
+//
+//        sqlite = new SQLiteControl(helper);
 
 //        dbTest();
 

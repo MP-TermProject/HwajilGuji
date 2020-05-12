@@ -124,15 +124,7 @@ public class PytorchTestActivity extends AppCompatActivity {
                     }
                 }
                 Log.d("ms_ix:", String.valueOf(ms_ix));
-
-
-
-
-
-
-
-
-
+                
 
                 //Fetching the name from the list based on the index
                 String detected_class = ModelClasses.MODEL_CLASSES[ms_ix];
