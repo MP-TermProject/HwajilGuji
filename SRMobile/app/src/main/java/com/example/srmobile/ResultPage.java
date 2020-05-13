@@ -1,5 +1,6 @@
 package com.example.srmobile;
 
+import android.icu.util.VersionInfo;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +8,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 
 /**
@@ -54,11 +57,31 @@ public class ResultPage extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    MainActivity mainActivity;
+    ImageButton result_img;
+    Button restartBtn;
+    Boolean isInput=false;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_result_page, container, false);
+        mainActivity = (MainActivity) getActivity();
+        ViewGroup resultPage= (ViewGroup)inflater.inflate(R.layout.fragment_result_page, container, false);
+        result_img = resultPage.findViewById(R.id.result_imgBtn);
+        result_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                convertImage();
+            }
+        });
+        return resultPage;
+    }
+    private void convertImage()
+    {
+        isInput=!isInput;
+        if(isInput)
+            result_img.setImageBitmap(mainActivity.getInputImg());
+        else
+            result_img.setImageBitmap(mainActivity.getResultImg());
     }
 }

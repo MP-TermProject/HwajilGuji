@@ -1,5 +1,6 @@
 package com.example.srmobile;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -54,11 +55,20 @@ public class Processing extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    ImageGenerator generator;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_processing, container, false);
+        ViewGroup processingPage = (ViewGroup)inflater.inflate(R.layout.fragment_processing, container, false);
+        generator =new ImageGenerator(Utils.assetFilePath(getActivity(), "generator_mobile.pt"));
+
+        return processingPage;
+    }
+    public String process(Bitmap input, int width, int height)
+    {
+        Bitmap result = generator.ImageProcess(input, width, height);
+        String keyVal = DataHolder.putDataHolder(result);
+        return keyVal;
     }
 }

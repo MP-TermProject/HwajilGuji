@@ -58,6 +58,7 @@ public class ImageSelectionWay extends Fragment {
         }
     }
     MainActivity mainActivity;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -72,6 +73,13 @@ public class ImageSelectionWay extends Fragment {
             @Override
             public void onClick(View v) {
                 mainActivity.setFragment(2);
+            }
+        });
+
+        galleryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainActivity.requestFoundImage();
             }
         });
         return selectionPage;
