@@ -19,8 +19,8 @@
 
         <ImageButton
             android:id="@+id/result_imgBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="400dp"
+            android:layout_height="400dp"
             android:src="@drawable/bird_mid"
             android:layout_gravity="center"
             android:layout_margin="10dp"

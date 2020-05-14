@@ -3,6 +3,7 @@ package com.example.srmobile;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
@@ -30,9 +31,9 @@ public class MainActivity extends AppCompatActivity {
     int result_ok = -1;
     int result_fail=0;
 
-    int width = 540;
-    int height =540;
-
+    public int width = 600;
+    public int height =600;
+    public ImageGenerator generator;
     ImageSelectionWay selectionWay;//id==1
     CameraAction cameraAction;//id==2
     Preprocess preprocess;//id==3
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         resultImg = Bitmap.createScaledBitmap(resultImg, width, height, false);
         selectionWay = new ImageSelectionWay();
         cameraAction = new CameraAction();
+        processing = new Processing();
         resultPage = new ResultPage();
         fragmentHashMap=new HashMap<>();
         fragmentHashMap.put(1, selectionWay);
@@ -66,7 +68,15 @@ public class MainActivity extends AppCompatActivity {
         fragmentHashMap.put(3, preprocess);
         fragmentHashMap.put(4, processing);
         fragmentHashMap.put(5, resultPage);
-        getSupportFragmentManager().beginTransaction().add(R.id.main_layout,selectionWay).commit();
+
+        try{
+            generator =new ImageGenerator(Utils.assetFilePath(this, "generator_mobile_600.pt"));
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+        setFragment(1);
     }
     public void requestFoundImage()
     {
@@ -110,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                     Bitmap img = BitmapFactory.decodeStream(in);
                     in.close();
                     setInputImg(img);
-                    setFragment(5);
+                    setFragment(4);
                 }
                 catch(Exception e)
                 {
@@ -125,9 +135,14 @@ public class MainActivity extends AppCompatActivity {
     }
     public int setFragment(int fragment_id){
         if(fragmentHashMap.containsKey(fragment_id)) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             Fragment f = fragmentHashMap.get(fragment_id);
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, f);
+            transaction.replace(R.id.main_layout, f);
             transaction.addToBackStack(null);
+            if(fragment_id==5) {
+                getSupportFragmentManager().popBackStack();
+
+            }
             transaction.commit();
         }
         else
