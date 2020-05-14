@@ -1,6 +1,7 @@
 package com.example.srmobile;
 import android.graphics.Bitmap;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.pytorch.IValue;
 import org.pytorch.Module;
@@ -23,15 +24,17 @@ public class ImageGenerator {
 
     public Tensor preprocess(Bitmap bitmap, int width, int height){
         bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
+        Log.d("test","test_22");
         return TensorImageUtils.bitmapToFloat32Tensor(bitmap, this.mean, this.std);
     }
 
     public Bitmap ImageProcess(Bitmap bitmap, int width, int height){
+
         Tensor tensor = preprocess(bitmap, width, height);
-
         IValue inputs = IValue.from(tensor);
+        Log.d("test","test_0");
         Tensor output = model.forward(inputs).toTensor();
-
+        Log.d("test","test_1");
         float []result= output.getDataAsFloatArray();
         List<Float> RArray = new ArrayList<>();
         List<Float> GArray = new ArrayList<>();
@@ -46,7 +49,7 @@ public class ImageGenerator {
                 index++;
             }
         }
-        Log.d("result", "ImageProcess: convert ok");
+        Log.d("test","test_2");
         return arrayToBitmap(RArray, GArray, BArray,width, height);
     }
 
