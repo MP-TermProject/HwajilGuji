@@ -1,4 +1,4 @@
-package com.example.srmobile;
+package com.chlee.hwajilguji.sr;
 import android.graphics.Bitmap;
 import android.util.Log;
 
@@ -9,7 +9,6 @@ import org.pytorch.torchvision.TensorImageUtils;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ImageGenerator {

@@ -2,29 +2,12 @@ package com.chlee.hwajilguji;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.Target;
-import com.chlee.hwajilguji.vision.PytorchTestActivity;
-import com.chlee.hwajilguji.vision.testActivity;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
-import com.zhihu.matisse.internal.entity.CaptureStrategy;
+import com.chlee.hwajilguji.sr.PytorchTestActivity;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_CHOOSE = 23;
@@ -48,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         pytorchTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, testActivity.class);
+                Intent intent = new Intent(MainActivity.this, PytorchTestActivity.class);
                 startActivityForResult(intent, 1);
             }
         });

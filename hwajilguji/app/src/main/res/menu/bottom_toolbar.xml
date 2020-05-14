@@ -8,10 +8,10 @@
         android:title="Recents"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_favorites"
+        android:id="@+id/action_SR"
         android:enabled="true"
         android:icon="@drawable/fab_btn_add"
-        android:title="Favorites"
+        android:title="SuperResolution"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_nearby"
