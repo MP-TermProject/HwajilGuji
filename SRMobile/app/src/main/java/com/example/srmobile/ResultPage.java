@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 
 /**
@@ -61,6 +64,7 @@ public class ResultPage extends Fragment {
     ImageButton result_img;
     Button restartBtn;
     Boolean isInput=false;
+    TextView state;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -68,6 +72,7 @@ public class ResultPage extends Fragment {
         mainActivity = (MainActivity) getActivity();
         ViewGroup resultPage= (ViewGroup)inflater.inflate(R.layout.fragment_result_page, container, false);
         result_img = resultPage.findViewById(R.id.result_imgBtn);
+        state = resultPage.findViewById(R.id.state);
         result_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,9 +84,13 @@ public class ResultPage extends Fragment {
     private void convertImage()
     {
         isInput=!isInput;
-        if(isInput)
+        if(isInput) {
+            state.setText("is input");
             result_img.setImageBitmap(mainActivity.getInputImg());
-        else
+        }
+        else {
+            state.setText("is output");
             result_img.setImageBitmap(mainActivity.getResultImg());
+        }
     }
 }

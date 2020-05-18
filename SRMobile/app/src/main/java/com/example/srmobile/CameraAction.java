@@ -1,10 +1,20 @@
 package com.example.srmobile;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.graphics.SurfaceTexture;
+import android.hardware.Camera;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraCaptureSession;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraDevice;
+import android.hardware.camera2.CaptureRequest;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
+import android.util.Size;
 import android.view.LayoutInflater;
+import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -47,6 +57,9 @@ public class CameraAction extends Fragment {
         return fragment;
     }
 
+
+    boolean previewing = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,11 +69,24 @@ public class CameraAction extends Fragment {
         }
     }
 
+    private static final int MAX_WIDTH = 1920;
+    private static final int MAX_HEIGHT = 1080;
+    private TextureView mTextureView;
+    private Size mPreviewSize;
+    private CameraDevice mCamera;
+    private CameraCaptureSession mCameraSession;
+    private CaptureRequest.Builder mCaptureRequestBuilder;
+    private MainActivity mainActivity;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Toast.makeText(getActivity().getApplicationContext(),"카메라",Toast.LENGTH_SHORT).show();
-        return inflater.inflate(R.layout.fragment_camera_action, container, false);
+        Toast.makeText(getActivity().getApplicationContext(), "카메라", Toast.LENGTH_SHORT).show();
+        ViewGroup cameraView = (ViewGroup) inflater.inflate(R.layout.fragment_camera_action, container, false);
+        mainActivity = (MainActivity) getActivity();
+
+        //surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        return cameraView;
     }
 }

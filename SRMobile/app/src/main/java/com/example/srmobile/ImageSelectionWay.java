@@ -72,7 +72,7 @@ public class ImageSelectionWay extends Fragment {
         cameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainActivity.setFragment(2);
+                mainActivity.requestCameraActivity();
             }
         });
 
