@@ -40,7 +40,7 @@ public class ImageGenerator {
         List<Float> BArray  = new ArrayList<>();
         int index=0;
         for (int i=0;i<3;i++){
-            for(int j=0;j<width*height;j++){
+            for(int j=0;j<width*height*4;j++){
                 if(i==0)
                     RArray.add(result[index]);
                 else if(i==1) GArray.add(result[index]);
@@ -49,7 +49,7 @@ public class ImageGenerator {
             }
         }
         Log.d("test","test_2");
-        return arrayToBitmap(RArray, GArray, BArray,width, height);
+        return arrayToBitmap(RArray, GArray, BArray,width*2, height*2);
     }
 
     private Bitmap arrayToBitmap(List<Float> R,List<Float> G, List<Float> B, int width, int height){
