@@ -46,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
     int result_ok = -1;
     int result_fail=0;
 
-    public int width = 600;
-    public int height =600;
+    public int width = 400;
+    public int height =400;
     public ImageGenerator generator;
     ImageSelectionWay selectionWay;//id==1
     CameraAction cameraAction;//id==2
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentHashMap.put(5, resultPage);
 
         try{
-            generator =new ImageGenerator(Utils.assetFilePath(this, "generator_mobile_600.pt"));
+            generator =new ImageGenerator(Utils.assetFilePath(this, "generator_mobile_upsize.pt"));
         }
         catch (Exception e)
         {
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void setResultImg(Bitmap img)
     {
-        resultImg = Bitmap.createScaledBitmap(img, width, height, false);
+        resultImg = Bitmap.createScaledBitmap(img, width*2, height*2, false);
     }
     public Bitmap getResultImg()
     {
