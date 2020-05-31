@@ -3,34 +3,28 @@ package com.example.imageprocesssdk;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-
 import android.graphics.BitmapFactory;
-
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
-
-import android.graphics.Point;
-import android.graphics.RectF;
-import android.graphics.Shader;
-
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
-
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -42,27 +36,20 @@ public class ActiveView extends androidx.appcompat.widget.AppCompatImageView {
     private ScaleGestureDetector mScaleDetector;
     private Paint mBitmapPaint;
     private float mScaleFactor=1.f;
+    private int currentBitmapWidth;
+    private int currentBitmapHeight;
 
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
-public class ActiveView extends View {
-
-    private Bitmap mBitmap;
-
-    private Paint mBitmapPaint;
 
     private int nAngle;
     private int previousAngle;
     private int currentAngle;
+    private int defaultSize;
     private float oldXvalue;
     private float oldYvalue;
     private ViewGroup parent;
     private IActiveView iActivity;
-
     private List<Point> points;
-    public enum state {Move, Rotate,Idle};
+    public enum state {Move, Rotate,Idle,UpScale};
     public state currentState;
 
     protected void init()
@@ -70,13 +57,6 @@ public class ActiveView extends View {
         parent = (ViewGroup)this.getParent();
         mScaleDetector = new ScaleGestureDetector(getContext(),new ScaleListener());
         points=new ArrayList<>();
-
-    public enum state {Move, Rotate,Idle};
-    public state currentState;
-    protected void init()
-    {
-        parent = (ViewGroup)this.getParent();
-
         iActivity = (IActiveView)getContext();
         if(parent==null)
             Log.d("log_test","noParent");
@@ -114,8 +94,18 @@ public class ActiveView extends View {
     public void setImage(Bitmap b)
     {
         mBitmap = b;
+        currentBitmapHeight=(int)(mBitmap.getHeight()*mScaleFactor);
+        currentBitmapWidth=(int)(mBitmap.getWidth()*mScaleFactor);
         mBitmap.setDensity(DisplayMetrics.DENSITY_DEFAULT);
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(setSize(b.getWidth(),b.getHeight()),setSize(b.getWidth(),b.getHeight()));
+        //ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(setSize(b.getWidth(),b.getHeight()),setSize(b.getWidth(),b.getHeight()));
+        defaultSize = setSize(b.getWidth(),b.getHeight());
+
+        setScale(setSize(b.getWidth(),b.getHeight()),setSize(b.getWidth(),b.getHeight()));
+    }
+    public void setScale(int w, int h)
+    {
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(w, h);
+        Log.e("debug","isComplete");
         this.setLayoutParams(params);
     }
 
@@ -143,15 +133,15 @@ public class ActiveView extends View {
                 this.setX(this.getX() + (event.getX()) - (this.getWidth() / 2));
                 this.setY(this.getY() + (event.getY()) - (this.getHeight() / 2));
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                if (this.getX() < 0)
-                    this.setX(0);
-                else if ((this.getX() + this.getWidth()) > parentWidth) {
-                    this.setX(parentWidth - this.getWidth());
+                if (this.getX()+(mBitmap.getWidth()*2/3) < 0)
+                    this.setX(-(mBitmap.getWidth()*2/3));
+                else if ((this.getX() + this.getWidth()-(mBitmap.getWidth()*2/3)) > parentWidth) {
+                    this.setX(parentWidth - (mBitmap.getWidth()*2/3));
                 }
-                if (this.getY() < 0)
-                    this.setY(0);
-                else if ((this.getY() + this.getHeight()) > parentHeight)
-                    this.setY(parentHeight - this.getHeight());
+                if (this.getY()+(mBitmap.getHeight()*2/3) < 0)
+                    this.setY(-(mBitmap.getHeight()*2/3));
+                else if ((this.getY() + this.getHeight()-(mBitmap.getHeight()*2/3)) > parentHeight)
+                    this.setY(parentHeight - (mBitmap.getHeight()*2/3));
             }
         }
         if(currentState==state.Rotate) {
@@ -165,8 +155,6 @@ public class ActiveView extends View {
                 double dy = event.getY()-oldYvalue;//(this.getY() + (event.getY()) - (this.getHeight() / 2))-event.getY();
                 currentAngle = (int)Math.toDegrees(Math.atan2(dy,dx));
                 nAngle=(previousAngle+currentAngle)%360;
-
-                Log.e("angle","angle is...");
                 invalidate();
             }
         }
@@ -176,7 +164,7 @@ public class ActiveView extends View {
     public void setCurrentBitmap(Bitmap resultingImage)
     {
         mBitmap = resultingImage;
-        Integer aa = getWidth();
+        Integer aa = mBitmap.getWidth();
         Log.e("width",aa.toString());
         invalidate();
     }
@@ -188,34 +176,36 @@ public class ActiveView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.scale(mScaleFactor,mScaleFactor);
-        canvas.drawColor(Color.BLUE);
+        //canvas.scale(mScaleFactor,mScaleFactor);
         canvas.rotate(nAngle,canvas.getWidth()/2, canvas.getHeight()/2);
-        canvas.drawBitmap(mBitmap,(canvas.getWidth()-mBitmap.getWidth())/2,(canvas.getHeight()-mBitmap.getHeight())/2,mBitmapPaint);
+
+        int pivot_w = (canvas.getWidth()-currentBitmapWidth)/2;
+        int pivot_h = (canvas.getHeight()-currentBitmapHeight)/2;
+        canvas.drawBitmap(mBitmap, null,new Rect(pivot_w, pivot_h, (canvas.getWidth()-pivot_w),(canvas.getHeight()-pivot_h)),mBitmapPaint);
+        Integer cSize = canvas.getWidth();
+        Integer BSize = currentBitmapWidth;
+        Log.e("ScaleCanvas",cSize.toString());
+        Log.e("ScaleImg",BSize.toString());
+        Integer left=(canvas.getWidth()-currentBitmapWidth)/2;
+        Log.e("Scale_left",left.toString());
     }
 
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener{
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
-            currentState=state.Idle;
-            mScaleFactor = detector.getScaleFactor();
-            mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor,5.0f));
+            currentState=state.UpScale;
+            mScaleFactor *= detector.getScaleFactor();
+            Float sf = mScaleFactor;
+            Log.e("Scale",sf.toString());
+            mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor,2.0f));
+            currentBitmapWidth = (int)(mBitmap.getWidth()*mScaleFactor);
+            currentBitmapHeight = (int)(mBitmap.getHeight()*mScaleFactor);
+            float size = defaultSize*mScaleFactor;
+            setScale((int)size,(int)size);
             invalidate();
+            Integer Scale = (int)size;
+            Log.e("Scale_width",Scale.toString());
             return true;
         }
     }
-
-                invalidate();
-            }
-        }
-        return true;
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        canvas.rotate(nAngle,canvas.getWidth()/2, canvas.getHeight()/2);
-        canvas.drawBitmap(mBitmap,(canvas.getWidth()-mBitmap.getWidth())/2,(canvas.getHeight()-mBitmap.getHeight())/2,mBitmapPaint);
-    }
-
 }
