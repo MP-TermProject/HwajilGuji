@@ -1,5 +1,6 @@
 package com.example.imageprocesssdk;
 
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,12 +27,29 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.text.Layout;
+import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
+
 public class MainActivity extends AppCompatActivity implements IActiveView {
 
     Bitmap img;
     FrameLayout frameLayout;
     Button move;
     Button rotate;
+
     Button newObj;
     ArrayList<ActiveView> BitmapList;
     protected ActiveView currentProcess;
@@ -47,6 +65,17 @@ public class MainActivity extends AppCompatActivity implements IActiveView {
         move = findViewById(R.id.moveBtn);
         rotate  = findViewById(R.id.rotBtn);
         newObj = findViewById(R.id.newObj);
+
+    protected ActiveView currentProcess;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        frameLayout = findViewById(R.id.frame);
+        move = findViewById(R.id.moveBtn);
+        rotate  = findViewById(R.id.rotBtn);
+
         Resources res =getResources();
         img = BitmapFactory.decodeResource(res, R.drawable.bird);
         img = Bitmap.createScaledBitmap(img, 300, 300, true);
@@ -67,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements IActiveView {
                 setState(ActiveView.state.Rotate);
             }
         });
+
         newObj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements IActiveView {
                 startActivityForResult(intent,102);
             }
         });
+
 
     }
 
@@ -83,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements IActiveView {
             setState(ActiveView.state.Idle);
         currentProcess = v;
     }
+
 
     public void addNewActiveView(Bitmap b)
     {
@@ -126,6 +158,8 @@ public class MainActivity extends AppCompatActivity implements IActiveView {
         else
             Toast.makeText(this,"오브젝트를 선택해주세요",Toast.LENGTH_SHORT).show();
     }
+
+
     @Override
     public void setState(ActiveView.state s) {
         if(currentProcess!=null)
@@ -133,6 +167,7 @@ public class MainActivity extends AppCompatActivity implements IActiveView {
         else
             Toast.makeText(getApplicationContext(), "오브젝트가 선택되지 않았습니다",Toast.LENGTH_SHORT).show();
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -142,4 +177,5 @@ public class MainActivity extends AppCompatActivity implements IActiveView {
             Toast.makeText(this, "qwert",Toast.LENGTH_SHORT).show();
         }
     }
+
 }

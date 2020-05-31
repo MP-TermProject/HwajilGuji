@@ -3,21 +3,30 @@ package com.example.imageprocesssdk;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+
 import android.graphics.BitmapFactory;
+
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
+
+import android.graphics.Point;
+import android.graphics.RectF;
+import android.graphics.Shader;
+
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
+
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +42,17 @@ public class ActiveView extends androidx.appcompat.widget.AppCompatImageView {
     private ScaleGestureDetector mScaleDetector;
     private Paint mBitmapPaint;
     private float mScaleFactor=1.f;
+
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
+
+public class ActiveView extends View {
+
+    private Bitmap mBitmap;
+
+    private Paint mBitmapPaint;
+
     private int nAngle;
     private int previousAngle;
     private int currentAngle;
@@ -40,6 +60,7 @@ public class ActiveView extends androidx.appcompat.widget.AppCompatImageView {
     private float oldYvalue;
     private ViewGroup parent;
     private IActiveView iActivity;
+
     private List<Point> points;
     public enum state {Move, Rotate,Idle};
     public state currentState;
@@ -49,6 +70,13 @@ public class ActiveView extends androidx.appcompat.widget.AppCompatImageView {
         parent = (ViewGroup)this.getParent();
         mScaleDetector = new ScaleGestureDetector(getContext(),new ScaleListener());
         points=new ArrayList<>();
+
+    public enum state {Move, Rotate,Idle};
+    public state currentState;
+    protected void init()
+    {
+        parent = (ViewGroup)this.getParent();
+
         iActivity = (IActiveView)getContext();
         if(parent==null)
             Log.d("log_test","noParent");
@@ -137,6 +165,7 @@ public class ActiveView extends androidx.appcompat.widget.AppCompatImageView {
                 double dy = event.getY()-oldYvalue;//(this.getY() + (event.getY()) - (this.getHeight() / 2))-event.getY();
                 currentAngle = (int)Math.toDegrees(Math.atan2(dy,dx));
                 nAngle=(previousAngle+currentAngle)%360;
+
                 Log.e("angle","angle is...");
                 invalidate();
             }
@@ -175,4 +204,18 @@ public class ActiveView extends androidx.appcompat.widget.AppCompatImageView {
             return true;
         }
     }
+
+                invalidate();
+            }
+        }
+        return true;
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        canvas.rotate(nAngle,canvas.getWidth()/2, canvas.getHeight()/2);
+        canvas.drawBitmap(mBitmap,(canvas.getWidth()-mBitmap.getWidth())/2,(canvas.getHeight()-mBitmap.getHeight())/2,mBitmapPaint);
+    }
+
 }

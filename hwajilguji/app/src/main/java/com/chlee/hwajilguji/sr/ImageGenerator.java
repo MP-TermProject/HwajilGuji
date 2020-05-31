@@ -1,7 +1,6 @@
-package com.example.srmobile;
+package com.chlee.hwajilguji.sr;
 import android.graphics.Bitmap;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.pytorch.IValue;
 import org.pytorch.Module;
@@ -10,7 +9,6 @@ import org.pytorch.torchvision.TensorImageUtils;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ImageGenerator {
@@ -24,24 +22,22 @@ public class ImageGenerator {
 
     public Tensor preprocess(Bitmap bitmap, int width, int height){
         bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
-        Log.d("test","test_22");
         return TensorImageUtils.bitmapToFloat32Tensor(bitmap, this.mean, this.std);
     }
 
     public Bitmap ImageProcess(Bitmap bitmap, int width, int height){
-
         Tensor tensor = preprocess(bitmap, width, height);
+
         IValue inputs = IValue.from(tensor);
-        Log.d("test","test_0");
         Tensor output = model.forward(inputs).toTensor();
-        Log.d("test","test_1");
+
         float []result= output.getDataAsFloatArray();
         List<Float> RArray = new ArrayList<>();
         List<Float> GArray = new ArrayList<>();
         List<Float> BArray  = new ArrayList<>();
         int index=0;
         for (int i=0;i<3;i++){
-            for(int j=0;j<width*height*4;j++){
+            for(int j=0;j<width*height;j++){
                 if(i==0)
                     RArray.add(result[index]);
                 else if(i==1) GArray.add(result[index]);
@@ -49,8 +45,8 @@ public class ImageGenerator {
                 index++;
             }
         }
-        Log.d("test","test_2");
-        return arrayToBitmap(RArray, GArray, BArray,width*2, height*2);
+        Log.d("result", "ImageProcess: convert ok");
+        return arrayToBitmap(RArray, GArray, BArray,width, height);
     }
 
     private Bitmap arrayToBitmap(List<Float> R,List<Float> G, List<Float> B, int width, int height){
