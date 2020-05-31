@@ -267,8 +267,6 @@ public class SomeView extends View implements View.OnTouchListener {
 }
 
 
-
-
 class Point {
 
     public float dy;

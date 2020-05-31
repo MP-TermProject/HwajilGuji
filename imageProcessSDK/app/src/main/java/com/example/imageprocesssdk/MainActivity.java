@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements IActiveView {
         ActiveView activeView = new ActiveView(this);
         activeView.setImage(img);
         frameLayout.addView(activeView);
-        activeView.setBackgroundColor(Color.RED);
+
         move.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
