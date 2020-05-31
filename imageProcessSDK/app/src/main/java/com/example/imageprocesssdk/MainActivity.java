@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements IActiveView {
         ActiveView activeView = new ActiveView(this);
         activeView.setImage(img);
         frameLayout.addView(activeView);
+
         move.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,7 +119,6 @@ public class MainActivity extends AppCompatActivity implements IActiveView {
             canvas.drawPath(path, paint);
             paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
             canvas.drawBitmap(bitmap, 0, 0, paint);
-
 
             resultingImage = Bitmap.createScaledBitmap(resultingImage,500,500,true);
 

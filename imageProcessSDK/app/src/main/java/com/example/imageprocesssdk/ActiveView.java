@@ -190,11 +190,13 @@ public class ActiveView extends androidx.appcompat.widget.AppCompatImageView {
             mScaleFactor *= detector.getScaleFactor();
             Float sf = mScaleFactor;
             Log.e("Scale",sf.toString());
+
             mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor,1.5f));
             currentBitmapWidth = (int)(mBitmap.getWidth()*mScaleFactor);
             currentBitmapHeight = (int)(mBitmap.getHeight()*mScaleFactor);
             float size = defaultSize*mScaleFactor;
             setScale((int)size,(int)size);
+
             invalidate();
             Integer Scale = (int)size;
             Log.e("Scale_width",Scale.toString());
