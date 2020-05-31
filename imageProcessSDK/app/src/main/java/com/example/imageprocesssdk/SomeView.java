@@ -50,6 +50,9 @@ public class SomeView extends View implements View.OnTouchListener {
     int height;
     int width;
 
+    int pointX;
+    int pointY;
+
     @SuppressLint("WrongThread")
     public SomeView(Context c) {
         super(c);
@@ -110,7 +113,7 @@ public class SomeView extends View implements View.OnTouchListener {
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(2);
-        paint.setColor(Color.BLUE);
+        //paint.setColor(Color.BLUE);
 
         this.setOnTouchListener(this);
         points = new ArrayList<Point>();
@@ -252,6 +255,14 @@ public class SomeView extends View implements View.OnTouchListener {
                 .setPositiveButton("Crop", dialogClickListener)
                 .setNegativeButton("Non-crop", dialogClickListener).show()
                 .setCancelable(false);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasWindowFocus) {
+        pointX = getWidth();
+        pointY = getHeight();
+        Integer Y = pointY;
+        Log.e("height_r",Y.toString());
     }
 }
 

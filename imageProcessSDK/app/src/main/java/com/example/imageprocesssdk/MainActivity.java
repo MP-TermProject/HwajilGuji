@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements IActiveView {
         newObj = findViewById(R.id.newObj);
         Resources res =getResources();
         img = BitmapFactory.decodeResource(res, R.drawable.bird);
-        img = Bitmap.createScaledBitmap(img, 300, 300, true);
+        img = Bitmap.createScaledBitmap(img, 500, 500, true);
         ActiveView activeView = new ActiveView(this);
         activeView.setImage(img);
         frameLayout.addView(activeView);
@@ -119,7 +119,8 @@ public class MainActivity extends AppCompatActivity implements IActiveView {
             paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
             canvas.drawBitmap(bitmap, 0, 0, paint);
 
-            resultingImage = Bitmap.createScaledBitmap(resultingImage,300,300,true);
+
+            resultingImage = Bitmap.createScaledBitmap(resultingImage,500,500,true);
 
             currentProcess.setCurrentBitmap(resultingImage);
         }

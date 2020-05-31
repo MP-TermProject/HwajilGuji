@@ -176,18 +176,11 @@ public class ActiveView extends androidx.appcompat.widget.AppCompatImageView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        //canvas.scale(mScaleFactor,mScaleFactor);
         canvas.rotate(nAngle,canvas.getWidth()/2, canvas.getHeight()/2);
-
-        int pivot_w = (canvas.getWidth()-currentBitmapWidth)/2;
-        int pivot_h = (canvas.getHeight()-currentBitmapHeight)/2;
-        canvas.drawBitmap(mBitmap, null,new Rect(pivot_w, pivot_h, (canvas.getWidth()-pivot_w),(canvas.getHeight()-pivot_h)),mBitmapPaint);
-        Integer cSize = canvas.getWidth();
-        Integer BSize = currentBitmapWidth;
-        Log.e("ScaleCanvas",cSize.toString());
-        Log.e("ScaleImg",BSize.toString());
-        Integer left=(canvas.getWidth()-currentBitmapWidth)/2;
-        Log.e("Scale_left",left.toString());
+        int left=(canvas.getWidth()-currentBitmapWidth);
+        int left_margin = (canvas.getWidth()-currentBitmapWidth)/2;
+        int top_margin = (canvas.getHeight()-currentBitmapWidth)/2;
+        canvas.drawBitmap(mBitmap, null,new Rect(left_margin, top_margin,(canvas.getWidth()-left_margin),(canvas.getHeight()-top_margin)),mBitmapPaint);
     }
 
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener{
@@ -197,7 +190,7 @@ public class ActiveView extends androidx.appcompat.widget.AppCompatImageView {
             mScaleFactor *= detector.getScaleFactor();
             Float sf = mScaleFactor;
             Log.e("Scale",sf.toString());
-            mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor,2.0f));
+            mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor,1.5f));
             currentBitmapWidth = (int)(mBitmap.getWidth()*mScaleFactor);
             currentBitmapHeight = (int)(mBitmap.getHeight()*mScaleFactor);
             float size = defaultSize*mScaleFactor;
