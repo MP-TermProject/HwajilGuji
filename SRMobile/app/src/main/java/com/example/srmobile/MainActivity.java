@@ -46,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
     int result_ok = -1;
     int result_fail=0;
 
-    public int width = 400;
-    public int height =400;
+    public int width = 150;
+    public int height =150;
     public ImageGenerator generator;
     ImageSelectionWay selectionWay;//id==1
     CameraAction cameraAction;//id==2
@@ -96,9 +96,9 @@ public class MainActivity extends AppCompatActivity {
         fragmentHashMap.put(3, preprocess);
         fragmentHashMap.put(4, processing);
         fragmentHashMap.put(5, resultPage);
-
+        //SRMobile_200_2.pt
         try{
-            generator =new ImageGenerator(Utils.assetFilePath(this, "generator_mobile_upsize.pt"));
+            generator =new ImageGenerator(Utils.assetFilePath(this, "SRMobile_150_N.pt"));
         }
         catch (Exception e)
         {
