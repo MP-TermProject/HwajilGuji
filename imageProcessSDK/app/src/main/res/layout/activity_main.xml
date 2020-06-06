@@ -44,6 +44,12 @@
                 android:layout_height="wrap_content"
                 android:text="newObj"
                 />
+            <Button
+                android:id="@+id/rectCrop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="rectCrop"
+                />
         </LinearLayout>
     </LinearLayout>
 

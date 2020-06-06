@@ -8,20 +8,18 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -34,6 +32,11 @@ public class MainActivity extends AppCompatActivity implements IActiveView {
     Button move;
     Button rotate;
     Button newObj;
+    Button rectImg;
+
+    int height;
+    int width;
+
     ArrayList<ActiveView> BitmapList;
     protected ActiveView currentProcess;
     public static MainActivity singletone;
@@ -42,12 +45,19 @@ public class MainActivity extends AppCompatActivity implements IActiveView {
         super.onCreate(savedInstanceState);
         singletone=this;
         setContentView(R.layout.activity_main);
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        width=size.x;
+        height=size.y;
+
         BitmapList = new ArrayList<>();
 
         frameLayout = findViewById(R.id.frame);
         move = findViewById(R.id.moveBtn);
         rotate  = findViewById(R.id.rotBtn);
         newObj = findViewById(R.id.newObj);
+        rectImg=findViewById(R.id.rectCrop);
         Resources res =getResources();
         img = BitmapFactory.decodeResource(res, R.drawable.bird);
         img = Bitmap.createScaledBitmap(img, 500, 500, true);
@@ -75,6 +85,13 @@ public class MainActivity extends AppCompatActivity implements IActiveView {
                 startActivityForResult(intent,102);
             }
         });
+        rectImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),RectCropActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -93,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements IActiveView {
         BitmapList.add(activeView);
     }
 
-    public void setPath(List<Point> points,byte[] byteArray)
+    public void setPath(List<DotPoint> dotPoints, byte[] byteArray)
     {
         if(currentProcess!=null) {
             Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
@@ -113,8 +130,8 @@ public class MainActivity extends AppCompatActivity implements IActiveView {
             Paint paint = new Paint();
             paint.setAntiAlias(true);
             Path path = new Path();
-            for (int i = 0; i < points.size(); i++) {
-                path.lineTo(points.get(i).x, points.get(i).y);//offset만큼 더해주면 ok
+            for (int i = 0; i < dotPoints.size(); i++) {
+                path.lineTo(dotPoints.get(i).x, dotPoints.get(i).y);//offset만큼 더해주면 ok
             }
             canvas.drawPath(path, paint);
             paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));

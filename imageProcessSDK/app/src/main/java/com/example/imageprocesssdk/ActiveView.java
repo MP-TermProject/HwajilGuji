@@ -1,30 +1,18 @@
 package com.example.imageprocesssdk;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.Shader;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -48,7 +36,7 @@ public class ActiveView extends androidx.appcompat.widget.AppCompatImageView {
     private float oldYvalue;
     private ViewGroup parent;
     private IActiveView iActivity;
-    private List<Point> points;
+    private List<DotPoint> dotPoints;
     public enum state {Move, Rotate,Idle,UpScale};
     public state currentState;
 
@@ -56,7 +44,7 @@ public class ActiveView extends androidx.appcompat.widget.AppCompatImageView {
     {
         parent = (ViewGroup)this.getParent();
         mScaleDetector = new ScaleGestureDetector(getContext(),new ScaleListener());
-        points=new ArrayList<>();
+        dotPoints =new ArrayList<>();
         iActivity = (IActiveView)getContext();
         if(parent==null)
             Log.d("log_test","noParent");
@@ -182,7 +170,10 @@ public class ActiveView extends androidx.appcompat.widget.AppCompatImageView {
         int top_margin = (canvas.getHeight()-currentBitmapWidth)/2;
         canvas.drawBitmap(mBitmap, null,new Rect(left_margin, top_margin,(canvas.getWidth()-left_margin),(canvas.getHeight()-top_margin)),mBitmapPaint);
     }
-
+    public void setTransparent(int transparent)
+    {
+        mBitmapPaint.setAlpha(transparent);
+    }
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener{
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
@@ -191,7 +182,7 @@ public class ActiveView extends androidx.appcompat.widget.AppCompatImageView {
             Float sf = mScaleFactor;
             Log.e("Scale",sf.toString());
 
-            mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor,1.5f));
+            mScaleFactor = Math.max(0.5f, Math.min(mScaleFactor,1.5f));
             currentBitmapWidth = (int)(mBitmap.getWidth()*mScaleFactor);
             currentBitmapHeight = (int)(mBitmap.getHeight()*mScaleFactor);
             float size = defaultSize*mScaleFactor;
