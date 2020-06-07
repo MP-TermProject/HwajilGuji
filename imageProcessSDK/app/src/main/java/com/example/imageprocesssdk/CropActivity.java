@@ -2,22 +2,10 @@ package com.example.imageprocesssdk;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CropActivity extends AppCompatActivity {
@@ -25,7 +13,7 @@ public class CropActivity extends AppCompatActivity {
     ImageView compositeImageView;
     SomeView someView;
     boolean crop;
-    List<Point> arrayList;
+    List<DotPoint> arrayList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +24,7 @@ public class CropActivity extends AppCompatActivity {
         someLayout.addView(someView);
         //Toast.makeText(getApplicationContext(),"크롭",Toast.LENGTH_SHORT).show();
     }
-    public void setTitle(List<Point> arr,byte[] byteArray)
+    public void setTitle(List<DotPoint> arr, byte[] byteArray)
     {
         arrayList=arr;
         MainActivity.singletone.setPath(arr, byteArray);
