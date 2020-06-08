@@ -17,6 +17,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Camera;
 import android.graphics.ImageDecoder;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -24,6 +25,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -39,6 +41,7 @@ import java.util.List;
 import javax.xml.transform.Result;
 
 public class MainActivity extends AppCompatActivity {
+    public static MainActivity singletone;
     int permissionRequestCode= 80;
     int cameraRequestCode = 100;
     int imageConvertRequestCode = 101;
@@ -46,12 +49,15 @@ public class MainActivity extends AppCompatActivity {
     int result_ok = -1;
     int result_fail=0;
 
+    public int screenWidth;
+    public int screenHeight;
     public int width = 150;
     public int height =150;
+
     public ImageGenerator generator;
     ImageSelectionWay selectionWay;//id==1
     CameraAction cameraAction;//id==2
-    Preprocess preprocess;//id==3
+    Processing preprocess;//id==3
     Processing processing;//id==4
     ResultPage resultPage;//id==5
     HashMap<Integer,Fragment> fragmentHashMap;
@@ -65,13 +71,17 @@ public class MainActivity extends AppCompatActivity {
     Button galleryBtn;
     Button configure;
 
+    public void setScreenSize()
+    {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        screenWidth=size.x;
+        screenHeight=size.y;
+    }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Drawable drawable = getDrawable(R.drawable.bird_mid);
-
+    public void setPermission()
+    {
         int cameraCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
         if (cameraCheck==PackageManager.PERMISSION_DENIED)
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},permissionRequestCode);
@@ -81,6 +91,24 @@ public class MainActivity extends AppCompatActivity {
         int writeCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (writeCheck==PackageManager.PERMISSION_DENIED)
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},permissionRequestCode);
+    }
+    public void init()
+    {
+        singletone=this;
+    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        setScreenSize();
+
+        Log.e("screen",Integer.toString(screenWidth));
+
+        Log.e("screen",Integer.toString(screenHeight));
+        Drawable drawable = getDrawable(R.drawable.bird_mid);
+        init();
+        setPermission();
+        setScreenSize();
 
         inputImg = ((BitmapDrawable)drawable).getBitmap();
         inputImg = Bitmap.createScaledBitmap(inputImg, width, height, false);
@@ -96,7 +124,8 @@ public class MainActivity extends AppCompatActivity {
         fragmentHashMap.put(3, preprocess);
         fragmentHashMap.put(4, processing);
         fragmentHashMap.put(5, resultPage);
-        //SRMobile_200_2.pt
+
+        //SRMobile_150_N.pt
         try{
             generator =new ImageGenerator(Utils.assetFilePath(this, "SRMobile_150_N.pt"));
         }
@@ -115,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void setInputImg(Bitmap img)
     {
-        inputImg = Bitmap.createScaledBitmap(img, width, height, false);
+        inputImg = img;//Bitmap.createScaledBitmap(img, width, height, false);
     }
     public Bitmap getInputImg()
     {
@@ -216,6 +245,11 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"취소되었어요",Toast.LENGTH_SHORT).show();
             }
         }
+    }
+    public void volitileFragment(Fragment fragment){
+        FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_layout,fragment).commit();
+        fragmentTransaction.addToBackStack(null);
     }
     public int setFragment(int fragment_id){
         if(fragmentHashMap.containsKey(fragment_id)) {
