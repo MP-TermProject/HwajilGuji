@@ -6,20 +6,74 @@
     tools:context=".Processing">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Now Processing..." />
-    <ImageView
-        android:id="@+id/temp_imgview"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:src="@drawable/bird_mid"
-        />
-    <Button
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:id="@+id/btn"
-        android:text="nextPage"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/preprocessMain"
+        android:weightSum="8">
+        <FrameLayout
+            android:id="@+id/preprocessMainLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7"
+            android:orientation="vertical"
+            >
+        </FrameLayout>
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <Button
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:id="@+id/addObjectBtn"
+                android:text="@string/addObject"
+                />
+            <Button
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:id="@+id/objectMoveBtn"
+                android:text="@string/move"
+                />
+            <Button
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:id="@+id/objectRotateBtn"
+                android:text="@string/Rotate"
+                />
+            <Button
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:id="@+id/freeCropBtn"
+                android:text="@string/FreeCrop"
+                />
+            <Button
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:id="@+id/rectCropBtn"
+                android:text="@string/RectCrop"
+                />
+            <Button
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:id="@+id/superResolutionBtn"
+                android:text="@string/SuperResolution"
+                />
+            <Button
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:id="@+id/btn"
+                android:text="nextPage"/>
+
+        </LinearLayout>
+        </HorizontalScrollView>
+    </LinearLayout>
+
 
 </FrameLayout>

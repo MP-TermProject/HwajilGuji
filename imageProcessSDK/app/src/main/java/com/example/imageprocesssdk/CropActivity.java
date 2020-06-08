@@ -22,7 +22,6 @@ public class CropActivity extends AppCompatActivity {
         someView = new SomeView(this);
         someView.setCropActivity(this);
         someLayout.addView(someView);
-        //Toast.makeText(getApplicationContext(),"크롭",Toast.LENGTH_SHORT).show();
     }
     public void setTitle(List<DotPoint> arr, byte[] byteArray)
     {
