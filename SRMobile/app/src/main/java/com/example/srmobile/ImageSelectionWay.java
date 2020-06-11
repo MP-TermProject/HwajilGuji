@@ -1,13 +1,20 @@
 package com.example.srmobile;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.example.srmobile.mainBanner.MainSliderAdapter;
+import com.example.srmobile.mainBanner.PicassoImageLoadingService;
+
+import ss.com.bannerslider.Slider;
 
 
 /**
@@ -27,6 +34,7 @@ public class ImageSelectionWay extends Fragment {
     private Button cameraBtn;
     private Button galleryBtn;
     private Button configureBtn;
+
     public ImageSelectionWay() {
         // Required empty public constructor
     }
@@ -57,17 +65,18 @@ public class ImageSelectionWay extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     MainActivity mainActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mainActivity = (MainActivity)getActivity();
-        ViewGroup selectionPage= (ViewGroup) inflater.inflate(R.layout.fragment_image_selection_way, container, false);
-        cameraBtn = selectionPage.findViewById(R.id.cameraBtn);
-        galleryBtn = selectionPage.findViewById(R.id.galleryBtn);
-        configureBtn = selectionPage.findViewById(R.id.configureBtn);
+        mainActivity = (MainActivity) getActivity();
+        ViewGroup selectionPage = (ViewGroup) inflater.inflate(R.layout.fragment_image_selection_way, container, false);
+        cameraBtn = selectionPage.findViewById(R.id.main_camera_btn);
+        galleryBtn = selectionPage.findViewById(R.id.main_gallery_btn);
+        configureBtn = selectionPage.findViewById(R.id.main_setting_btn);
 
         cameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +91,14 @@ public class ImageSelectionWay extends Fragment {
                 mainActivity.requestFoundImage();
             }
         });
+
+        Slider.init(new PicassoImageLoadingService());
+        Slider slider = selectionPage.findViewById(R.id.main_banner);
+        slider.setAdapter(new MainSliderAdapter());
+        slider.setSelectedSlide(0);
+
         return selectionPage;
     }
+
+
 }
