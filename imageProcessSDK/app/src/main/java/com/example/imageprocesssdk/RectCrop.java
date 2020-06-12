@@ -12,7 +12,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
-import android.widget.Toast;
 
 public class RectCrop extends androidx.appcompat.widget.AppCompatImageView {
     DotPoint leftTop;
@@ -81,7 +80,11 @@ public class RectCrop extends androidx.appcompat.widget.AppCompatImageView {
         super(c,a);
         init();
     }
-
+    public void setBitmap(Bitmap bitmap)
+    {
+        currentBitmap=bitmap;
+        invalidate();
+    }
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);

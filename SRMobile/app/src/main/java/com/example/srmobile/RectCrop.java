@@ -51,8 +51,8 @@ public class RectCrop extends androidx.appcompat.widget.AppCompatImageView {
         currentBitmap = BitmapFactory.decodeResource(res, R.drawable.bird_mid);
         currentBitmap = Bitmap.createScaledBitmap(currentBitmap, 500, 500, true);
         //
-        height=MainActivity.singletone.height;
-        width=MainActivity.singletone.width;
+        height=MainActivity.singletone.screenHeight;
+        width=MainActivity.singletone.screenWidth;
         leftTop=new DotPoint();
         rightBot=new DotPoint();
         left=0;
@@ -79,6 +79,12 @@ public class RectCrop extends androidx.appcompat.widget.AppCompatImageView {
     {
         super(c,a);
         init();
+    }
+
+    public void setBitmap(Bitmap bitmap)
+    {
+        currentBitmap=bitmap;
+        invalidate();
     }
 
     @Override

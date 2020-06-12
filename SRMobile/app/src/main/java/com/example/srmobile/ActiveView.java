@@ -203,6 +203,7 @@ public class ActiveView extends androidx.appcompat.widget.AppCompatImageView{
         return super.onSaveInstanceState();
     }
     */
+
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener{
         @Override
         public boolean onScale(ScaleGestureDetector detector) {

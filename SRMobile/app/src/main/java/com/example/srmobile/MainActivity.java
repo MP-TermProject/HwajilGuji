@@ -56,13 +56,13 @@ public class MainActivity extends AppCompatActivity {
 
     public ImageGenerator generator;
     ImageSelectionWay selectionWay;//id==1
-    CameraAction cameraAction;//id==2
+
     ProcessDecision decision;//id==3
     Processing processing;//id==4
     ResultPage resultPage;//id==5
     public IGetImage process=null;
     enum Screen{
-        select,camera,decision,processing,result
+        select,decision,processing,result
     }
     private Screen currentScreen;
     HashMap<Screen,Fragment> fragmentHashMap;
@@ -108,12 +108,10 @@ public class MainActivity extends AppCompatActivity {
     public void initFragment()
     {
         selectionWay = new ImageSelectionWay();
-        cameraAction = new CameraAction();
         processing = new Processing();
         resultPage = new ResultPage();
         fragmentHashMap=new HashMap<>();
         fragmentHashMap.put(Screen.select, selectionWay);
-        fragmentHashMap.put(Screen.camera, cameraAction);
         fragmentHashMap.put(Screen.decision, decision);
         fragmentHashMap.put(Screen.processing, processing);
         process=processing;
@@ -240,7 +238,9 @@ public class MainActivity extends AppCompatActivity {
                     Bitmap img = BitmapFactory.decodeStream(in);
                     in.close();
                     setInputImg(img);
-                    setFragment(Screen.processing);
+                    //setFragment(Screen.processing);
+                    Intent intent = new Intent(getApplicationContext(),ProcessActivity.class);
+                    startActivity(intent);
                 }
                 catch(Exception e)
                 {

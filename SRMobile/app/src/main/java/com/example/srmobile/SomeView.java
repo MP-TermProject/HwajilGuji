@@ -77,7 +77,6 @@ public class SomeView extends View implements View.OnTouchListener {
 
         Bitmap original = BitmapFactory.decodeResource(getResources(), R.drawable.bird_mid);//비트맵도 인풋으로 받기
         float scale = (float) ((width/(float)original.getWidth()));//이미지가 결국, 300, 300 size가 됨.
-
         originHeight=original.getHeight();
         originWidth=original.getWidth();
 
@@ -251,7 +250,6 @@ public class SomeView extends View implements View.OnTouchListener {
                         returnPage.getBitmap(resultImg);
                         //이미지 전송파트
                         break;
-
                     case DialogInterface.BUTTON_NEGATIVE:
                         bfirstpoint = false;
                         break;
@@ -272,7 +270,8 @@ public class SomeView extends View implements View.OnTouchListener {
         DisplayMetrics dm = new DisplayMetrics();
         Log.e("windowSize",Integer.toString(width));
         int widthOfScreen = width;
-        int heightOfScreen = (height*5)/7;
+        int heightOfScreen = (width*originHeight)/originWidth;
+        Log.e("height",Integer.toString(heightOfScreen));
         /*
         try {
             getWindowManager().getDefaultDisplay().getMetrics(dm);
