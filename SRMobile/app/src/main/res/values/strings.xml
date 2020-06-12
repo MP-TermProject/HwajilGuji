@@ -2,11 +2,14 @@
     <string name="app_name">HwaJilGuJi</string>
     <string name="restart">Restart</string>
     <string name="addObject">Add Object</string>
+    <string name="superResolutionDecision">SuperResolution</string>
+    <string name="otherWorks">OtherWorks</string>
     <string name="move">Move</string>
     <string name="Rotate">Rotate</string>
     <string name="FreeCrop">FreeCrop</string>
     <string name="SuperResolution">SuperResolution</string>
     <string name="RectCrop">RectCrop</string>
+    <string name="removeView">Remove</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -57,19 +57,21 @@ public class MainActivity extends AppCompatActivity {
     public ImageGenerator generator;
     ImageSelectionWay selectionWay;//id==1
     CameraAction cameraAction;//id==2
-    Processing preprocess;//id==3
+    ProcessDecision decision;//id==3
     Processing processing;//id==4
     ResultPage resultPage;//id==5
-    HashMap<Integer,Fragment> fragmentHashMap;
+    public IGetImage process=null;
+    enum Screen{
+        select,camera,decision,processing,result
+    }
+    private Screen currentScreen;
+    HashMap<Screen,Fragment> fragmentHashMap;
 
     Bitmap inputImg;
     Bitmap resultImg;
 
     private String imageFilePath;
     private Uri photoUri;
-    Button cameraBtn;
-    Button galleryBtn;
-    Button configure;
 
     public void setScreenSize()
     {
@@ -92,38 +94,43 @@ public class MainActivity extends AppCompatActivity {
         if (writeCheck==PackageManager.PERMISSION_DENIED)
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},permissionRequestCode);
     }
+
     public void init()
     {
         singletone=this;
-    }
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         setScreenSize();
-
-        Log.e("screen",Integer.toString(screenWidth));
-
-        Log.e("screen",Integer.toString(screenHeight));
         Drawable drawable = getDrawable(R.drawable.bird_mid);
-        init();
-        setPermission();
-        setScreenSize();
-
         inputImg = ((BitmapDrawable)drawable).getBitmap();
         inputImg = Bitmap.createScaledBitmap(inputImg, width, height, false);
         resultImg = ((BitmapDrawable)drawable).getBitmap();
         resultImg = Bitmap.createScaledBitmap(resultImg, width, height, false);
+    }
+    public void initFragment()
+    {
         selectionWay = new ImageSelectionWay();
         cameraAction = new CameraAction();
         processing = new Processing();
         resultPage = new ResultPage();
         fragmentHashMap=new HashMap<>();
-        fragmentHashMap.put(1, selectionWay);
-        fragmentHashMap.put(2, cameraAction);
-        fragmentHashMap.put(3, preprocess);
-        fragmentHashMap.put(4, processing);
-        fragmentHashMap.put(5, resultPage);
+        fragmentHashMap.put(Screen.select, selectionWay);
+        fragmentHashMap.put(Screen.camera, cameraAction);
+        fragmentHashMap.put(Screen.decision, decision);
+        fragmentHashMap.put(Screen.processing, processing);
+        process=processing;
+        fragmentHashMap.put(Screen.result, resultPage);
+    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        setPermission();
+        setScreenSize();
+
+        init();
+        initFragment();
+
+
+
 
         //SRMobile_150_N.pt
         try{
@@ -133,14 +140,14 @@ public class MainActivity extends AppCompatActivity {
         {
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
-        setFragment(1);
+        setFragment(Screen.select);
     }
-    public void requestFoundImage()
+    public void requestFoundImage(int requestCode)
     {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, galleryCode);
+        startActivityForResult(intent, requestCode);
     }
     public void setInputImg(Bitmap img)
     {
@@ -158,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
     {
         return resultImg;
     }
-    public void requestCameraActivity()
+    public void requestCameraActivity(int requestCode)
     {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)==PackageManager.PERMISSION_GRANTED)
         {
@@ -176,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
                 {
                     photoUri = FileProvider.getUriForFile(this, getPackageName(), photoFile);
                     intent.putExtra(MediaStore.EXTRA_OUTPUT,photoUri);
-                    startActivityForResult(intent, cameraRequestCode);
+                    startActivityForResult(intent, requestCode);
                 }
             }
         }
@@ -218,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),photoUri);
                     setInputImg(bitmap);
-                    setFragment(4);
+                    setFragment(Screen.processing);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -233,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
                     Bitmap img = BitmapFactory.decodeStream(in);
                     in.close();
                     setInputImg(img);
-                    setFragment(4);
+                    setFragment(Screen.processing);
                 }
                 catch(Exception e)
                 {
@@ -246,22 +253,24 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     public void volitileFragment(Fragment fragment){
         FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_layout,fragment).commit();
         fragmentTransaction.addToBackStack(null);
     }
-    public int setFragment(int fragment_id){
+
+    public int setFragment(Screen fragment_id){
         if(fragmentHashMap.containsKey(fragment_id)) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             Fragment f = fragmentHashMap.get(fragment_id);
             transaction.replace(R.id.main_layout, f);
             transaction.addToBackStack(null);
-            if(fragment_id==5) {
+            if(currentScreen==Screen.processing) {
                 getSupportFragmentManager().popBackStack();
-
             }
             transaction.commit();
+            currentScreen=fragment_id;
         }
         else
             Toast.makeText(getApplicationContext(),"해당 화면을 찾을 수 없습니다.",Toast.LENGTH_SHORT).show();

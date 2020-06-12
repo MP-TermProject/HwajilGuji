@@ -6,19 +6,26 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActiveView extends androidx.appcompat.widget.AppCompatImageView {
+public class ActiveView extends androidx.appcompat.widget.AppCompatImageView{
 
     private Bitmap mBitmap;
     private ScaleGestureDetector mScaleDetector;
@@ -83,12 +90,15 @@ public class ActiveView extends androidx.appcompat.widget.AppCompatImageView {
     public void setImage(Bitmap b)
     {
         mBitmap = b;
+
+        Log.e("isCalled","changeBitmap");
         currentBitmapHeight=(int)(mBitmap.getHeight()*mScaleFactor);
         currentBitmapWidth=(int)(mBitmap.getWidth()*mScaleFactor);
         mBitmap.setDensity(DisplayMetrics.DENSITY_DEFAULT);
         defaultSize = setSize(b.getWidth(),b.getHeight());
 
         setScale(setSize(b.getWidth(),b.getHeight()),setSize(b.getWidth(),b.getHeight()));
+        invalidate();
     }
     public void setScale(int w, int h)
     {
@@ -112,6 +122,10 @@ public class ActiveView extends androidx.appcompat.widget.AppCompatImageView {
         if(currentState==state.Idle){
             Toast.makeText(getContext(), "Selected",Toast.LENGTH_SHORT).show();
             iActivity.getTouchedView(this);
+        }
+        else
+        {
+
         }
         if(currentState==state.Move) {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -149,18 +163,21 @@ public class ActiveView extends androidx.appcompat.widget.AppCompatImageView {
         mScaleDetector.onTouchEvent(event);
         return true;
     }
+
+    public Bitmap getBitmap()
+    {
+        return mBitmap;
+    }
+
     public void setCurrentBitmap(Bitmap resultingImage)
     {
         mBitmap = resultingImage;
-        Integer aa = mBitmap.getWidth();
-        Log.e("width",aa.toString());
-        invalidate();
     }
-
+    /*
     public void setBitmap(byte[] imgByte)
     {
         mBitmap = BitmapFactory.decodeByteArray(imgByte, 0, imgByte.length);
-    }
+    }*/
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -174,6 +191,18 @@ public class ActiveView extends androidx.appcompat.widget.AppCompatImageView {
     {
         mBitmapPaint.setAlpha(transparent);
     }
+    /*
+    @Nullable
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Bundle bundle = new Bundle();
+        bundle.putFloat("X",this.getX());
+        bundle.putFloat("Y",this.getY());
+        bundle.putParcelable("Bitmap",mBitmap);
+        bundle.putFloat("ScaleFactor",mScaleFactor);
+        return super.onSaveInstanceState();
+    }
+    */
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener{
         @Override
         public boolean onScale(ScaleGestureDetector detector) {

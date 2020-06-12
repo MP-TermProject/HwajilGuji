@@ -28,11 +28,22 @@
             android:layout_weight="1"
             android:orientation="horizontal"
             >
-        <EditText
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="test"
+            <EditText
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="test"
             />
+            <Button
+                android:id="@+id/loadBeforeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="불러와봐"
+                />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/testImgView"
+                />
         </LinearLayout>
     </LinearLayout>
 

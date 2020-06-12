@@ -1,6 +1,7 @@
 package com.example.srmobile;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
@@ -23,6 +24,7 @@ import android.view.MotionEvent;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -44,8 +46,7 @@ public class SomeView extends View implements View.OnTouchListener {
     byte[] byteArray;
 
     Context mContext;
-    int window_w;
-    int window_h;
+    ISomeView returnPage;
     int height;
     int width;
     int originWidth;
@@ -55,9 +56,9 @@ public class SomeView extends View implements View.OnTouchListener {
     int pointY;
 
     @SuppressLint("WrongThread")
-    public SomeView(Context c) {
+    public SomeView(Context c, ISomeView parent) {
         super(c);
-
+        returnPage=parent;
         mContext = c;
         /*
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -119,9 +120,9 @@ public class SomeView extends View implements View.OnTouchListener {
 
     }
     @SuppressLint("WrongThread")
-    public void setBitmap(Bitmap bitmap)
+    public void setBitmap(Bitmap get_img)
     {
-        Bitmap original = bitmap;
+        Bitmap original = get_img;
         float scale = (float) ((width/(float)original.getWidth()));
         originHeight=original.getHeight();
         originWidth=original.getWidth();
@@ -132,9 +133,10 @@ public class SomeView extends View implements View.OnTouchListener {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byteArray = stream.toByteArray();
-
+        Log.e("setBitmap",Integer.toString(bitmap.getWidth()));
         setFocusable(true);
         setFocusableInTouchMode(true);
+        invalidate();
     }
 
     public void onDraw(Canvas canvas) {
@@ -185,9 +187,7 @@ public class SomeView extends View implements View.OnTouchListener {
                 bfirstpoint = true;
             }
         }
-
         invalidate();
-
         if (event.getAction() == MotionEvent.ACTION_UP) {
             mlastpoint = dotPoint;
             if (flgPathDraw) {
@@ -248,6 +248,7 @@ public class SomeView extends View implements View.OnTouchListener {
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
                         Bitmap resultImg = makeBitmap(dotPoints,byteArray);
+                        returnPage.getBitmap(resultImg);
                         //이미지 전송파트
                         break;
 
@@ -269,9 +270,9 @@ public class SomeView extends View implements View.OnTouchListener {
     {
         Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
         DisplayMetrics dm = new DisplayMetrics();
-
-        int widthOfScreen = window_w;
-        int heightOfScreen = (window_h*5)/7;
+        Log.e("windowSize",Integer.toString(width));
+        int widthOfScreen = width;
+        int heightOfScreen = (height*5)/7;
         /*
         try {
             getWindowManager().getDefaultDisplay().getMetrics(dm);

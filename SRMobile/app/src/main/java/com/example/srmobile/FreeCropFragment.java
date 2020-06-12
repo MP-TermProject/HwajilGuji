@@ -1,13 +1,19 @@
 package com.example.srmobile;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 
@@ -16,7 +22,7 @@ import android.widget.LinearLayout;
  * Use the {@link FreeCropFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FreeCropFragment extends Fragment {
+public class FreeCropFragment extends Fragment implements ISomeView{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -61,13 +67,22 @@ public class FreeCropFragment extends Fragment {
     private MainActivity mainActivity=null;
     private SomeView someView=null;
     private Bitmap currentBitmap=null;
-
+    private Bitmap resultBitmap = null;
+    //test
+    Button loadBtn;
+    ImageView testImageView;
+    //
     private void init(ViewGroup vg)
     {
         mainLayout=vg.findViewById(R.id.freeCropMainLayout);
         mainActivity=MainActivity.singletone;
-        someView = new SomeView(getContext());
+        someView = new SomeView(getContext(),this);
+        someView.setBitmap(currentBitmap);
         mainLayout.addView(someView);
+        //test
+        loadBtn=vg.findViewById(R.id.loadBeforeBtn);
+        testImageView=vg.findViewById(R.id.testImgView);
+        //
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,16 +90,42 @@ public class FreeCropFragment extends Fragment {
         // Inflate the layout for this fragment
         ViewGroup vg= (ViewGroup) inflater.inflate(R.layout.fragment_free_crop, container, false);
         init(vg);
+
+        loadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                endTask();
+            }
+        });
+
         return vg;
     }
     public void setBitmap(Bitmap bitmap)
     {
-        currentBitmap=bitmap;
-        if(someView!=null)
-            someView.setBitmap(bitmap);
+        Log.e("setBitmap","access");
+        if(bitmap!=null) {
+            Log.e("setBitmap", Integer.toString(bitmap.getWidth()));
+            currentBitmap = bitmap;
+        }
     }
+
+    @Override
+    public void getBitmap(Bitmap bitmap) {
+        resultBitmap=bitmap;
+        mainActivity.process.setProcessedBitmap(resultBitmap);
+        testImageView.setImageBitmap(resultBitmap);
+        //endTask();
+    }
+
     public void makeCrop()
     {
 
+    }
+
+    public void endTask()
+    {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction().remove(FreeCropFragment.this).commit();
+        fragmentManager.popBackStack();
     }
 }

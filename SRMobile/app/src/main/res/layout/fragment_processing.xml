@@ -66,10 +66,22 @@
                 android:text="@string/SuperResolution"
                 />
             <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/removeActiveView"
+                android:text="@string/removeView"
+                />
+            <Button
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:id="@+id/btn"
                 android:text="nextPage"/>
+            <ImageView
+                android:id="@+id/testImgView2"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="#000000"
+                />
 
         </LinearLayout>
         </HorizontalScrollView>
