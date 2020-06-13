@@ -88,7 +88,8 @@ public class ImageSelectionWay extends Fragment{
         galleryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainActivity.requestFoundImage(mainActivity.galleryCode);
+                //mainActivity.requestFoundImage();
+                mainActivity.requestFoundImage(mainActivity.defaultGalleryCode);
             }
         });
 

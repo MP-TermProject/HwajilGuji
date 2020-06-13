@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -43,6 +44,7 @@ import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     int cameraRequestCode = 100;
     int imageConvertRequestCode = 101;
     int galleryCode = 102;
+    int defaultGalleryCode;
     int result_ok = -1;
     int result_fail = 0;
 
@@ -187,6 +190,14 @@ public class MainActivity extends AppCompatActivity {
 //        intent.setAction(Intent.ACTION_GET_CONTENT);
 //        startActivityForResult(intent, galleryCode);
     }
+    public void requestFoundImage(int requestCode)
+    {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, requestCode);
+    }
+
 
     public void setInputImg(Bitmap img) {
         inputImg = img;//Bitmap.createScaledBitmap(img, width, height, false);
@@ -244,13 +255,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    public void volitileFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.main_layout, fragment).commit();
-        fragmentTransaction.addToBackStack(null);
-    }
-
     public void setFragment(int fragment_id) {
         if (fragmentHashMap.containsKey(fragment_id)) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -296,8 +300,6 @@ public class MainActivity extends AppCompatActivity {
     /*code 101_1 : convert process complete.
      * code 101_2 : convert process failed
      * code 102_1 : get_image from gallery
-     *
-     *
      * */
     @SuppressLint("CheckResult")
     @Override
@@ -308,13 +310,15 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), photoUri);
                     setInputImg(bitmap);
-                    setFragment(Screen.processing);
+                    Intent intent = new Intent(getApplicationContext(),ProcessActivity.class);
+                    startActivity(intent);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
 
-        }        if(requestCode==galleryCode)
+        }
+        if(requestCode==galleryCode)
         {
             if(resultCode==result_ok)
             {
@@ -323,12 +327,41 @@ public class MainActivity extends AppCompatActivity {
                     Bitmap img = BitmapFactory.decodeStream(in);
                     in.close();
                     setInputImg(img);
+
                     //setFragment(Screen.processing);
                     Intent intent = new Intent(getApplicationContext(),ProcessActivity.class);
                     startActivity(intent);
                 }
                 catch(Exception e)
                 {
+                    Log.e("isCalled","isNotCall");
+                    Log.e("isCalled",e.toString());
+                    Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+                }
+            }
+            else if(resultCode==result_fail)
+            {
+                Toast.makeText(getApplicationContext(),"취소되었어요",Toast.LENGTH_SHORT).show();
+            }
+        }
+        if(requestCode==defaultGalleryCode)
+        {
+            if(resultCode==result_ok)
+            {
+                try {
+                    InputStream in = getContentResolver().openInputStream(data.getData());
+                    Bitmap img = BitmapFactory.decodeStream(in);
+                    in.close();
+                    setInputImg(img);
+
+                    //setFragment(Screen.processing);
+                    Intent intent = new Intent(getApplicationContext(),ProcessActivity.class);
+                    startActivity(intent);
+                }
+                catch(Exception e)
+                {
+                    Log.e("isCalled","isNotCall");
+                    Log.e("isCalled",e.toString());
                     Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
                 }
             }
