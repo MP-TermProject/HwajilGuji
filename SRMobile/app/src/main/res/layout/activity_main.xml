@@ -7,24 +7,25 @@
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:weightSum="1">
-        <LinearLayout
-            android:id="@+id/main_layout"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.85">
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/process_layout"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.15">
-        </LinearLayout>
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/main_layout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_weight="0.85"-->
+<!--            android:orientation="vertical" />-->
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/process_layout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_weight="0.15"-->
+<!--            android:orientation="vertical" />-->
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
