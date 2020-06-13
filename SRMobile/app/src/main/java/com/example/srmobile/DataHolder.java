@@ -12,7 +12,12 @@ public class DataHolder {
         mDataHolder.put(dataHolderId, data);
         return dataHolderId;
     }
-
+    public static void putDataWithID(String id, Object  data)
+    {
+        if(mDataHolder.containsKey(id))
+            popDataHolder(id);
+        mDataHolder.put(id,data);
+    }
     public static Object popDataHolder(String key){
         Object obj = mDataHolder.get(key);
         mDataHolder.remove(key);

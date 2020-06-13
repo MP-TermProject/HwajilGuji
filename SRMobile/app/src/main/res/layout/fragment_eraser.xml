@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FreeCropFragment">
+    tools:context=".EraserFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -15,15 +15,14 @@
         android:weightSum="7"
         >
         <LinearLayout
-            android:id="@+id/freeCropMainLayout"
+            android:id="@+id/eraserMainLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="6"
             android:orientation="vertical">
-
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/freeCropWidgetLayout"
+            android:id="@+id/eraserWidgetLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -33,9 +32,9 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:text="test"
-            />
+                />
             <Button
-                android:id="@+id/loadBeforeBtn"
+                android:id="@+id/eraser_backBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="불러와봐"
@@ -43,7 +42,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/testImgView"
+                android:id="@+id/eraser_testImgView"
                 />
         </LinearLayout>
     </LinearLayout>

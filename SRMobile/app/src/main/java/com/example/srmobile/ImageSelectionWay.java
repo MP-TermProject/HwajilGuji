@@ -22,7 +22,7 @@ import ss.com.bannerslider.Slider;
  * Use the {@link ImageSelectionWay#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ImageSelectionWay extends Fragment {
+public class ImageSelectionWay extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -81,14 +81,15 @@ public class ImageSelectionWay extends Fragment {
         cameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainActivity.requestCameraActivity();
+                mainActivity.requestCameraActivity(mainActivity.cameraRequestCode);
             }
         });
 
         galleryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainActivity.requestFoundImage();
+                //mainActivity.requestFoundImage();
+                mainActivity.requestFoundImage(mainActivity.defaultGalleryCode);
             }
         });
 
