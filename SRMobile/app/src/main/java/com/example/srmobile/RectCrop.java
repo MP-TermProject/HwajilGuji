@@ -21,14 +21,15 @@ public class RectCrop extends androidx.appcompat.widget.AppCompatImageView {
     float top;
     float scaleFactor;
     float imgCanvasRatio;
-
+    float imgCanvasRatio_h;
     private float oldXValue;
     private float oldYValue;
     private float dx;
     private float dy;
     float margin;
     float currentWidth;
-
+    float currentheight;
+    float widthHeightRatio;
     Bitmap currentBitmap;
     Paint mBitmapPaint;
     Paint rectPaint;
@@ -50,16 +51,16 @@ public class RectCrop extends androidx.appcompat.widget.AppCompatImageView {
         Resources res =getResources();
         currentBitmap = BitmapFactory.decodeResource(res, R.drawable.bird_mid);
         currentBitmap = Bitmap.createScaledBitmap(currentBitmap, 500, 500, true);
+        widthHeightRatio = 1.0f;
         //
-        height=MainActivity.singletone.screenHeight;
+        height=(int)(MainActivity.singletone.screenHeight*widthHeightRatio);
         width=MainActivity.singletone.screenWidth;
-        leftTop=new DotPoint();
-        rightBot=new DotPoint();
         left=0;
         top=0;
         dx=0f;
         dy=0f;
         imgCanvasRatio=1f;
+        imgCanvasRatio_h=1f;
         scaleFactor=1f;
         margin=200f;
         currentWidth=width;
@@ -84,6 +85,10 @@ public class RectCrop extends androidx.appcompat.widget.AppCompatImageView {
     public void setBitmap(Bitmap bitmap)
     {
         currentBitmap=bitmap;
+        widthHeightRatio=(float)currentBitmap.getHeight()/(float)currentBitmap.getWidth();
+        Log.e("scale_set",Float.toString(widthHeightRatio));
+        Log.d("scale",Integer.toString(currentBitmap.getWidth()));
+        Log.d("scale",Integer.toString(currentBitmap.getHeight()));
         invalidate();
     }
 
@@ -98,10 +103,11 @@ public class RectCrop extends androidx.appcompat.widget.AppCompatImageView {
 
         //canvas.scale(mScaleFactor,mScaleFactor);
         currentWidth = Math.max(mScaleFactor*width,width-(2*margin));
+        currentheight = currentWidth*widthHeightRatio;
+        Log.e("scale",Float.toString(currentheight));//Math.max(mScaleFactor*height,width-(2*margin));
         imgCanvasRatio=currentBitmap.getWidth()/currentWidth;
         Rect rect = new Rect();
-
-        rect.set((int)(left+dx),(int)(top+dy),(int)(currentWidth+(left+dx)),(int)(currentWidth+(top+dy)));
+        rect.set((int)(left+dx),(int)(top+dy),(int)(currentWidth+(left+dx)),(int)(currentheight+(top+dy)));
         canvas.drawBitmap(currentBitmap,null,rect,mBitmapPaint);
         //canvas.scale(1/mScaleFactor,1/mScaleFactor);
         canvas.drawRect(margin,margin, width-margin, width-margin, rectPaint);

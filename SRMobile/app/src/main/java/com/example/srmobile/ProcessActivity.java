@@ -1,10 +1,13 @@
 package com.example.srmobile;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,8 +15,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,13 +30,17 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
     FrameLayout processMain;
     ActiveView currentView;
     Bitmap defaultImage;
+    Button newObjBtn = null;
     Button moveBtn=null;
     Button rotateBtn =null;
     Button freeCropBtn=null;
     Button rectCropBtn=null;
     Button removeBtn = null;
     Button resolutionBtn = null;
+    SeekBar transparentBar = null;
+    boolean transparentVisible;
 
+    int galleryCode =102;
     //test
     ImageView tIV;
     //test
@@ -40,6 +49,7 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
     private void init()
     {
         singletone=this;
+        transparentVisible=false;
         mainActivity=MainActivity.singletone;
         activeViews=new ArrayList<>();
         defaultImage=mainActivity.inputImg;
@@ -49,6 +59,7 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
         //test
         tIV = findViewById(R.id.testImgView2);
         //test
+        newObjBtn=findViewById(R.id.addObjectBtn);
         processMain=findViewById(R.id.preprocessMainLayout);
         moveBtn=findViewById(R.id.objectMoveBtn);
         rotateBtn=findViewById(R.id.objectRotateBtn);
@@ -56,6 +67,7 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
         rectCropBtn=findViewById(R.id.rectCropBtn);
         removeBtn=findViewById(R.id.removeActiveView);
         resolutionBtn=findViewById(R.id.superResolutionBtn);
+        transparentBar=findViewById(R.id.transparentSeekBar);
     }
 
     @Override
@@ -65,11 +77,15 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
 
         init();
         setWidgets();
-        ActiveView activeView = new ActiveView(this);
-        activeView.setiActivity(this);
-        activeView.setImage(mainActivity.inputImg);
-        processMain.addView(activeView);
+        addActiveView(mainActivity.inputImg);
 
+
+        newObjBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestFoundImage(galleryCode);
+            }
+        });
         moveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,6 +113,8 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
             @Override
             public void onClick(View v) {
                 removeCurrentView();
+                transparentVisible=false;
+                setTransparentVisible();
             }
         });
         rectCropBtn.setOnClickListener(new View.OnClickListener() {
@@ -111,12 +129,37 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
                 }
             }
         });
+
+        transparentBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if(currentView!=null&&transparentBar.getVisibility()==View.VISIBLE)
+                    currentView.setTransparent(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
         resolutionBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 process(currentView.getBitmap());
             }
         });
+    }
+
+    public void requestFoundImage(int requestCode)
+    {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, requestCode);
     }
 
     public void addActiveView(Bitmap image)
@@ -160,9 +203,19 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
         return true;
     }
 
+    public void setTransparentVisible()
+    {
+        if(transparentVisible)
+            transparentBar.setVisibility(View.VISIBLE);
+        else
+            transparentBar.setVisibility(View.INVISIBLE);
+    }
+
     @Override
     public void getTouchedView(ActiveView a) {
         currentView=a;
+        transparentVisible=true;
+        setTransparentVisible();
     }
 
     @Override
@@ -199,5 +252,27 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
     public void onDestroy() {
         super.onDestroy();
         Log.e("isCalled","Destroy");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==galleryCode)
+        {
+            try {
+                InputStream in = getContentResolver().openInputStream(data.getData());
+                Bitmap img = BitmapFactory.decodeStream(in);
+                in.close();
+                addActiveView(img);
+            }
+            catch(Exception e)
+            {
+                Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        }
+        else
+        {
+
+        }
     }
 }

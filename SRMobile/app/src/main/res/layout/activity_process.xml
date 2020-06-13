@@ -27,7 +27,7 @@
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 >
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -89,6 +89,16 @@
 
                 </LinearLayout>
             </HorizontalScrollView>
+            <SeekBar
+                android:max="255"
+                android:progress="255"
+                android:thumb="@mipmap/ic_launcher_round"
+                android:id="@+id/transparentSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:visibility="invisible"
+                />
         </LinearLayout>
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

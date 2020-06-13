@@ -119,14 +119,9 @@ public class ActiveView extends androidx.appcompat.widget.AppCompatImageView{
     public boolean onTouchEvent(MotionEvent event) {
         int parentWidth = ((ViewGroup)this.getParent()).getWidth();
         int parentHeight = ((ViewGroup)this.getParent()).getHeight();
-        if(currentState==state.Idle){
-            Toast.makeText(getContext(), "Selected",Toast.LENGTH_SHORT).show();
-            iActivity.getTouchedView(this);
-        }
-        else
-        {
 
-        }
+        iActivity.getTouchedView(this);
+
         if(currentState==state.Move) {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 oldXvalue = event.getX();
@@ -190,6 +185,7 @@ public class ActiveView extends androidx.appcompat.widget.AppCompatImageView{
     public void setTransparent(int transparent)
     {
         mBitmapPaint.setAlpha(transparent);
+        invalidate();
     }
     /*
     @Nullable

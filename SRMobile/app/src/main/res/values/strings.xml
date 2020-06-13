@@ -7,6 +7,7 @@
     <string name="move">Move</string>
     <string name="Rotate">Rotate</string>
     <string name="FreeCrop">FreeCrop</string>
+    <string name="Transparent">setTransParent</string>
     <string name="SuperResolution">SuperResolution</string>
     <string name="RectCrop">RectCrop</string>
     <string name="removeView">Remove</string>

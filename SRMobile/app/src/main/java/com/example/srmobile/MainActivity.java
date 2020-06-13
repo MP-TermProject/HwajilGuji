@@ -127,9 +127,6 @@ public class MainActivity extends AppCompatActivity {
         init();
         initFragment();
 
-
-
-
         //SRMobile_150_N.pt
         try{
             generator =new ImageGenerator(Utils.assetFilePath(this, "SRMobile_150_N.pt"));
@@ -138,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         {
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
-        setFragment(Screen.select);
+        setFragmentNotStack(Screen.select);
     }
     public void requestFoundImage(int requestCode)
     {
@@ -210,8 +207,6 @@ public class MainActivity extends AppCompatActivity {
     /*code 101_1 : convert process complete.
     * code 101_2 : convert process failed
     * code 102_1 : get_image from gallery
-    *
-    *
     * */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -259,7 +254,18 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.main_layout,fragment).commit();
         fragmentTransaction.addToBackStack(null);
     }
-
+    public void setFragmentNotStack(Screen fragment_id)
+    {
+        if(fragmentHashMap.containsKey(fragment_id)) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            Fragment f = fragmentHashMap.get(fragment_id);
+            transaction.replace(R.id.main_layout, f);
+            transaction.commit();
+            currentScreen=fragment_id;
+        }
+        else
+            Toast.makeText(getApplicationContext(),"해당 화면을 찾을 수 없습니다.",Toast.LENGTH_SHORT).show();
+    }
     public int setFragment(Screen fragment_id){
         if(fragmentHashMap.containsKey(fragment_id)) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

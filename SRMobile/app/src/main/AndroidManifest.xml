@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProcessActivity"></activity>
+        <activity android:name=".RectResolution"></activity>
+        <activity android:name=".ProcessActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
