@@ -96,7 +96,6 @@ public class ActiveView extends androidx.appcompat.widget.AppCompatImageView{
         currentBitmapWidth=(int)(mBitmap.getWidth()*mScaleFactor);
         mBitmap.setDensity(DisplayMetrics.DENSITY_DEFAULT);
         defaultSize = setSize(b.getWidth(),b.getHeight());
-
         setScale(setSize(b.getWidth(),b.getHeight()),setSize(b.getWidth(),b.getHeight()));
         invalidate();
     }

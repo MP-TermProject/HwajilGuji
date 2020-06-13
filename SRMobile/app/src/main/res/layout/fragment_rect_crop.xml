@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:weightSum="5"
         android:orientation="vertical"
+        android:clickable="true"
         >
         <com.example.srmobile.RectCrop
             android:id="@+id/rectCropScreen"

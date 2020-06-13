@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/white"
+        android:clickable="true"
         android:weightSum="7"
         >
         <LinearLayout
