@@ -14,17 +14,15 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:id="@+id/result_layout"
+        android:clickable="true"
         android:background="@color/birdInside">
 
 
-        <ImageButton
+        <ImageView
             android:id="@+id/result_imgBtn"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@drawable/bird_mid"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:scaleType="centerCrop"
             />
         <TextView
             android:layout_width="wrap_content"

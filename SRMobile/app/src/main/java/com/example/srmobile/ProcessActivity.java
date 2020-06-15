@@ -5,11 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.PixelCopy;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -37,6 +42,7 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
     Button rectCropBtn=null;
     Button removeBtn = null;
     Button resolutionBtn = null;
+    Button captureBtn = null;
     SeekBar transparentBar = null;
     boolean transparentVisible;
 
@@ -68,6 +74,8 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
         removeBtn=findViewById(R.id.removeActiveView);
         resolutionBtn=findViewById(R.id.superResolutionBtn);
         transparentBar=findViewById(R.id.transparentSeekBar);
+
+        captureBtn=findViewById(R.id.btn);
     }
 
     @Override
@@ -107,6 +115,17 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
                     freeCropFragment.setBitmap(input);
                     volitileFragment(freeCropFragment);
                 }
+            }
+        });
+        captureBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Log.d("capture","Capture");
+                Bitmap result = capture();
+                //tIV.setImageBitmap(result);
+                ResultPage resultPage = new ResultPage();
+                resultPage.setResultImage(result);
+                volitileFragment(resultPage);
             }
         });
         removeBtn.setOnClickListener(new View.OnClickListener() {
@@ -184,6 +203,26 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
         }
     }
 
+    public Bitmap capture()
+    {
+        Bitmap bitmap = Bitmap.createBitmap(mainActivity.screenWidth,processMain.getHeight(),Bitmap.Config.ARGB_8888);
+        int[] windowSize = new int[2];
+        processMain.getLocationInWindow(windowSize);
+        try{
+            PixelCopy.request(this.getWindow(),new Rect(windowSize[0],windowSize[1],windowSize[0]+processMain.getWidth(),processMain.getHeight()+62),bitmap, copyResult -> {
+                if(copyResult==PixelCopy.SUCCESS){
+
+                }
+            },new Handler());
+        } catch(Exception e){
+
+        }
+
+        Log.e("bitmapWidth",Integer.toString(bitmap.getWidth()));
+        Log.e("bitmapHeight",Integer.toString(bitmap.getHeight()));
+        return bitmap;
+    }
+
     public Bitmap getCurrentActiveBitmap()
     {
         if(currentView!=null)
@@ -255,6 +294,12 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        Log.e("paused","Paused");
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==galleryCode)
@@ -275,4 +320,6 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
 
         }
     }
+
+
 }

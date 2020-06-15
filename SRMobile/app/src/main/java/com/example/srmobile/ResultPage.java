@@ -1,5 +1,6 @@
 package com.example.srmobile;
 
+import android.graphics.Bitmap;
 import android.icu.util.VersionInfo;
 import android.os.Bundle;
 
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -61,25 +63,31 @@ public class ResultPage extends Fragment {
         }
     }
     MainActivity mainActivity;
-    ImageButton result_img;
+    ImageView result_img;
     Button restartBtn;
     Boolean isInput=false;
     TextView state;
+    Bitmap resultImage;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mainActivity = (MainActivity) getActivity();
         ViewGroup resultPage= (ViewGroup)inflater.inflate(R.layout.fragment_result_page, container, false);
         result_img = resultPage.findViewById(R.id.result_imgBtn);
         state = resultPage.findViewById(R.id.state);
+        result_img.setImageBitmap(resultImage);
+
         result_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                convertImage();
+
             }
         });
         return resultPage;
+    }
+    public void setResultImage(Bitmap bitmap)
+    {
+        resultImage=bitmap;
     }
     private void convertImage()
     {
