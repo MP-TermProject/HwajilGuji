@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.srmobile.mainBanner.MainSliderAdapter;
 import com.example.srmobile.mainBanner.PicassoImageLoadingService;
@@ -31,9 +32,9 @@ public class ImageSelectionWay extends Fragment{
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private Button cameraBtn;
+    private ImageButton cameraBtn;
     private Button galleryBtn;
-    private Button configureBtn;
+    private ImageButton configureBtn;
 
     public ImageSelectionWay() {
         // Required empty public constructor

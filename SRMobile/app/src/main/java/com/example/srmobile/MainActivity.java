@@ -72,12 +72,14 @@ public class MainActivity extends AppCompatActivity {
     Processing processing;//id==4
     ResultPage resultPage;//id==5
 
-    public IGetImage process=null;
-    enum Screen{
-        select,decision,processing,result
+    public IGetImage process = null;
+
+    enum Screen {
+        select, decision, processing, result
     }
+
     private Screen currentScreen;
-    HashMap<Screen,Fragment> fragmentHashMap;
+    HashMap<Screen, Fragment> fragmentHashMap;
 
 
     Bitmap inputImg;
@@ -115,28 +117,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void init()
-    {
-        singletone=this;
+    public void init() {
+        singletone = this;
         setScreenSize();
         Drawable drawable = getDrawable(R.drawable.bird_mid);
-        inputImg = ((BitmapDrawable)drawable).getBitmap();
+        inputImg = ((BitmapDrawable) drawable).getBitmap();
         inputImg = Bitmap.createScaledBitmap(inputImg, width, height, false);
         resultImg = ((BitmapDrawable) drawable).getBitmap();
         resultImg = Bitmap.createScaledBitmap(resultImg, width, height, false);
     }
-    public void initFragment()
-    {
+
+    public void initFragment() {
         selectionWay = new ImageSelectionWay();
         processing = new Processing();
         resultPage = new ResultPage();
-        fragmentHashMap=new HashMap<>();
+        fragmentHashMap = new HashMap<>();
         fragmentHashMap.put(Screen.select, selectionWay);
         fragmentHashMap.put(Screen.decision, decision);
         fragmentHashMap.put(Screen.processing, processing);
-        process=processing;
+        process = processing;
         fragmentHashMap.put(Screen.result, resultPage);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -190,12 +192,38 @@ public class MainActivity extends AppCompatActivity {
 //        intent.setAction(Intent.ACTION_GET_CONTENT);
 //        startActivityForResult(intent, galleryCode);
     }
-    public void requestFoundImage(int requestCode)
-    {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, requestCode);
+
+    public void requestFoundImage(int requestCode) {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                ImagePicker();
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        permissionRequestCode);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        } else {
+            ImagePicker();
+            // Permission has already been granted
+        }
+//        Intent intent = new Intent();
+//        intent.setType("image/*");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        startActivityForResult(intent, requestCode);
     }
 
 
@@ -215,10 +243,8 @@ public class MainActivity extends AppCompatActivity {
         return resultImg;
     }
 
-    public void requestCameraActivity(int requestCode)
-    {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)==PackageManager.PERMISSION_GRANTED)
-        {
+    public void requestCameraActivity(int requestCode) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             if (intent.resolveActivity(getPackageManager()) != null) {
                 File photoFile = null;
@@ -229,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (photoFile != null) {
                     photoUri = FileProvider.getUriForFile(this, getPackageName(), photoFile);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT,photoUri);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                     startActivityForResult(intent, requestCode);
                 }
             }
@@ -310,7 +336,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), photoUri);
                     setInputImg(bitmap);
-                    Intent intent = new Intent(getApplicationContext(),ProcessActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), ProcessActivity.class);
                     startActivity(intent);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -318,10 +344,9 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
-        if(requestCode==galleryCode)
-        {
-            if(resultCode==result_ok)
-            {
+
+        if (requestCode == defaultGalleryCode) {
+            if (resultCode == result_ok) {
                 try {
                     InputStream in = getContentResolver().openInputStream(data.getData());
                     Bitmap img = BitmapFactory.decodeStream(in);
@@ -329,80 +354,111 @@ public class MainActivity extends AppCompatActivity {
                     setInputImg(img);
 
                     //setFragment(Screen.processing);
-                    Intent intent = new Intent(getApplicationContext(),ProcessActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), ProcessActivity.class);
                     startActivity(intent);
+                } catch (Exception e) {
+                    Log.e("isCalled", "isNotCall");
+                    Log.e("isCalled", e.toString());
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                 }
-                catch(Exception e)
-                {
-                    Log.e("isCalled","isNotCall");
-                    Log.e("isCalled",e.toString());
-                    Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
-                }
-            }
-            else if(resultCode==result_fail)
-            {
-                Toast.makeText(getApplicationContext(),"취소되었어요",Toast.LENGTH_SHORT).show();
+            } else if (resultCode == result_fail) {
+                Toast.makeText(getApplicationContext(), "취소되었어요", Toast.LENGTH_SHORT).show();
             }
         }
-        if(requestCode==defaultGalleryCode)
-        {
-            if(resultCode==result_ok)
-            {
-                try {
-                    InputStream in = getContentResolver().openInputStream(data.getData());
-                    Bitmap img = BitmapFactory.decodeStream(in);
-                    in.close();
-                    setInputImg(img);
+        if (requestCode == galleryCode && resultCode == result_ok) {
+            path = Matisse.obtainPathResult(data).get(0);
+            if (path != null) {
+                Glide.with(this)
+                        .asBitmap() // some .jpeg files are actually gif
+                        .load(path)
+                        .apply(new RequestOptions() {
+                            {
+                                override(Target.SIZE_ORIGINAL);
+                            }
+                        })
+                        .into(new CustomTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                Log.d("Bitmap", String.valueOf(resource));
+                                setInputImg(resource);
 
-                    //setFragment(Screen.processing);
-                    Intent intent = new Intent(getApplicationContext(),ProcessActivity.class);
-                    startActivity(intent);
-                }
-                catch(Exception e)
-                {
-                    Log.e("isCalled","isNotCall");
-                    Log.e("isCalled",e.toString());
-                    Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
-                }
-            }
-            else if(resultCode==result_fail)
-            {
-                Toast.makeText(getApplicationContext(),"취소되었어요",Toast.LENGTH_SHORT).show();
-            }
-        }
+                                Intent intent = new Intent(getApplicationContext(), ProcessActivity.class);
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void onLoadCleared(@Nullable Drawable placeholder) {
+                            }
+
+                            @Override
+                            public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                                super.onLoadFailed(errorDrawable);
+                                Log.d("glideError", String.valueOf(errorDrawable));
+
+                            }
+                        });
+
+            } else
+                Toast.makeText(this, "Request code error.", Toast.LENGTH_SHORT).show();
+        } else
+            Toast.makeText(this, "선택이 취소되었습니다.", Toast.LENGTH_SHORT).
+                    show();
+
+        /* 위 코드 (gallery picker library)로 대체 확인부탁*/
+//        if (requestCode == galleryCode) {
+//            if (resultCode == result_ok) {
+//                try {
+//                    InputStream in = getContentResolver().openInputStream(data.getData());
+//                    Bitmap img = BitmapFactory.decodeStream(in);
+//                    in.close();
+//                    setInputImg(img);
+//
+//                    //setFragment(Screen.processing);
+//                    Intent intent = new Intent(getApplicationContext(), ProcessActivity.class);
+//                    startActivity(intent);
+//                } catch (Exception e) {
+//                    Log.e("isCalled", "isNotCall");
+//                    Log.e("isCalled", e.toString());
+//                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+//                }
+//            } else if (resultCode == result_fail) {
+//                Toast.makeText(getApplicationContext(), "취소되었어요", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+
+
     }
 
-    public void volitileFragment(Fragment fragment){
-        FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.main_layout,fragment).commit();
+    public void volitileFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_layout, fragment).commit();
         fragmentTransaction.addToBackStack(null);
     }
-    public void setFragmentNotStack(Screen fragment_id)
-    {
-        if(fragmentHashMap.containsKey(fragment_id)) {
+
+    public void setFragmentNotStack(Screen fragment_id) {
+        if (fragmentHashMap.containsKey(fragment_id)) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             Fragment f = fragmentHashMap.get(fragment_id);
             transaction.replace(R.id.main_layout, f);
             transaction.commit();
-            currentScreen=fragment_id;
-        }
-        else
-            Toast.makeText(getApplicationContext(),"해당 화면을 찾을 수 없습니다.",Toast.LENGTH_SHORT).show();
+            currentScreen = fragment_id;
+        } else
+            Toast.makeText(getApplicationContext(), "해당 화면을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
     }
-    public int setFragment(Screen fragment_id){
-        if(fragmentHashMap.containsKey(fragment_id)) {
+
+    public int setFragment(Screen fragment_id) {
+        if (fragmentHashMap.containsKey(fragment_id)) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             Fragment f = fragmentHashMap.get(fragment_id);
             transaction.replace(R.id.main_layout, f);
             transaction.addToBackStack(null);
-            if(currentScreen==Screen.processing) {
+            if (currentScreen == Screen.processing) {
                 getSupportFragmentManager().popBackStack();
             }
             transaction.commit();
-            currentScreen=fragment_id;
-        }
-        else
-            Toast.makeText(getApplicationContext(),"해당 화면을 찾을 수 없습니다.",Toast.LENGTH_SHORT).show();
+            currentScreen = fragment_id;
+        } else
+            Toast.makeText(getApplicationContext(), "해당 화면을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
         return 0;
     }
 }
