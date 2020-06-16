@@ -37,6 +37,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 
+import com.example.srmobile.sr.test_SRActivity;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     int cameraRequestCode = 100;
     int imageConvertRequestCode = 101;
     int galleryCode = 102;
+    int srRequestCode = 180;
     int defaultGalleryCode;
     int result_ok = -1;
     int result_fail = 0;
@@ -158,41 +160,6 @@ public class MainActivity extends AppCompatActivity {
         setFragmentNotStack(Screen.select);
     }
 
-
-    public void requestFoundImage() {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Permission is not granted
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                ImagePicker();
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-            } else {
-                // No explanation needed; request the permission
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        permissionRequestCode);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
-        } else {
-            ImagePicker();
-            // Permission has already been granted
-        }
-//        ImagePicker();
-//        Intent intent = new Intent();
-//        intent.setType("image/*");
-//        intent.setAction(Intent.ACTION_GET_CONTENT);
-//        startActivityForResult(intent, galleryCode);
-    }
-
     public void requestFoundImage(int requestCode) {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -202,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
             // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                ImagePicker();
+                ImagePicker(requestCode);
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
@@ -217,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
                 // result of the request.
             }
         } else {
-            ImagePicker();
+            ImagePicker(requestCode);
             // Permission has already been granted
         }
 //        Intent intent = new Intent();
@@ -296,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "해당 화면을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
     }
 
-    private void ImagePicker() {
+    private void ImagePicker(int requestcode) {
         Matisse.from(this)
                 .choose(MimeType.ofImage(), false)
                 .theme(R.style.Matisse_Dracula)
@@ -320,7 +287,7 @@ public class MainActivity extends AppCompatActivity {
                 .setOnCheckedListener(isChecked -> {
                     Log.e("isChecked", "onCheck: isChecked=" + isChecked);
                 })
-                .forResult(galleryCode);
+                .forResult(requestcode);
     }
 
     /*code 101_1 : convert process complete.
@@ -345,64 +312,58 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        if (requestCode == defaultGalleryCode) {
-            if (resultCode == result_ok) {
-                try {
-                    InputStream in = getContentResolver().openInputStream(data.getData());
-                    Bitmap img = BitmapFactory.decodeStream(in);
-                    in.close();
-                    setInputImg(img);
+        if (resultCode == result_ok) {
+            Log.d("code:", String.valueOf(requestCode));
+            if (requestCode == galleryCode) {
+                path = Matisse.obtainPathResult(data).get(0);
+                if (path != null) {
+                    Glide.with(this)
+                            .asBitmap() // some .jpeg files are actually gif
+                            .load(path)
+                            .apply(new RequestOptions() {
+                                {
+                                    override(Target.SIZE_ORIGINAL);
+                                }
+                            })
+                            .into(new CustomTarget<Bitmap>() {
+                                @Override
+                                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                    Log.d("Bitmap", String.valueOf(resource));
+                                    setInputImg(resource);
+                                    Intent intent = new Intent(getApplicationContext(), ProcessActivity.class);
+                                    startActivity(intent);
+                                }
 
-                    //setFragment(Screen.processing);
-                    Intent intent = new Intent(getApplicationContext(), ProcessActivity.class);
-                    startActivity(intent);
-                } catch (Exception e) {
-                    Log.e("isCalled", "isNotCall");
-                    Log.e("isCalled", e.toString());
-                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            } else if (resultCode == result_fail) {
-                Toast.makeText(getApplicationContext(), "취소되었어요", Toast.LENGTH_SHORT).show();
+                                @Override
+                                public void onLoadCleared(@Nullable Drawable placeholder) {
+                                }
+
+                                @Override
+                                public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                                    super.onLoadFailed(errorDrawable);
+                                    Log.d("glideError", String.valueOf(errorDrawable));
+
+                                }
+                            });
+
+                } else
+                    Toast.makeText(this, "Failed to load Image", Toast.LENGTH_SHORT).show();
+            } else if (requestCode == srRequestCode) {
+                path = Matisse.obtainPathResult(data).get(0);
+                if (path != null) {
+                    Intent intent = new Intent(this, test_SRActivity.class);
+//                        String dataId = DataHolder.putDataHolder(path);
+                    intent.putExtra("dataID",path);
+                    startActivityForResult(intent, 1);
+
+                } else
+                    Toast.makeText(this, "Request code error.", Toast.LENGTH_SHORT).show();
             }
-        }
-        if (requestCode == galleryCode && resultCode == result_ok) {
-            path = Matisse.obtainPathResult(data).get(0);
-            if (path != null) {
-                Glide.with(this)
-                        .asBitmap() // some .jpeg files are actually gif
-                        .load(path)
-                        .apply(new RequestOptions() {
-                            {
-                                override(Target.SIZE_ORIGINAL);
-                            }
-                        })
-                        .into(new CustomTarget<Bitmap>() {
-                            @Override
-                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                Log.d("Bitmap", String.valueOf(resource));
-                                setInputImg(resource);
-
-                                Intent intent = new Intent(getApplicationContext(), ProcessActivity.class);
-                                startActivity(intent);
-                            }
-
-                            @Override
-                            public void onLoadCleared(@Nullable Drawable placeholder) {
-                            }
-
-                            @Override
-                            public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                                super.onLoadFailed(errorDrawable);
-                                Log.d("glideError", String.valueOf(errorDrawable));
-
-                            }
-                        });
-
-            } else
-                Toast.makeText(this, "Request code error.", Toast.LENGTH_SHORT).show();
         } else
             Toast.makeText(this, "선택이 취소되었습니다.", Toast.LENGTH_SHORT).
                     show();
+
+
 
         /* 위 코드 (gallery picker library)로 대체 확인부탁*/
 //        if (requestCode == galleryCode) {

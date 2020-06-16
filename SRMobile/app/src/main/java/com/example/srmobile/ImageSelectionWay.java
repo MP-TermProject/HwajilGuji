@@ -35,6 +35,7 @@ public class ImageSelectionWay extends Fragment{
     private ImageButton cameraBtn;
     private Button galleryBtn;
     private ImageButton configureBtn;
+    private Button srBtn;
 
     public ImageSelectionWay() {
         // Required empty public constructor
@@ -78,6 +79,7 @@ public class ImageSelectionWay extends Fragment{
         cameraBtn = selectionPage.findViewById(R.id.main_camera_btn);
         galleryBtn = selectionPage.findViewById(R.id.main_gallery_btn);
         configureBtn = selectionPage.findViewById(R.id.main_setting_btn);
+        srBtn=selectionPage.findViewById(R.id.main_sr_btn);
 
         cameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +92,14 @@ public class ImageSelectionWay extends Fragment{
             @Override
             public void onClick(View v) {
                 //mainActivity.requestFoundImage();
-                mainActivity.requestFoundImage(mainActivity.defaultGalleryCode);
+                mainActivity.requestFoundImage(mainActivity.galleryCode);
+            }
+        });
+
+        srBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainActivity.requestFoundImage(180);
             }
         });
 
