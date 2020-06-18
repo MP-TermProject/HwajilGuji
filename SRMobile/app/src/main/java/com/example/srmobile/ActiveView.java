@@ -182,7 +182,7 @@ public class ActiveView extends androidx.appcompat.widget.AppCompatImageView{
         canvas.rotate(nAngle,canvas.getWidth()/2, canvas.getHeight()/2);
         int left=(canvas.getWidth()-currentBitmapWidth);
         int left_margin = (canvas.getWidth()-currentBitmapWidth)/2;
-        int top_margin = (canvas.getHeight()-currentBitmapWidth)/2;
+        int top_margin = (canvas.getHeight()-currentBitmapHeight)/2;
         canvas.drawBitmap(mBitmap, null,new Rect(left_margin, top_margin,(canvas.getWidth()-left_margin),(canvas.getHeight()-top_margin)),mBitmapPaint);
     }
     public void setTransparent(int transparent)

@@ -52,9 +52,7 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
     boolean transparentVisible;
 
     int galleryCode =102;
-    //test
-    ImageView tIV;
-    //test
+
     List<ActiveView> activeViews=null;
 
     private void init()
@@ -68,7 +66,6 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
     }
     private void setWidgets()
     {
-        //test
         newObjBtn=findViewById(R.id.addObjectBtn);
         processMain=findViewById(R.id.preprocessMainLayout);
         moveBtn=findViewById(R.id.objectMoveBtn);
@@ -79,7 +76,7 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
         eraserBtn = findViewById(R.id.eraserBtn);
         resolutionBtn=findViewById(R.id.superResolutionBtn);
         transparentBar=findViewById(R.id.transparentSeekBar);
-
+        eraserBtn = findViewById(R.id.eraserBtn);
         captureBtn=findViewById(R.id.btn);
     }
 
@@ -141,6 +138,12 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
                 setTransparentVisible();
             }
         });
+        eraserBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestEraser();
+            }
+        });
         rectCropBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,7 +156,6 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
                 }
             }
         });
-
         transparentBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -199,6 +201,15 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
         });
     }
 
+    public void requestEraser()
+    {
+        if(currentView!=null)
+        {
+            EraserFragment eraserFragment = new EraserFragment();
+            eraserFragment.setProcessedBitmap(currentView.getBitmap());
+            volitileFragment(eraserFragment);
+        }
+    }
     public void requestFoundImage(int requestCode)
     {
         Intent intent = new Intent();
@@ -243,7 +254,6 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
         } catch(Exception e){
 
         }
-
         Log.e("bitmapWidth",Integer.toString(bitmap.getWidth()));
         Log.e("bitmapHeight",Integer.toString(bitmap.getHeight()));
         return bitmap;
