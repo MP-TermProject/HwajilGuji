@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EraserFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:id="@+id/freeCropLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:weightSum="7"
+        >
+        <LinearLayout
+            android:id="@+id/eraserMainLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="6"
+            android:orientation="vertical">
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/eraserWidgetLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            >
+            <EditText
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="test"
+                />
+            <Button
+                android:id="@+id/eraser_backBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="불러와봐"
+                />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/eraser_testImgView"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

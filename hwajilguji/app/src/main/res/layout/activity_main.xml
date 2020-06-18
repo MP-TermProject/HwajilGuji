@@ -22,6 +22,12 @@
         android:layout_height="wrap_content"
         android:text="이미지 선택?" />
 
+    <Button
+        android:id="@+id/pytorchTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="pytorch Test"/>
+
 
 </LinearLayout>
 
