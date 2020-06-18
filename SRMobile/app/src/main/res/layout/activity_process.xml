@@ -81,13 +81,11 @@
                         android:layout_width="wrap_content"
                         android:id="@+id/btn"
                         android:text="nextPage"/>
-                    <ImageView
-                        android:id="@+id/testImgView2"
-                        android:layout_width="1080px"
+                    <Button
                         android:layout_height="wrap_content"
-                        android:background="#000000"
-                        android:src="@drawable/bird_mid"
-                        />
+                        android:layout_width="wrap_content"
+                        android:id="@+id/eraserBtn"
+                        android:text="지우기"/>
                 </LinearLayout>
             </HorizontalScrollView>
             <SeekBar

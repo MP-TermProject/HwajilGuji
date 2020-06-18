@@ -66,11 +66,10 @@ public class MainActivity extends AppCompatActivity {
     public int height = 150;
 
     public ImageGenerator generator;
-    ImageSelectionWay selectionWay;//id==1
-
-    ProcessDecision decision;//id==3
-    Processing processing;//id==4
-    ResultPage resultPage;//id==5
+    ImageSelectionWay selectionWay;
+    ProcessDecision decision;
+    Processing processing;
+    ResultPage resultPage;
 
     public IGetImage process=null;
     enum Screen{
@@ -129,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
     {
         selectionWay = new ImageSelectionWay();
         processing = new Processing();
+        decision=new ProcessDecision();
         resultPage = new ResultPage();
         fragmentHashMap=new HashMap<>();
         fragmentHashMap.put(Screen.select, selectionWay);
@@ -328,9 +328,9 @@ public class MainActivity extends AppCompatActivity {
                     in.close();
                     setInputImg(img);
 
-                    //setFragment(Screen.processing);
-                    Intent intent = new Intent(getApplicationContext(),ProcessActivity.class);
-                    startActivity(intent);
+                    //setFragment(Screen.decision);
+                    //Intent intent = new Intent(getApplicationContext(),ProcessActivity.class);
+                    //startActivity(intent);
                 }
                 catch(Exception e)
                 {
@@ -354,7 +354,7 @@ public class MainActivity extends AppCompatActivity {
                     in.close();
                     setInputImg(img);
 
-                    //setFragment(Screen.processing);
+                    //setFragment(Screen.decision);
                     Intent intent = new Intent(getApplicationContext(),ProcessActivity.class);
                     startActivity(intent);
                 }
@@ -389,6 +389,7 @@ public class MainActivity extends AppCompatActivity {
         else
             Toast.makeText(getApplicationContext(),"해당 화면을 찾을 수 없습니다.",Toast.LENGTH_SHORT).show();
     }
+
     public int setFragment(Screen fragment_id){
         if(fragmentHashMap.containsKey(fragment_id)) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

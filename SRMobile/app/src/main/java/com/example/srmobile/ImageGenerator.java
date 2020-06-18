@@ -24,24 +24,15 @@ public class ImageGenerator {
 
     public Tensor preprocess(Bitmap bitmap, int width, int height){
         bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
-        Log.d("test","test_22");
         return TensorImageUtils.bitmapToFloat32Tensor(bitmap, this.mean, this.std);
     }
 
     public Bitmap ImageProcess(Bitmap bitmap, int width, int height){
-
+        Log.e("process","processStarted");
         Tensor tensor = preprocess(bitmap, width, height);
         float[] input = tensor.getDataAsFloatArray();
-        for(int i =0;i<100;i++)
-        {
-            Float current = input[i];
-            Integer _index = i;
-            Log.e("value",_index.toString()+"---"+current.toString());
-        }
         IValue inputs = IValue.from(tensor);
-        Log.d("test","test_0");
         Tensor output = model.forward(inputs).toTensor();
-        Log.d("test","test_1");
         float []result= output.getDataAsFloatArray();
         float m=0f;
         for(int i=0; i<input.length;i++)
