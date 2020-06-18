@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
@@ -38,6 +39,7 @@ import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 
 import com.example.srmobile.sr.test_SRActivity;
+
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     int cameraRequestCode = 100;
     int imageConvertRequestCode = 101;
     int galleryCode = 102;
+
     int srRequestCode = 180;
     int defaultGalleryCode;
     int result_ok = -1;
