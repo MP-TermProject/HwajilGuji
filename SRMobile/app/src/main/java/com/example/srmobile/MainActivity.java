@@ -306,8 +306,10 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), photoUri);
                     setInputImg(bitmap);
-                    Intent intent = new Intent(getApplicationContext(), ProcessActivity.class);
-                    startActivity(intent);
+                    //Intent intent = new Intent(getApplicationContext(), ProcessActivity.class);
+                    //startActivity(intent);
+                    ProcessDecision decisionfragment = new ProcessDecision();
+                    volitileFragment(decisionfragment);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -333,8 +335,10 @@ public class MainActivity extends AppCompatActivity {
                                 public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                                     Log.d("Bitmap", String.valueOf(resource));
                                     setInputImg(resource);
-                                    Intent intent = new Intent(getApplicationContext(), ProcessActivity.class);
-                                    startActivity(intent);
+                                    //Intent intent = new Intent(getApplicationContext(), ProcessActivity.class);
+                                    //startActivity(intent);
+                                    ProcessDecision decisionfragment = new ProcessDecision();
+                                    volitileFragment(decisionfragment);
                                 }
 
                                 @Override
@@ -365,9 +369,6 @@ public class MainActivity extends AppCompatActivity {
         } else
             Toast.makeText(this, "선택이 취소되었습니다.", Toast.LENGTH_SHORT).
                     show();
-
-
-
         /* 위 코드 (gallery picker library)로 대체 확인부탁*/
 //        if (requestCode == galleryCode) {
 //            if (resultCode == result_ok) {

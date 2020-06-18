@@ -1,5 +1,6 @@
 package com.example.srmobile;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
@@ -85,14 +86,16 @@ public class ProcessDecision extends Fragment {
         processBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getContext(),ProcessActivity.class);
+                startActivity(intent);
             }
         });
 
         srBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getContext(),RectSRActivity.class);
+                startActivity(intent);
             }
         });
         return vg;

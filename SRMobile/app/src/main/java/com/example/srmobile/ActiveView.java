@@ -126,13 +126,16 @@ public class ActiveView extends androidx.appcompat.widget.AppCompatImageView{
         iActivity.getTouchedView(this);
 
         if(currentState==state.Move) {
+            Log.e("pointer",Float.toString(event.getRawY()));
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 oldXvalue = event.getX();
                 oldYvalue = event.getY();
-            } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+            } else if (event.getAction() == MotionEvent.ACTION_MOVE&&event.getRawY()<parentHeight) {
                 this.setX(this.getX() + (event.getX()) - (this.getWidth() / 2));
                 this.setY(this.getY() + (event.getY()) - (this.getHeight() / 2));
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+            }
+            /*
+            else if (event.getAction() == MotionEvent.ACTION_UP) {
                 if (this.getX()+(mBitmap.getWidth()*2/3) < 0)
                     this.setX(-(mBitmap.getWidth()*2/3));
                 else if ((this.getX() + this.getWidth()-(mBitmap.getWidth()*2/3)) > parentWidth) {
@@ -143,6 +146,7 @@ public class ActiveView extends androidx.appcompat.widget.AppCompatImageView{
                 else if ((this.getY() + this.getHeight()-(mBitmap.getHeight()*2/3)) > parentHeight)
                     this.setY(parentHeight - (mBitmap.getHeight()*2/3));
             }
+            */
         }
         if(currentState==state.Rotate) {
             if(event.getAction()==MotionEvent.ACTION_DOWN){
