@@ -33,7 +33,7 @@ public class RectCrop extends androidx.appcompat.widget.AppCompatImageView {
     Bitmap currentBitmap;
     Paint mBitmapPaint;
     Paint rectPaint;
-
+    private float minRatio = 0.3f;
     int width;
     int height;
 
@@ -105,6 +105,7 @@ public class RectCrop extends androidx.appcompat.widget.AppCompatImageView {
         currentWidth = Math.max(mScaleFactor*width,width-(2*margin));
         currentheight = currentWidth*widthHeightRatio;
         Log.e("scale",Float.toString(currentheight));//Math.max(mScaleFactor*height,width-(2*margin));
+        Log.e("scale",Float.toString(width-(2*margin)));
         imgCanvasRatio=currentBitmap.getWidth()/currentWidth;
         Rect rect = new Rect();
         rect.set((int)(left+dx),(int)(top+dy),(int)(currentWidth+(left+dx)),(int)(currentheight+(top+dy)));
@@ -116,6 +117,8 @@ public class RectCrop extends androidx.appcompat.widget.AppCompatImageView {
     }
     public Bitmap CropImage()
     {
+        if(currentheight<(width-(2*margin))||currentWidth<(width-(2*margin)))
+            return null;
         Bitmap cropImage=Bitmap.createBitmap(currentBitmap,(int)((-left+margin)*imgCanvasRatio),(int)((-top+margin)*imgCanvasRatio),(int)((width-2*margin)*imgCanvasRatio),(int)((width-2*margin)*imgCanvasRatio));
         Log.e("left",Float.toString((-left+margin)));
         Log.e("left2",Float.toString(left));
@@ -168,7 +171,7 @@ public class RectCrop extends androidx.appcompat.widget.AppCompatImageView {
             mScaleFactor *= detector.getScaleFactor();
             Float sf = mScaleFactor;
             Log.e("Scale",sf.toString());
-            mScaleFactor = Math.max(0.3f, Math.min(mScaleFactor,2.5f));
+            mScaleFactor = Math.max(minRatio, Math.min(mScaleFactor,2.5f));
             invalidate();
             return true;
         }

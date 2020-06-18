@@ -25,7 +25,7 @@
             android:id="@+id/eraserWidgetLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:orientation="horizontal"
             >
             <EditText
@@ -39,10 +39,38 @@
                 android:layout_height="wrap_content"
                 android:text="불러와봐"
                 />
+            <Button
+                android:id="@+id/setWidth"
+                android:text="setWidth"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                />
+            <Button
+                android:id="@+id/setBlur"
+                android:text="setBlur"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/eraser_testImgView"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:orientation="vertical"
+            >
+            <SeekBar
+                android:max="10"
+                android:min="1"
+                android:progress="5"
+                android:thumb="@mipmap/ic_launcher_round"
+                android:id="@+id/eraserSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 />
         </LinearLayout>
     </LinearLayout>

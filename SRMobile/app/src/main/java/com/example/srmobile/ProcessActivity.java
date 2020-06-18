@@ -5,19 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.PixelCopy;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -34,6 +33,7 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
     public static ProcessActivity singletone;
     ImageGenerator generator;
     ImageProcessThread thread=null;
+    ImageView imagBackground;
     MainActivity mainActivity;
     FrameLayout processMain;
     ActiveView currentView;
@@ -66,6 +66,7 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
     }
     private void setWidgets()
     {
+        imagBackground = findViewById(R.id.imageBackground);
         newObjBtn=findViewById(R.id.addObjectBtn);
         processMain=findViewById(R.id.preprocessMainLayout);
         moveBtn=findViewById(R.id.objectMoveBtn);
@@ -87,9 +88,8 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
 
         init();
         setWidgets();
-        addActiveView(mainActivity.inputImg);
-
-
+        if(mainActivity.getInputImg()!=null)
+            imagBackground.setImageBitmap(mainActivity.getInputImg());
         newObjBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,9 +122,7 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
         captureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Log.d("capture","Capture");
                 Bitmap result = capture();
-                //tIV.setImageBitmap(result);
                 ResultPage resultPage = new ResultPage();
                 resultPage.setResultImage(result);
                 volitileFragment(resultPage);

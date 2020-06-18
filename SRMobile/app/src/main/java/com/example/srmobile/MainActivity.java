@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
@@ -38,6 +39,7 @@ import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 
 import com.example.srmobile.sr.test_SRActivity;
+
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     int cameraRequestCode = 100;
     int imageConvertRequestCode = 101;
     int galleryCode = 102;
+
     int srRequestCode = 180;
     int defaultGalleryCode;
     int result_ok = -1;
@@ -303,8 +306,10 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), photoUri);
                     setInputImg(bitmap);
-                    Intent intent = new Intent(getApplicationContext(), ProcessActivity.class);
-                    startActivity(intent);
+                    //Intent intent = new Intent(getApplicationContext(), ProcessActivity.class);
+                    //startActivity(intent);
+                    ProcessDecision decisionfragment = new ProcessDecision();
+                    volitileFragment(decisionfragment);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -330,8 +335,10 @@ public class MainActivity extends AppCompatActivity {
                                 public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                                     Log.d("Bitmap", String.valueOf(resource));
                                     setInputImg(resource);
-                                    Intent intent = new Intent(getApplicationContext(), ProcessActivity.class);
-                                    startActivity(intent);
+                                    //Intent intent = new Intent(getApplicationContext(), ProcessActivity.class);
+                                    //startActivity(intent);
+                                    ProcessDecision decisionfragment = new ProcessDecision();
+                                    volitileFragment(decisionfragment);
                                 }
 
                                 @Override
@@ -362,9 +369,6 @@ public class MainActivity extends AppCompatActivity {
         } else
             Toast.makeText(this, "선택이 취소되었습니다.", Toast.LENGTH_SHORT).
                     show();
-
-
-
         /* 위 코드 (gallery picker library)로 대체 확인부탁*/
 //        if (requestCode == galleryCode) {
 //            if (resultCode == result_ok) {

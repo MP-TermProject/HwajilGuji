@@ -74,7 +74,6 @@ public class ResultPage extends Fragment {
         // Inflate the layout for this fragment
         ViewGroup resultPage= (ViewGroup)inflater.inflate(R.layout.fragment_result_page, container, false);
         result_img = resultPage.findViewById(R.id.result_imgBtn);
-        state = resultPage.findViewById(R.id.state);
         result_img.setImageBitmap(resultImage);
 
         result_img.setOnClickListener(new View.OnClickListener() {

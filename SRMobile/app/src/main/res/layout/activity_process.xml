@@ -23,6 +23,14 @@
                 android:layout_weight="7"
                 android:orientation="vertical"
                 >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:id="@+id/imageBackground"
+                    android:scaleType="fitCenter"
+                    >
+                </ImageView>
             </FrameLayout>
             <HorizontalScrollView
                 android:layout_width="match_parent"
@@ -33,6 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/white"
+                    android:clickable="true"
                     android:orientation="horizontal">
                     <Button
                         android:layout_height="wrap_content"
