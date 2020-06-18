@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 
@@ -58,7 +59,7 @@ public class EraserFragment extends Fragment implements IGetImage{
         }
     }
     Bitmap resultBitmap;
-    LinearLayout eraseerMainLayout=null;
+    LinearLayout eraserMainLayout=null;
     Button backBtn = null;
     ProcessActivity processActivity;
 
@@ -69,15 +70,21 @@ public class EraserFragment extends Fragment implements IGetImage{
 
     private void initWidget(ViewGroup vg)
     {
-        eraseerMainLayout= vg.findViewById(R.id.eraserMainLayout);
+        eraserMainLayout= vg.findViewById(R.id.eraserMainLayout);
         backBtn = vg.findViewById(R.id.eraser_backBtn);
+
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         ViewGroup vg = (ViewGroup) inflater.inflate(R.layout.fragment_eraser, container, false);
-
+        initWidget(vg);
+        EraserView eraserView = new EraserView(getContext());
+        eraserView.setBitmap(resultBitmap);
+        eraserMainLayout.addView(eraserView);
+        ImageView testBitmap = vg.findViewById(R.id.eraser_testImgView);
+        testBitmap.setImageBitmap(eraserView.getResult());
         return vg;
     }
 

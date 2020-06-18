@@ -13,6 +13,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.PixelCopy;
 import android.view.View;
@@ -23,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +33,11 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
 
     public static ProcessActivity singletone;
     ImageGenerator generator;
+    ImageProcessThread thread=null;
     MainActivity mainActivity;
     FrameLayout processMain;
     ActiveView currentView;
+    ActiveView processingView = null;
     Bitmap defaultImage;
     Button newObjBtn = null;
     Button moveBtn=null;
@@ -43,13 +47,12 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
     Button removeBtn = null;
     Button resolutionBtn = null;
     Button captureBtn = null;
+    Button eraserBtn = null;
     SeekBar transparentBar = null;
     boolean transparentVisible;
 
     int galleryCode =102;
-    //test
-    ImageView tIV;
-    //test
+
     List<ActiveView> activeViews=null;
 
     private void init()
@@ -59,12 +62,10 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
         mainActivity=MainActivity.singletone;
         activeViews=new ArrayList<>();
         defaultImage=mainActivity.inputImg;
+        generator=mainActivity.generator;
     }
     private void setWidgets()
     {
-        //test
-        tIV = findViewById(R.id.testImgView2);
-        //test
         newObjBtn=findViewById(R.id.addObjectBtn);
         processMain=findViewById(R.id.preprocessMainLayout);
         moveBtn=findViewById(R.id.objectMoveBtn);
@@ -72,9 +73,10 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
         freeCropBtn = findViewById(R.id.freeCropBtn);
         rectCropBtn=findViewById(R.id.rectCropBtn);
         removeBtn=findViewById(R.id.removeActiveView);
+        eraserBtn = findViewById(R.id.eraserBtn);
         resolutionBtn=findViewById(R.id.superResolutionBtn);
         transparentBar=findViewById(R.id.transparentSeekBar);
-
+        eraserBtn = findViewById(R.id.eraserBtn);
         captureBtn=findViewById(R.id.btn);
     }
 
@@ -136,6 +138,12 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
                 setTransparentVisible();
             }
         });
+        eraserBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestEraser();
+            }
+        });
         rectCropBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,7 +156,6 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
                 }
             }
         });
-
         transparentBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -165,14 +172,44 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
 
             }
         });
+        eraserBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EraserFragment e = new EraserFragment();
+                e.setProcessedBitmap(currentView.getBitmap());
+                volitileFragment(e);
+            }
+        });
+
         resolutionBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
+                if(processingView==null)
+                {
+                    if(currentView!=null)
+                    {
+                        processingView = currentView;
+                        processingView.lock=true;
+                        thread = new ImageProcessThread(currentView.getBitmap());
+                        thread.isDaemon();
+                        thread.start();
+                    }
+                }*/
                 process(currentView.getBitmap());
             }
         });
     }
 
+    public void requestEraser()
+    {
+        if(currentView!=null)
+        {
+            EraserFragment eraserFragment = new EraserFragment();
+            eraserFragment.setProcessedBitmap(currentView.getBitmap());
+            volitileFragment(eraserFragment);
+        }
+    }
     public void requestFoundImage(int requestCode)
     {
         Intent intent = new Intent();
@@ -217,7 +254,6 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
         } catch(Exception e){
 
         }
-
         Log.e("bitmapWidth",Integer.toString(bitmap.getWidth()));
         Log.e("bitmapHeight",Integer.toString(bitmap.getHeight()));
         return bitmap;
@@ -244,8 +280,10 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
 
     public void setTransparentVisible()
     {
-        if(transparentVisible)
+        if(transparentVisible) {
             transparentBar.setVisibility(View.VISIBLE);
+            transparentBar.setProgress(currentView.alpha);
+        }
         else
             transparentBar.setVisibility(View.INVISIBLE);
     }
@@ -277,7 +315,6 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
             Log.e("isCalled","isnull");
         else{
             currentView.setImage(bitmap);
-            tIV.setImageBitmap(bitmap);
         }
     }
 
@@ -320,6 +357,52 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
 
         }
     }
+    public class ChangeImageHandler extends Handler
+    {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Bundle bundle = msg.getData();
+            byte[] image = bundle.getByteArray("img");
 
+            Bitmap result = BitmapFactory.decodeByteArray(image, 0, image.length);
+            processingView.setImage(result);
+            processingView.lock=false;
+            processingView=null;
+            thread.interrupt();
+            Log.e("thread","threadEnd");
+        }
+    }
+
+    public class ImageProcessThread extends Thread{
+        Bitmap input;
+        ChangeImageHandler handler;
+        public ImageProcessThread(Bitmap image)
+        {
+            Log.e("thread","Thread Created");
+            input=image;
+            handler = new ChangeImageHandler();
+        }
+        @Override
+        public void run() {
+            try {
+                Log.e("thread", "ThreadRun");
+                Bitmap result = generator.ImageProcess(input, mainActivity.width, mainActivity.height);
+                Log.e("thread", Integer.toString(result.getWidth()));
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                result.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+                Message message = handler.obtainMessage();
+                Bundle bundle = new Bundle();
+                bundle.putByteArray("img", byteArray);
+                message.setData(bundle);
+                stream.close();
+                handler.sendMessage(message);
+            }catch(Exception ex)
+            {
+                Log.e("thread",ex.toString());
+            }
+        }
+    }
 
 }

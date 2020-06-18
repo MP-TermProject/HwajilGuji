@@ -27,6 +27,8 @@ import java.util.List;
 
 public class ActiveView extends androidx.appcompat.widget.AppCompatImageView{
 
+    public boolean lock=false;
+    public int alpha = 255;
     private Bitmap mBitmap;
     private ScaleGestureDetector mScaleDetector;
     private Paint mBitmapPaint;
@@ -116,6 +118,8 @@ public class ActiveView extends androidx.appcompat.widget.AppCompatImageView{
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if(lock)
+            return false;
         int parentWidth = ((ViewGroup)this.getParent()).getWidth();
         int parentHeight = ((ViewGroup)this.getParent()).getHeight();
 
@@ -178,12 +182,13 @@ public class ActiveView extends androidx.appcompat.widget.AppCompatImageView{
         canvas.rotate(nAngle,canvas.getWidth()/2, canvas.getHeight()/2);
         int left=(canvas.getWidth()-currentBitmapWidth);
         int left_margin = (canvas.getWidth()-currentBitmapWidth)/2;
-        int top_margin = (canvas.getHeight()-currentBitmapWidth)/2;
+        int top_margin = (canvas.getHeight()-currentBitmapHeight)/2;
         canvas.drawBitmap(mBitmap, null,new Rect(left_margin, top_margin,(canvas.getWidth()-left_margin),(canvas.getHeight()-top_margin)),mBitmapPaint);
     }
     public void setTransparent(int transparent)
     {
         mBitmapPaint.setAlpha(transparent);
+        alpha = transparent;
         invalidate();
     }
     /*
@@ -207,7 +212,7 @@ public class ActiveView extends androidx.appcompat.widget.AppCompatImageView{
             Float sf = mScaleFactor;
             Log.e("Scale",sf.toString());
 
-            mScaleFactor = Math.max(0.5f, Math.min(mScaleFactor,1.5f));
+            mScaleFactor = Math.max(0.5f, Math.min(mScaleFactor,2.5f));
             currentBitmapWidth = (int)(mBitmap.getWidth()*mScaleFactor);
             currentBitmapHeight = (int)(mBitmap.getHeight()*mScaleFactor);
             float size = defaultSize*mScaleFactor;

@@ -91,9 +91,6 @@ public class Processing extends Fragment implements IActiveView, IGetImage{
     }
     private void setWidgets(ViewGroup vg)
     {
-        //test
-        tIV = vg.findViewById(R.id.testImgView2);
-        //test
         processMain=vg.findViewById(R.id.preprocessMainLayout);
         moveBtn=vg.findViewById(R.id.objectMoveBtn);
         rotateBtn=vg.findViewById(R.id.objectRotateBtn);

@@ -68,11 +68,10 @@ public class MainActivity extends AppCompatActivity {
     public int height = 150;
 
     public ImageGenerator generator;
-    ImageSelectionWay selectionWay;//id==1
-
-    ProcessDecision decision;//id==3
-    Processing processing;//id==4
-    ResultPage resultPage;//id==5
+    ImageSelectionWay selectionWay;
+    ProcessDecision decision;
+    Processing processing;
+    ResultPage resultPage;
 
     public IGetImage process = null;
 
@@ -132,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
     public void initFragment() {
         selectionWay = new ImageSelectionWay();
         processing = new Processing();
+        decision=new ProcessDecision();
         resultPage = new ResultPage();
         fragmentHashMap = new HashMap<>();
         fragmentHashMap.put(Screen.select, selectionWay);
@@ -386,8 +386,6 @@ public class MainActivity extends AppCompatActivity {
 //                Toast.makeText(getApplicationContext(), "취소되었어요", Toast.LENGTH_SHORT).show();
 //            }
 //        }
-
-
     }
 
     public void volitileFragment(Fragment fragment) {
