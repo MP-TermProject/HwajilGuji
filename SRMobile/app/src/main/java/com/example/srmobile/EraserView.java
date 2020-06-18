@@ -164,4 +164,22 @@ public class EraserView extends View {
             return true;
         }
     }
+    public void setPaintWidth(float w)
+    {
+        width=w;
+        tPaint.setStrokeWidth(w);
+    }
+    public void setBlur(float b) {
+        blur = b;
+        BlurMaskFilter filter = new BlurMaskFilter(blur, BlurMaskFilter.Blur.NORMAL);
+        tPaint.setMaskFilter(filter);
+    }
+    public float getPaintWidth()
+    {
+        return width;
+    }
+    public float getPaintBlur()
+    {
+        return blur;
+    }
 }
