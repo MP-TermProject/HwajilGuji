@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.srmobile.mainBanner.MainSliderAdapter;
 import com.example.srmobile.mainBanner.PicassoImageLoadingService;
@@ -31,9 +32,10 @@ public class ImageSelectionWay extends Fragment{
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private Button cameraBtn;
+    private ImageButton cameraBtn;
     private Button galleryBtn;
-    private Button configureBtn;
+    private ImageButton configureBtn;
+    private Button srBtn;
 
     public ImageSelectionWay() {
         // Required empty public constructor
@@ -77,6 +79,7 @@ public class ImageSelectionWay extends Fragment{
         cameraBtn = selectionPage.findViewById(R.id.main_camera_btn);
         galleryBtn = selectionPage.findViewById(R.id.main_gallery_btn);
         configureBtn = selectionPage.findViewById(R.id.main_setting_btn);
+        srBtn=selectionPage.findViewById(R.id.main_sr_btn);
 
         cameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +92,14 @@ public class ImageSelectionWay extends Fragment{
             @Override
             public void onClick(View v) {
                 //mainActivity.requestFoundImage();
-                mainActivity.requestFoundImage(mainActivity.defaultGalleryCode);
+                mainActivity.requestFoundImage(mainActivity.galleryCode);
+            }
+        });
+
+        srBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainActivity.requestFoundImage(180);
             }
         });
 
