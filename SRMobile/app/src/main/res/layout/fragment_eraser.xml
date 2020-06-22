@@ -67,7 +67,7 @@
                 android:max="10"
                 android:min="1"
                 android:progress="5"
-                android:thumb="@mipmap/ic_launcher_round"
+                android:thumb="@drawable/thumb"
                 android:id="@+id/eraserSeekBar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

@@ -2,10 +2,12 @@ package com.example.srmobile;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
@@ -17,11 +19,14 @@ import android.os.Message;
 import android.util.Log;
 import android.view.PixelCopy;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Toast;
+
+import com.bumptech.glide.load.engine.Resource;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -77,6 +82,24 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
         eraserBtn = findViewById(R.id.eraserBtn);
         resolutionBtn=findViewById(R.id.superResolutionBtn);
         transparentBar=findViewById(R.id.transparentSeekBar);
+        /*transparentBar.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                if(transparentBar.getHeight()>0){
+                    Drawable thumb = ContextCompat.getDrawable(getApplicationContext(),R.drawable.icon);
+                    Bitmap bitmap = ((BitmapDrawable)thumb).getBitmap();
+                    int h = transparentBar.getMeasuredHeight();
+                    int w = h;
+                    bitmap = Bitmap.createScaledBitmap(bitmap, w,h,true);
+                    Drawable newThumb = new BitmapDrawable(getResources(),bitmap);
+                    newThumb.setBounds(0,0, newThumb.getIntrinsicWidth(),newThumb.getIntrinsicHeight());
+                    transparentBar.setThumb(newThumb);
+                    transparentBar.getViewTreeObserver().removeOnPreDrawListener(this);
+                }
+                return true;
+            }
+        });*/
+
         eraserBtn = findViewById(R.id.eraserBtn);
         captureBtn=findViewById(R.id.btn);
     }
@@ -173,9 +196,12 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
         eraserBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EraserFragment e = new EraserFragment();
-                e.setProcessedBitmap(currentView.getBitmap());
-                volitileFragment(e);
+                if(currentView!=null)
+                {
+                    EraserFragment e = new EraserFragment();
+                    e.setProcessedBitmap(currentView.getBitmap());
+                    volitileFragment(e);
+                }
             }
         });
 
@@ -355,6 +381,7 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
 
         }
     }
+
     public class ChangeImageHandler extends Handler
     {
         @Override
@@ -401,6 +428,7 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
                 Log.e("thread",ex.toString());
             }
         }
+
     }
 
 }

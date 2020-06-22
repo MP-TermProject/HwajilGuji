@@ -369,27 +369,6 @@ public class MainActivity extends AppCompatActivity {
         } else
             Toast.makeText(this, "선택이 취소되었습니다.", Toast.LENGTH_SHORT).
                     show();
-        /* 위 코드 (gallery picker library)로 대체 확인부탁*/
-//        if (requestCode == galleryCode) {
-//            if (resultCode == result_ok) {
-//                try {
-//                    InputStream in = getContentResolver().openInputStream(data.getData());
-//                    Bitmap img = BitmapFactory.decodeStream(in);
-//                    in.close();
-//                    setInputImg(img);
-//
-//                    //setFragment(Screen.processing);
-//                    Intent intent = new Intent(getApplicationContext(), ProcessActivity.class);
-//                    startActivity(intent);
-//                } catch (Exception e) {
-//                    Log.e("isCalled", "isNotCall");
-//                    Log.e("isCalled", e.toString());
-//                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-//                }
-//            } else if (resultCode == result_fail) {
-//                Toast.makeText(getApplicationContext(), "취소되었어요", Toast.LENGTH_SHORT).show();
-//            }
-//        }
     }
 
     public void volitileFragment(Fragment fragment) {
