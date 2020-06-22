@@ -11,10 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/white"
+        android:background="@color/themeColor"
         android:weightSum="7"
         >
         <LinearLayout
+            android:background="@color/themeColorLight"
+            android:layout_margin="5dp"
             android:id="@+id/eraserMainLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -26,35 +28,38 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.5"
+            android:weightSum="3"
             android:orientation="horizontal"
             >
-            <EditText
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="test"
-                />
             <Button
+                android:fontFamily="@font/dovemayo"
+                android:textStyle="bold"
+                android:background="@drawable/button_border"
                 android:id="@+id/eraser_backBtn"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="불러와봐"
+                android:layout_weight="1"
+                android:text="@string/save"
                 />
             <Button
+                android:fontFamily="@font/dovemayo"
+                android:textStyle="bold"
+                android:background="@drawable/button_border"
                 android:id="@+id/setWidth"
-                android:text="setWidth"
+                android:text="@string/width"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 />
             <Button
+                android:fontFamily="@font/dovemayo"
+                android:textStyle="bold"
+                android:background="@drawable/button_border"
                 android:id="@+id/setBlur"
-                android:text="setBlur"
+                android:text="@string/blur"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/eraser_testImgView"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 />
         </LinearLayout>
         <LinearLayout

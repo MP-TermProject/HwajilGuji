@@ -96,8 +96,6 @@ public class EraserFragment extends Fragment implements IGetImage{
         EraserView eView = new EraserView(getContext());
         eView.setBitmap(resultBitmap);
         eraserMainLayout.addView(eView);
-        ImageView testBitmap = vg.findViewById(R.id.eraser_testImgView);
-        testBitmap.setImageBitmap(eView.getResult());
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

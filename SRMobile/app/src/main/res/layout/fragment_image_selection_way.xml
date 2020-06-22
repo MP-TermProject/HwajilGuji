@@ -43,6 +43,7 @@
             android:layout_margin="20dp">
 
             <Button
+                android:textStyle="bold"
                 android:background="@drawable/button_border"
                 android:fontFamily="@font/dovemayo"
                 android:id="@+id/main_gallery_btn"
@@ -52,6 +53,8 @@
                 android:text="갤러리" />
 
             <Button
+                android:textStyle="bold"
+                android:background="@drawable/button_border"
                 android:fontFamily="@font/dovemayo"
                 android:id="@+id/main_imageProcessing_btn"
                 android:layout_width="145dp"
@@ -68,6 +71,8 @@
             android:layout_margin="20dp">
 
             <Button
+                android:textStyle="bold"
+                android:background="@drawable/button_border"
                 android:fontFamily="@font/dovemayo"
                 android:id="@+id/main_sr_btn"
                 android:layout_width="145dp"
@@ -76,6 +81,8 @@
                 android:text="SR" />
 
             <Button
+                android:textStyle="bold"
+                android:background="@drawable/button_border"
                 android:fontFamily="@font/dovemayo"
                 android:id="@+id/main_superCamera_btn"
                 android:layout_width="145dp"

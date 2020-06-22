@@ -71,7 +71,6 @@ public class RectCropFragment extends Fragment {
     public void initWidget(ViewGroup vg)
     {
         rc = vg.findViewById(R.id.rectCropScreen);
-        resultImg = vg.findViewById(R.id.resultImg);
         cropBtn = vg.findViewById(R.id.submitResult);
     }
     @Override
@@ -86,7 +85,6 @@ public class RectCropFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(rc.CropImage()!=null) {
-                    resultImg.setImageBitmap(rc.CropImage());
                     Bitmap output = rc.CropImage();
                     processActivity.setProcessedBitmap(output);
                     endTask();

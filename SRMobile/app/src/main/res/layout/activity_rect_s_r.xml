@@ -7,7 +7,8 @@
     tools:context=".RectSRActivity">
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/themeColor">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -21,19 +22,22 @@
                 android:layout_weight="4"
                 android:id="@+id/rcSrRectCrop"
                 />
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 >
                 <Button
+                    android:background="@drawable/button_border"
+                    android:layout_alignParentRight="true"
                     android:fontFamily="@font/dovemayo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="200dp"
+                    android:layout_height="120dp"
                     android:text="Submit"
+                    android:textStyle="bold"
                     android:id="@+id/rcsrSubmitBtn"
                     />
-            </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

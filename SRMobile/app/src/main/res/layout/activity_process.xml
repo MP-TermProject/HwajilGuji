@@ -56,6 +56,7 @@
                     android:clickable="true"
                     android:orientation="horizontal">
                     <Button
+                        android:background="@drawable/button_border"
                         android:fontFamily="@font/dovemayo"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
@@ -63,6 +64,7 @@
                         android:text="@string/addObject"
                         />
                     <Button
+                        android:background="@drawable/button_border"
                         android:fontFamily="@font/dovemayo"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
@@ -70,6 +72,7 @@
                         android:text="@string/move"
                         />
                     <Button
+                        android:background="@drawable/button_border"
                         android:fontFamily="@font/dovemayo"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
@@ -77,6 +80,7 @@
                         android:text="@string/Rotate"
                         />
                     <Button
+                        android:background="@drawable/button_border"
                         android:fontFamily="@font/dovemayo"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
@@ -84,6 +88,7 @@
                         android:text="@string/FreeCrop"
                         />
                     <Button
+                        android:background="@drawable/button_border"
                         android:fontFamily="@font/dovemayo"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
@@ -91,6 +96,7 @@
                         android:text="@string/RectCrop"
                         />
                     <Button
+                        android:background="@drawable/button_border"
                         android:fontFamily="@font/dovemayo"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
@@ -98,24 +104,28 @@
                         android:text="@string/SuperResolution"
                         />
                     <Button
+                        android:background="@drawable/button_border"
                         android:fontFamily="@font/dovemayo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/removeActiveView"
                         android:text="@string/removeView"
                         />
+
                     <Button
-                        android:fontFamily="@font/dovemayo"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:id="@+id/btn"
-                        android:text="nextPage"/>
-                    <Button
+                        android:background="@drawable/button_border"
                         android:fontFamily="@font/dovemayo"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:id="@+id/eraserBtn"
-                        android:text="지우기"/>
+                        android:text="@string/erase"/>
+                    <Button
+                        android:background="@drawable/button_border"
+                        android:fontFamily="@font/dovemayo"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:id="@+id/btn"
+                        android:text="@string/save"/>
                 </LinearLayout>
             </HorizontalScrollView>
             <SeekBar
