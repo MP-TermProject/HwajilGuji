@@ -11,12 +11,15 @@
         android:id="@+id/fragmentField"
         >
         <LinearLayout
+            android:background="@color/themeColorDark"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:id="@+id/preprocessMain"
             android:weightSum="8">
             <FrameLayout
+                android:layout_margin="5dp"
+                android:background="@color/white"
                 android:id="@+id/preprocessMainLayout"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -32,6 +35,15 @@
                     >
                 </ImageView>
             </FrameLayout>
+            <LinearLayout
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:weightSum="1"
+                android:orientation="vertical"
+                >
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -40,57 +52,66 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/white"
+                    android:background="@color/themeColorLight"
                     android:clickable="true"
                     android:orientation="horizontal">
                     <Button
+                        android:fontFamily="@font/dovemayo"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:id="@+id/addObjectBtn"
                         android:text="@string/addObject"
                         />
                     <Button
+                        android:fontFamily="@font/dovemayo"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:id="@+id/objectMoveBtn"
                         android:text="@string/move"
                         />
                     <Button
+                        android:fontFamily="@font/dovemayo"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:id="@+id/objectRotateBtn"
                         android:text="@string/Rotate"
                         />
                     <Button
+                        android:fontFamily="@font/dovemayo"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:id="@+id/freeCropBtn"
                         android:text="@string/FreeCrop"
                         />
                     <Button
+                        android:fontFamily="@font/dovemayo"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:id="@+id/rectCropBtn"
                         android:text="@string/RectCrop"
                         />
                     <Button
+                        android:fontFamily="@font/dovemayo"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:id="@+id/superResolutionBtn"
                         android:text="@string/SuperResolution"
                         />
                     <Button
+                        android:fontFamily="@font/dovemayo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/removeActiveView"
                         android:text="@string/removeView"
                         />
                     <Button
+                        android:fontFamily="@font/dovemayo"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:id="@+id/btn"
                         android:text="nextPage"/>
                     <Button
+                        android:fontFamily="@font/dovemayo"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:id="@+id/eraserBtn"
@@ -98,21 +119,20 @@
                 </LinearLayout>
             </HorizontalScrollView>
             <SeekBar
+                android:visibility="invisible"
                 android:max="255"
                 android:progress="255"
-                android:thumb="@mipmap/ic_launcher_round"
+                android:thumb="@drawable/thumb"
                 android:id="@+id/transparentSeekBar"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.5"
-                android:visibility="invisible"
                 />
-
-            <com.google.android.material.bottomnavigation.BottomNavigationView
+            </LinearLayout>
+            <!--<com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottom_navigation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:background="@color/colorPrimary"
                 app:itemIconTint="@color/white"
                 app:itemTextColor="@color/white"
@@ -120,7 +140,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:menu="@menu/bottom_toolbar"
-                tools:ignore="MissingConstraints" />
+                tools:ignore="MissingConstraints" />-->
         </LinearLayout>
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

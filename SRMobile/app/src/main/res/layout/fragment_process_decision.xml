@@ -37,6 +37,7 @@
             android:weightSum="2"
             android:orientation="horizontal">
             <Button
+                android:fontFamily="@font/dovemayo"
                 android:id="@+id/decisionSRBtn"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -44,6 +45,7 @@
                 android:text="@string/superResolutionDecision"
                 />
             <Button
+                android:fontFamily="@font/dovemayo"
                 android:id="@+id/decisionOtherBtn"
                 android:layout_width="0dp"
                 android:layout_weight="1"

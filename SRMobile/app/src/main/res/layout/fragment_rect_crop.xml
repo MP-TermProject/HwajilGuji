@@ -21,6 +21,7 @@
             android:layout_weight="4"
             />
         <Button
+            android:fontFamily="@font/dovemayo"
             android:id="@+id/submitResult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

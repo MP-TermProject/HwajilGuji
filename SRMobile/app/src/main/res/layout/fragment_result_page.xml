@@ -15,25 +15,50 @@
         android:orientation="vertical"
         android:id="@+id/result_layout"
         android:clickable="true"
-        android:weightSum="3"
+        android:weightSum="4"
         android:background="@color/birdInside">
 
 
         <ImageView
+            android:layout_marginTop="30dp"
             android:id="@+id/result_imgBtn"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_weight="2.5"
             android:src="@drawable/bird_mid"
-            android:scaleType="fitEnd"
             />
-        <Button
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/restart"
-            android:textSize="30dp"
-            android:id="@+id/restartBtn"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            >
+            <Button
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_alignParentLeft="true"
+                android:fontFamily="@font/dovemayo"
+                android:textStyle="bold"
+                android:layout_height="150dp"
+                android:layout_width="150dp"
+                android:layout_gravity="center"
+                android:text="@string/save"
+                android:textSize="50dp"
+                android:id="@+id/saveBtn"
             />
+            <Button
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@id/saveBtn"
+                android:fontFamily="@font/dovemayo"
+                android:textStyle="bold"
+                android:layout_height="150dp"
+                android:layout_width="150dp"
+                android:layout_gravity="center"
+                android:text="@string/restart"
+                android:textSize="30dp"
+                android:id="@+id/restartBtn"
+                />
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

@@ -30,16 +30,12 @@
             android:layout_weight="1"
             android:orientation="horizontal"
             >
-            <EditText
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="test"
-            />
             <Button
+                android:fontFamily="@font/dovemayo"
                 android:id="@+id/loadBeforeBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="불러와봐"
+                android:text="@string/save"
                 />
             <ImageView
                 android:layout_width="wrap_content"

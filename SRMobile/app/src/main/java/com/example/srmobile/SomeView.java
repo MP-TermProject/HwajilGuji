@@ -115,10 +115,12 @@ public class SomeView extends View implements View.OnTouchListener {
         float scale = (float) ((width/(float)original.getWidth()));
         originHeight=original.getHeight();
         originWidth=original.getWidth();
-        float ratio = originHeight/originWidth;
+        float ratio = (float)originHeight/originWidth;
         int image_w = (int) (original.getWidth()*scale);
         int image_h = (int) ((float)image_w*ratio);
-
+        Log.e("width",Integer.toString(originWidth));
+        Log.e("width",Integer.toString(originHeight));
+        Log.e("width",Float.toString(ratio));
         bitmap = Bitmap.createScaledBitmap(original, image_w, image_h, true);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
@@ -260,7 +262,8 @@ public class SomeView extends View implements View.OnTouchListener {
         DisplayMetrics dm = new DisplayMetrics();
         Log.e("windowSize",Integer.toString(width));
         int widthOfScreen = width;
-        int heightOfScreen = (width*(originHeight/originWidth));
+        float ratio = (float)originHeight/originWidth;
+        int heightOfScreen = (int) (width*(ratio));
 
         Bitmap resultingImage = Bitmap.createBitmap(widthOfScreen, heightOfScreen, bitmap.getConfig());
         Canvas canvas = new Canvas(resultingImage);
