@@ -1,19 +1,23 @@
 <resources>
     <string name="app_name">HwaJilGuJi</string>
     <string name="restart">처음으로</string>
-    <string name="addObject">Add Object</string>
-    <string name="superResolutionDecision">SuperResolution</string>
+    <string name="addObject">추가</string>
+    <string name="superResolutionDecision">해상도조정</string>
     <string name="otherWorks">OtherWorks</string>
-    <string name="move">Move</string>
-    <string name="Rotate">Rotate</string>
-    <string name="FreeCrop">FreeCrop</string>
-    <string name="Transparent">setTransParent</string>
-    <string name="SuperResolution">SuperResolution</string>
-    <string name="RectCrop">RectCrop</string>
-    <string name="removeView">Remove</string>
+    <string name="move">이동</string>
+    <string name="Rotate">회전</string>
+    <string name="FreeCrop">자르기</string>
+    <string name="Transparent">투명도</string>
+    <string name="SuperResolution">SR</string>
+    <string name="RectCrop">크롭</string>
+    <string name="removeView">삭제</string>
     <string name="save">저장</string>
     <string name="gallery">갤러리</string>
     <string name="sr">해상도 보정</string>
+    <string name="etc">편집</string>
+    <string name="erase">지우기</string>
+    <string name="blur">블러</string>
+    <string name="width">크기</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

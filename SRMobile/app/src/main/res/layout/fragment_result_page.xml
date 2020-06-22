@@ -33,31 +33,48 @@
             android:layout_weight="1.5"
             >
             <Button
+                android:background="@drawable/button_border"
                 android:layout_marginTop="40dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_alignParentLeft="true"
                 android:fontFamily="@font/dovemayo"
                 android:textStyle="bold"
-                android:layout_height="150dp"
-                android:layout_width="150dp"
-                android:layout_gravity="center"
-                android:text="@string/save"
-                android:textSize="50dp"
-                android:id="@+id/saveBtn"
-            />
-            <Button
-                android:layout_marginTop="40dp"
-                android:layout_marginRight="20dp"
-                android:layout_alignParentRight="true"
-                android:layout_toRightOf="@id/saveBtn"
-                android:fontFamily="@font/dovemayo"
-                android:textStyle="bold"
-                android:layout_height="150dp"
-                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:layout_width="130dp"
                 android:layout_gravity="center"
                 android:text="@string/restart"
-                android:textSize="30dp"
+                android:textSize="20dp"
                 android:id="@+id/restartBtn"
+                />
+
+            <Button
+                android:background="@drawable/button_border"
+                android:layout_marginTop="40dp"
+                android:layout_toRightOf="@id/restartBtn"
+                android:layout_toLeftOf="@id/saveBtn"
+                android:fontFamily="@font/dovemayo"
+                android:textStyle="bold"
+                android:layout_height="100dp"
+                android:layout_width="130dp"
+                android:layout_gravity="center"
+                android:text="공유"
+                android:textSize="30dp"
+                android:id="@+id/shareBtn"
+                />
+
+            <Button
+                android:background="@drawable/button_border"
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_alignParentRight="true"
+                android:fontFamily="@font/dovemayo"
+                android:textStyle="bold"
+                android:layout_height="100dp"
+                android:layout_width="130dp"
+                android:layout_gravity="center"
+                android:text="@string/save"
+                android:textSize="30dp"
+                android:id="@+id/saveBtn"
                 />
         </RelativeLayout>
     </LinearLayout>
