@@ -1,20 +1,20 @@
-package com.example.srmobile;
+package com.example.srmobile.sr;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.example.srmobile.R;
+import androidx.fragment.app.Fragment;
+
 
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ProcessDecision#newInstance} factory method to
+ * Use the {@link Processing#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProcessDecision extends Fragment {
+public class Processing extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -24,7 +24,7 @@ public class ProcessDecision extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ProcessDecision() {
+    public Processing() {
         // Required empty public constructor
     }
 
@@ -34,11 +34,11 @@ public class ProcessDecision extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ProcessDecision.
+     * @return A new instance of fragment Processing.
      */
     // TODO: Rename and change types and number of parameters
-    public static ProcessDecision newInstance(String param1, String param2) {
-        ProcessDecision fragment = new ProcessDecision();
+    public static Processing newInstance(String param1, String param2) {
+        Processing fragment = new Processing();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -54,22 +54,11 @@ public class ProcessDecision extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    public void init()
-    {
-
-    }
-    public void widget_init(ViewGroup vg)
-    {
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ViewGroup vg= (ViewGroup) inflater.inflate(R.layout.fragment_process_decision, container, false);
-        init();
-        widget_init(vg);
-        return vg;
+        return inflater.inflate(R.layout.fragment_processing, container, false);
     }
 }

@@ -1,6 +1,7 @@
-package com.example.srmobile.sr;
+package com.example.srmobile;
 import android.graphics.Bitmap;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.pytorch.IValue;
 import org.pytorch.Module;
@@ -9,12 +10,13 @@ import org.pytorch.torchvision.TensorImageUtils;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ImageGenerator {
     Module model;
-    float[] mean = {0f, 0f, 0f};
-    float[] std = {1f, 1f, 1f};
+    float[] mean = {0f,0f,0f};//TensorImageUtils.TORCHVISION_NORM_MEAN_RGB;//{0.5f, 0.5f, 0.5f};
+    float[] std = {1f,1f,1f};//TensorImageUtils.TORCHVISION_NORM_STD_RGB;//{0.5f, 0.5f, 0.5f};
 
     public ImageGenerator(String modelpath){
         model = Module.load(modelpath);
@@ -22,34 +24,59 @@ public class ImageGenerator {
 
     public Tensor preprocess(Bitmap bitmap, int width, int height){
         bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
+        Log.d("test","test_22");
         return TensorImageUtils.bitmapToFloat32Tensor(bitmap, this.mean, this.std);
     }
 
     public Bitmap ImageProcess(Bitmap bitmap, int width, int height){
+
         Tensor tensor = preprocess(bitmap, width, height);
-
+        float[] input = tensor.getDataAsFloatArray();
+        for(int i =0;i<100;i++)
+        {
+            Float current = input[i];
+            Integer _index = i;
+            Log.e("value",_index.toString()+"---"+current.toString());
+        }
         IValue inputs = IValue.from(tensor);
+        Log.d("test","test_0");
         Tensor output = model.forward(inputs).toTensor();
-
+        Log.d("test","test_1");
         float []result= output.getDataAsFloatArray();
+        float m=0f;
+        for(int i=0; i<input.length;i++)
+            m+=input[i];
+        Float me = m/input.length;
+        Log.e("mean",me.toString());
         List<Float> RArray = new ArrayList<>();
         List<Float> GArray = new ArrayList<>();
         List<Float> BArray  = new ArrayList<>();
         int index=0;
         for (int i=0;i<3;i++){
-            for(int j=0;j<width*height;j++){
+            for(int j=0;j<width*height*4*4;j++){
+                float value = result[index];//(result[index]*std[i])+mean[i];
+                if (value<0)
+                    value=0f;
+
+                if(index<400)
+                {
+                    Float temp = value;
+                    Integer id = index;
+                    Log.e("value_result",id.toString()+"---"+ temp.toString());
+                }
+
                 if(i==0)
-                    RArray.add(result[index]);
-                else if(i==1) GArray.add(result[index]);
-                else BArray.add(result[index]);
+                    RArray.add(value);
+                else if(i==1) GArray.add(value);
+                else BArray.add(value);
                 index++;
             }
         }
-        Log.d("result", "ImageProcess: convert ok");
-        return arrayToBitmap(RArray, GArray, BArray,width, height);
+        Log.d("test","test_2");
+        return arrayToBitmap(RArray, GArray, BArray,width*4, height*4);
     }
 
-    private Bitmap arrayToBitmap(List<Float> R, List<Float> G, List<Float> B, int width, int height){
+    private Bitmap arrayToBitmap(List<Float> R,List<Float> G, List<Float> B, int width, int height){
         byte alpha = (byte) 255;
         Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         ByteBuffer byteBuffer = ByteBuffer.allocate(width*height*4);

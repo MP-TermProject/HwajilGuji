@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 
 /**
@@ -71,6 +70,7 @@ public class RectCropFragment extends Fragment {
     public void initWidget(ViewGroup vg)
     {
         rc = vg.findViewById(R.id.rectCropScreen);
+        resultImg = vg.findViewById(R.id.resultImg);
         cropBtn = vg.findViewById(R.id.submitResult);
     }
     @Override
@@ -84,13 +84,10 @@ public class RectCropFragment extends Fragment {
         cropBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(rc.CropImage()!=null) {
-                    Bitmap output = rc.CropImage();
-                    processActivity.setProcessedBitmap(output);
-                    endTask();
-                }
-                else
-                    Toast.makeText(getContext(),"사이즈가 작습니다.",Toast.LENGTH_SHORT).show();
+                resultImg.setImageBitmap(rc.CropImage());
+                Bitmap output = rc.CropImage();
+                processActivity.setProcessedBitmap(output);
+                endTask();
             }
         });
         return vg;

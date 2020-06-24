@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:context=".EraserFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -12,12 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/themeColor"
+        android:background="@color/white"
         android:weightSum="7"
         >
         <LinearLayout
-            android:background="@color/themeColorLight"
-            android:layout_margin="5dp"
             android:id="@+id/eraserMainLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -28,55 +25,24 @@
             android:id="@+id/eraserWidgetLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5"
-            android:weightSum="3"
+            android:layout_weight="1"
             android:orientation="horizontal"
             >
+            <EditText
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="test"
+                />
             <Button
-                android:fontFamily="@font/dovemayo"
-                android:textStyle="bold"
-                android:background="@drawable/button_border"
                 android:id="@+id/eraser_backBtn"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/save"
+                android:text="불러와봐"
                 />
-            <Button
-                android:fontFamily="@font/dovemayo"
-                android:textStyle="bold"
-                android:background="@drawable/button_border"
-                android:id="@+id/setWidth"
-                android:text="@string/width"
+            <ImageView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                />
-            <Button
-                android:fontFamily="@font/dovemayo"
-                android:textStyle="bold"
-                android:background="@drawable/button_border"
-                android:id="@+id/setBlur"
-                android:text="@string/blur"
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"
-            android:orientation="vertical"
-            >
-            <SeekBar
-                android:max="10"
-                android:min="1"
-                android:progress="5"
-                android:thumb="@drawable/thumb"
-                android:id="@+id/eraserSeekBar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:id="@+id/eraser_testImgView"
                 />
         </LinearLayout>
     </LinearLayout>
