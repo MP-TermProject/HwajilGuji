@@ -395,6 +395,10 @@ public class MainActivity extends AppCompatActivity {
         } else
             Toast.makeText(getApplicationContext(), "해당 화면을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
     }
+    public void firstFragment()
+    {
+        getSupportFragmentManager().beginTransaction().add(R.id.main_layout,selectionWay).commit();
+    }
 
     public int setFragment(Screen fragment_id) {
         if (fragmentHashMap.containsKey(fragment_id)) {

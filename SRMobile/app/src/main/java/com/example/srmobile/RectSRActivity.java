@@ -17,6 +17,7 @@ public class RectSRActivity extends AppCompatActivity {
     MainActivity mainActivity;
     RectCrop cropView;
     ImageGenerator generator;
+    public static RectSRActivity rectSRActivity;
     private void init()
     {
         submitBtn = findViewById(R.id.rcsrSubmitBtn);
@@ -27,6 +28,7 @@ public class RectSRActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        rectSRActivity=this;
         setContentView(R.layout.activity_rect_s_r);
         init();
         cropView.setBitmap(mainActivity.inputImg);

@@ -174,6 +174,7 @@ public class EraserView extends View {
         BlurMaskFilter filter = new BlurMaskFilter(blur, BlurMaskFilter.Blur.NORMAL);
         tPaint.setMaskFilter(filter);
     }
+
     public float getPaintWidth()
     {
         return width;

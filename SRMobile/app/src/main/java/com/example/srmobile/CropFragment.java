@@ -1,6 +1,5 @@
 package com.example.srmobile;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
@@ -9,16 +8,15 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ProcessDecision#newInstance} factory method to
+ * Use the {@link CropFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProcessDecision extends Fragment {
+public class CropFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -28,7 +26,7 @@ public class ProcessDecision extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ProcessDecision() {
+    public CropFragment() {
         // Required empty public constructor
     }
 
@@ -38,11 +36,11 @@ public class ProcessDecision extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ProcessDecision.
+     * @return A new instance of fragment CropFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ProcessDecision newInstance(String param1, String param2) {
-        ProcessDecision fragment = new ProcessDecision();
+    public static CropFragment newInstance(String param1, String param2) {
+        CropFragment fragment = new CropFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -58,48 +56,31 @@ public class ProcessDecision extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    MainActivity mainActivity;
-    Button processBtn;
-    Button srBtn;
-    ImageView preview;
-
+    LinearLayout layout;
     public void init()
     {
-        mainActivity = MainActivity.singletone;
+
     }
 
-    public void widget_init(ViewGroup vg)
+    public void initWidget(ViewGroup vg)
     {
-        preview = vg.findViewById(R.id.sampleImageView);
-        processBtn = vg.findViewById(R.id.decisionOtherBtn);
-        srBtn = vg.findViewById(R.id.decisionSRBtn);
+        layout = vg.findViewById(R.id.cropMainPage);
     }
-
+    Bitmap img;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ViewGroup vg= (ViewGroup) inflater.inflate(R.layout.fragment_process_decision, container, false);
+        ViewGroup vg = (ViewGroup) inflater.inflate(R.layout.fragment_crop, container, false);
         init();
-        widget_init(vg);
-        preview.setImageBitmap(mainActivity.getInputImg());
-        processBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mainActivity.setFragmentNotStack(MainActivity.Screen.select);
-                Intent intent = new Intent(getContext(),ProcessActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        srBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mainActivity.setFragmentNotStack(MainActivity.Screen.select);
-                Intent intent = new Intent(getContext(),RectSRActivity.class);
-                startActivity(intent);
-            }
-        });
+        initWidget(vg);
+        CropView cropView = new CropView(getContext());
+        cropView.setBitmap(img);
+        layout.addView(cropView);
         return vg;
+    }
+    public void setImage(Bitmap _img)
+    {
+        img = _img;
     }
 }

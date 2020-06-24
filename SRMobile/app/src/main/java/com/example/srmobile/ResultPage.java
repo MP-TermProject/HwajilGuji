@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.os.Environment;
 import android.util.Log;
@@ -75,6 +76,7 @@ public class ResultPage extends Fragment {
     }
 
     private MainActivity mainActivity;
+    private ProcessActivity processActivity;
     private ImageView result_img;
     Boolean isInput = false;
     TextView state;
@@ -87,6 +89,8 @@ public class ResultPage extends Fragment {
         // Inflate the layout for this fragment
         ViewGroup resultPage = (ViewGroup) inflater.inflate(R.layout.fragment_result_page, container, false);
         context = container.getContext();
+        mainActivity=MainActivity.singletone;
+        processActivity = ProcessActivity.singletone;
         result_img = resultPage.findViewById(R.id.result_imgBtn);
         result_img.setImageBitmap(resultImage);
         Button restartBtn = resultPage.findViewById(R.id.restartBtn);
@@ -96,7 +100,12 @@ public class ResultPage extends Fragment {
         restartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainActivity.finish();
+                if(processActivity==null)
+                {
+                    RectSRActivity.rectSRActivity.finish();
+                }
+                else
+                    processActivity.finish();
             }
         });
 
@@ -157,8 +166,8 @@ public class ResultPage extends Fragment {
     }
 
     private void saveImageLocally(ImageView iv) {
-        iv.buildDrawingCache();
-        Bitmap bmp = iv.getDrawingCache();
+        //iv.buildDrawingCache();
+        Bitmap bmp = resultImage;//iv.getDrawingCache();
         String date = getDate();
 
 

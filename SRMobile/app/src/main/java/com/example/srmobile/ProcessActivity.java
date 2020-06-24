@@ -146,9 +146,11 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
             @Override
             public void onClick(View v) {
                 Bitmap result = capture();
-                ResultPage resultPage = new ResultPage();
-                resultPage.setResultImage(result);
-                volitileFragment(resultPage);
+                //ResultPage resultPage = new ResultPage();
+                //resultPage.setResultImage(result);
+                CropFragment cropFragment=new CropFragment();
+                cropFragment.setImage(result);
+                volitileFragment(cropFragment);
             }
         });
         removeBtn.setOnClickListener(new View.OnClickListener() {
