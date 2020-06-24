@@ -1,4 +1,4 @@
-package com.example.srmobile.sr;
+package com.example.srmobile;
 
 import android.content.Context;
 import android.util.Log;

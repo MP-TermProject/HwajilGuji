@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".RectCropFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -11,6 +12,7 @@
         android:layout_width="match_parent"
         android:weightSum="5"
         android:orientation="vertical"
+        android:background="@color/white"
         android:clickable="true"
         >
         <com.example.srmobile.RectCrop
@@ -19,17 +21,22 @@
             android:layout_height="0dp"
             android:layout_weight="4"
             />
-        <Button
-            android:id="@+id/submitResult"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Submit"
-            />
-        <ImageView
-            android:id="@+id/resultImg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+        <RelativeLayout
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:background="@color/themeColor"
+            >
+            <Button
+                android:background="@drawable/button_border"
+                android:fontFamily="@font/dovemayo"
+                android:id="@+id/submitResult"
+                android:layout_width="230dp"
+                android:layout_height="120dp"
+                android:text="Submit"
+                android:layout_alignParentRight="true"
+                />
+        </RelativeLayout>
     </LinearLayout>
 
 </FrameLayout>
