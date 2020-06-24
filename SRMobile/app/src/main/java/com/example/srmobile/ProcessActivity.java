@@ -27,6 +27,7 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.bumptech.glide.load.engine.Resource;
+import com.example.srmobile.sr.ImageGenerator;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -37,7 +38,7 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
 
     public static ProcessActivity singletone;
     ImageGenerator generator;
-    ImageProcessThread thread=null;
+    ImageProcessThread thread = null;
     ImageView imagBackground;
     MainActivity mainActivity;
     FrameLayout processMain;
@@ -45,10 +46,10 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
     ActiveView processingView = null;
     Bitmap defaultImage;
     Button newObjBtn = null;
-    Button moveBtn=null;
-    Button rotateBtn =null;
-    Button freeCropBtn=null;
-    Button rectCropBtn=null;
+    Button moveBtn = null;
+    Button rotateBtn = null;
+    Button freeCropBtn = null;
+    Button rectCropBtn = null;
     Button removeBtn = null;
     Button resolutionBtn = null;
     Button captureBtn = null;
@@ -56,32 +57,31 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
     SeekBar transparentBar = null;
     boolean transparentVisible;
 
-    int galleryCode =102;
+    int galleryCode = 102;
 
-    List<ActiveView> activeViews=null;
+    List<ActiveView> activeViews = null;
 
-    private void init()
-    {
-        singletone=this;
-        transparentVisible=false;
-        mainActivity=MainActivity.singletone;
-        activeViews=new ArrayList<>();
-        defaultImage=mainActivity.inputImg;
-        generator=mainActivity.generator;
+    private void init() {
+        singletone = this;
+        transparentVisible = false;
+        mainActivity = MainActivity.singletone;
+        activeViews = new ArrayList<>();
+        defaultImage = mainActivity.inputImg;
+        generator = mainActivity.generator;
     }
-    private void setWidgets()
-    {
+
+    private void setWidgets() {
         imagBackground = findViewById(R.id.imageBackground);
-        newObjBtn=findViewById(R.id.addObjectBtn);
-        processMain=findViewById(R.id.preprocessMainLayout);
-        moveBtn=findViewById(R.id.objectMoveBtn);
-        rotateBtn=findViewById(R.id.objectRotateBtn);
+        newObjBtn = findViewById(R.id.addObjectBtn);
+        processMain = findViewById(R.id.preprocessMainLayout);
+        moveBtn = findViewById(R.id.objectMoveBtn);
+        rotateBtn = findViewById(R.id.objectRotateBtn);
         freeCropBtn = findViewById(R.id.freeCropBtn);
-        rectCropBtn=findViewById(R.id.rectCropBtn);
-        removeBtn=findViewById(R.id.removeActiveView);
+        rectCropBtn = findViewById(R.id.rectCropBtn);
+        removeBtn = findViewById(R.id.removeActiveView);
         eraserBtn = findViewById(R.id.eraserBtn);
-        resolutionBtn=findViewById(R.id.superResolutionBtn);
-        transparentBar=findViewById(R.id.transparentSeekBar);
+        resolutionBtn = findViewById(R.id.superResolutionBtn);
+        transparentBar = findViewById(R.id.transparentSeekBar);
         /*transparentBar.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
@@ -101,7 +101,7 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
         });*/
 
         eraserBtn = findViewById(R.id.eraserBtn);
-        captureBtn=findViewById(R.id.btn);
+        captureBtn = findViewById(R.id.btn);
     }
 
     @Override
@@ -111,7 +111,7 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
 
         init();
         setWidgets();
-        if(mainActivity.getInputImg()!=null)
+        if (mainActivity.getInputImg() != null)
             imagBackground.setImageBitmap(mainActivity.getInputImg());
         newObjBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,9 +134,9 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
         freeCropBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FreeCropFragment freeCropFragment=new FreeCropFragment();
+                FreeCropFragment freeCropFragment = new FreeCropFragment();
                 Bitmap input = getCurrentActiveBitmap();
-                if(input!=null) {
+                if (input != null) {
                     freeCropFragment.setBitmap(input);
                     volitileFragment(freeCropFragment);
                 }
@@ -155,7 +155,7 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
             @Override
             public void onClick(View v) {
                 removeCurrentView();
-                transparentVisible=false;
+                transparentVisible = false;
                 setTransparentVisible();
             }
         });
@@ -170,8 +170,7 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
             public void onClick(View v) {
                 RectCropFragment rectCropFragment = new RectCropFragment();
                 Bitmap input = getCurrentActiveBitmap();
-                if(input!=null)
-                {
+                if (input != null) {
                     rectCropFragment.setCropBitmap(input);
                     volitileFragment(rectCropFragment);
                 }
@@ -180,7 +179,7 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
         transparentBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if(currentView!=null&&transparentBar.getVisibility()==View.VISIBLE)
+                if (currentView != null && transparentBar.getVisibility() == View.VISIBLE)
                     currentView.setTransparent(progress);
             }
 
@@ -196,8 +195,7 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
         eraserBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(currentView!=null)
-                {
+                if (currentView != null) {
                     EraserFragment e = new EraserFragment();
                     e.setProcessedBitmap(currentView.getBitmap());
                     volitileFragment(e);
@@ -225,106 +223,96 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
         });
     }
 
-    public void requestEraser()
-    {
-        if(currentView!=null)
-        {
+    public void requestEraser() {
+        if (currentView != null) {
             EraserFragment eraserFragment = new EraserFragment();
             eraserFragment.setProcessedBitmap(currentView.getBitmap());
             volitileFragment(eraserFragment);
         }
     }
-    public void requestFoundImage(int requestCode)
-    {
+
+    public void requestFoundImage(int requestCode) {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, requestCode);
     }
 
-    public void addActiveView(Bitmap image)
-    {
-        if(activeViews.size()<10)
-        {
+    public void addActiveView(Bitmap image) {
+        if (activeViews.size() < 10) {
             ActiveView activeView = new ActiveView(this);
             activeView.setiActivity(this);
             activeView.setImage(image);
             activeViews.add(activeView);
             processMain.addView(activeView);
-        }
-        else
-            Toast.makeText(this,"Object가 너무 많습니다!",Toast.LENGTH_SHORT).show();
+        } else
+            Toast.makeText(this, "Object가 너무 많습니다!", Toast.LENGTH_SHORT).show();
     }
-    public void process(Bitmap input)
-    {
-        if(currentView!=null){
+
+    public void process(Bitmap input) {
+        if (currentView != null) {
             Bitmap result = mainActivity.generator.ImageProcess(input, mainActivity.width, mainActivity.height);
             //mainActivity.setResultImg(result);
             currentView.setImage(result);
         }
     }
 
-    public Bitmap capture()
-    {
-        Bitmap bitmap = Bitmap.createBitmap(mainActivity.screenWidth,processMain.getHeight(),Bitmap.Config.ARGB_8888);
+    public Bitmap capture() {
+        Bitmap bitmap = Bitmap.createBitmap(mainActivity.screenWidth, processMain.getHeight(), Bitmap.Config.ARGB_8888);
         int[] windowSize = new int[2];
         processMain.getLocationInWindow(windowSize);
-        try{
-            PixelCopy.request(this.getWindow(),new Rect(windowSize[0],windowSize[1],windowSize[0]+processMain.getWidth(),processMain.getHeight()+62),bitmap, copyResult -> {
-                if(copyResult==PixelCopy.SUCCESS){
+        try {
+            PixelCopy.request(this.getWindow(), new Rect(windowSize[0], windowSize[1], windowSize[0] + processMain.getWidth(), processMain.getHeight() + 62), bitmap, copyResult -> {
+                if (copyResult == PixelCopy.SUCCESS) {
 
                 }
-            },new Handler());
-        } catch(Exception e){
+            }, new Handler());
+        } catch (Exception e) {
 
         }
-        Log.e("bitmapWidth",Integer.toString(bitmap.getWidth()));
-        Log.e("bitmapHeight",Integer.toString(bitmap.getHeight()));
+        Log.e("bitmapWidth", Integer.toString(bitmap.getWidth()));
+        Log.e("bitmapHeight", Integer.toString(bitmap.getHeight()));
         return bitmap;
     }
 
-    public Bitmap getCurrentActiveBitmap()
-    {
-        if(currentView!=null)
+    public Bitmap getCurrentActiveBitmap() {
+        if (currentView != null)
             return currentView.getBitmap();
         else
-            Log.e("setBitmap","null");
+            Log.e("setBitmap", "null");
         return null;
     }
 
-    public boolean removeCurrentView()
-    {
-        if(currentView==null)
+    public boolean removeCurrentView() {
+        if (currentView == null)
             return false;
         processMain.removeView(currentView);
         activeViews.remove(currentView);
-        currentView=null;
+        currentView = null;
         return true;
     }
 
-    public void setTransparentVisible()
-    {
-        if(transparentVisible) {
+    public void setTransparentVisible() {
+        if (transparentVisible) {
             transparentBar.setVisibility(View.VISIBLE);
             transparentBar.setProgress(currentView.alpha);
-        }
-        else
+        } else
             transparentBar.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void getTouchedView(ActiveView a) {
-        currentView=a;
-        transparentVisible=true;
+        currentView = a;
+        transparentVisible = true;
         setTransparentVisible();
     }
 
     @Override
     public void setState(ActiveView.state s) {
-        if(currentView!=null)
+        if (currentView != null)
             currentView.setCurrentState(s);
         else
-            Toast.makeText(this,"오브젝트가 선택되지 않았습니다.",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "오브젝트가 선택되지 않았습니다.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -334,56 +322,50 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
 
     @Override
     public void setProcessedBitmap(Bitmap bitmap) {
-        Log.e("isCalled","called");
-        if(currentView==null)
-            Log.e("isCalled","isnull");
-        else{
+        Log.e("isCalled", "called");
+        if (currentView == null)
+            Log.e("isCalled", "isnull");
+        else {
             currentView.setImage(bitmap);
         }
     }
 
-    public void volitileFragment(Fragment fragment){
-        FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentField,fragment).commit();
+    public void volitileFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentField, fragment).commit();
         fragmentTransaction.addToBackStack(null);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e("isCalled","Destroy");
+        Log.e("isCalled", "Destroy");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.e("paused","Paused");
+        Log.e("paused", "Paused");
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==galleryCode)
-        {
+        if (requestCode == galleryCode) {
             try {
                 InputStream in = getContentResolver().openInputStream(data.getData());
                 Bitmap img = BitmapFactory.decodeStream(in);
                 in.close();
                 addActiveView(img);
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
             }
-            catch(Exception e)
-            {
-                Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
-            }
-        }
-        else
-        {
+        } else {
 
         }
     }
 
-    public class ChangeImageHandler extends Handler
-    {
+    public class ChangeImageHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -392,22 +374,23 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
 
             Bitmap result = BitmapFactory.decodeByteArray(image, 0, image.length);
             processingView.setImage(result);
-            processingView.lock=false;
-            processingView=null;
+            processingView.lock = false;
+            processingView = null;
             thread.interrupt();
-            Log.e("thread","threadEnd");
+            Log.e("thread", "threadEnd");
         }
     }
 
-    public class ImageProcessThread extends Thread{
+    public class ImageProcessThread extends Thread {
         Bitmap input;
         ChangeImageHandler handler;
-        public ImageProcessThread(Bitmap image)
-        {
-            Log.e("thread","Thread Created");
-            input=image;
+
+        public ImageProcessThread(Bitmap image) {
+            Log.e("thread", "Thread Created");
+            input = image;
             handler = new ChangeImageHandler();
         }
+
         @Override
         public void run() {
             try {
@@ -423,9 +406,8 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
                 message.setData(bundle);
                 stream.close();
                 handler.sendMessage(message);
-            }catch(Exception ex)
-            {
-                Log.e("thread",ex.toString());
+            } catch (Exception ex) {
+                Log.e("thread", ex.toString());
             }
         }
 

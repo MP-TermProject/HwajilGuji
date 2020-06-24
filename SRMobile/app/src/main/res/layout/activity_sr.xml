@@ -5,10 +5,11 @@
     android:layout_height="match_parent"
     android:background="@color/whiteBackground"
     android:fitsSystemWindows="true"
-    tools:context=".sr.test_SRActivity">
+    tools:context=".sr.SRActivity">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
+        android:id="@+id/srLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/themeColor"
@@ -16,7 +17,6 @@
         android:weightSum="5">
 
         <LinearLayout
-            android:id="@+id/srLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="10dp"
@@ -49,8 +49,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/button_border"
                 android:fontFamily="@font/dovemayo"
-                android:text="Load Image"
-                android:textSize="20sp"
+                android:text="@string/loadImg"
+                android:textSize="25sp"
                 android:textStyle="bold" />
 
             <Button

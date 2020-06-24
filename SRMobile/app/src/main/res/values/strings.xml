@@ -24,4 +24,8 @@
 
     <!--  banner  -->
     <string name="label_loading">This Is Empty View</string>
+
+    <!-- Main SR  -->
+    <string name="loadImg">불러오기</string>
+
 </resources>

@@ -15,7 +15,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -33,22 +32,20 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 
-import com.example.srmobile.sr.test_SRActivity;
+import com.example.srmobile.sr.ImageGenerator;
+import com.example.srmobile.sr.SRActivity;
+
 
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
-import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -157,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
         //SRMobile_150_N.pt
         try {
-            generator = new ImageGenerator(Utils.assetFilePath(this, "SRMobile_150_N.pt"));
+            generator = new ImageGenerator(com.example.srmobile.Utils.assetFilePath(this, "SRMobile_150_N.pt"));
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -287,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "해당 화면을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
     }
 
-    private void ImagePicker(int requestcode) {
+    public void ImagePicker(int requestcode) {
         Matisse.from(this)
                 .choose(MimeType.ofImage(), false)
 //                .theme(R.style.Matisse_Dracula)
@@ -351,8 +348,6 @@ public class MainActivity extends AppCompatActivity {
                                 public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                                     Log.d("Bitmap", String.valueOf(resource));
                                     setInputImg(resource);
-                                    //Intent intent = new Intent(getApplicationContext(), ProcessActivity.class);
-                                    //startActivity(intent);
                                     ProcessDecision decisionfragment = new ProcessDecision();
                                     volitileFragment(decisionfragment);
                                 }
@@ -374,17 +369,14 @@ public class MainActivity extends AppCompatActivity {
             } else if (requestCode == srRequestCode) {
                 path = Matisse.obtainPathResult(data).get(0);
                 if (path != null) {
-                    Intent intent = new Intent(this, test_SRActivity.class);
-//                        String dataId = DataHolder.putDataHolder(path);
+                    Intent intent = new Intent(this, SRActivity.class);
                     intent.putExtra("dataID", path);
                     startActivityForResult(intent, 1);
 
                 } else
                     Toast.makeText(this, "Request code error.", Toast.LENGTH_SHORT).show();
             }
-        } else
-            Toast.makeText(this, "선택이 취소되었습니다.", Toast.LENGTH_SHORT).
-                    show();
+        }
     }
 
     public void volitileFragment(Fragment fragment) {

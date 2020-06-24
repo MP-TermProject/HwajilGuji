@@ -14,6 +14,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.srmobile.sr.ImageGenerator;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.srmobile.sr.ImageGenerator;
+
 public class RectSRActivity extends AppCompatActivity {
     Button submitBtn;
     Bitmap result;

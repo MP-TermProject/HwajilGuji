@@ -135,7 +135,6 @@ public class ResultPage extends Fragment {
         result_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
             }
         });
         return resultPage;
