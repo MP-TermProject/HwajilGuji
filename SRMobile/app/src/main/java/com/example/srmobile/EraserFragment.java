@@ -4,12 +4,15 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 
 
 /**
@@ -58,25 +61,104 @@ public class EraserFragment extends Fragment implements IGetImage{
         }
     }
     Bitmap resultBitmap;
-    LinearLayout eraseerMainLayout=null;
+    LinearLayout eraserMainLayout=null;
     Button backBtn = null;
+    Button widthBtn=null;
+    Button blurBtn = null;
+    EraserView eView;
+    SeekBar statusBar;
     ProcessActivity processActivity;
-
+    enum Var
+    {
+        idle,wid,blur
+    }
+    Var currentVar=Var.idle;
     private void init()
     {
-
+        processActivity=ProcessActivity.singletone;
     }
 
     private void initWidget(ViewGroup vg)
     {
-        eraseerMainLayout= vg.findViewById(R.id.eraserMainLayout);
+        eraserMainLayout= vg.findViewById(R.id.eraserMainLayout);
         backBtn = vg.findViewById(R.id.eraser_backBtn);
+        blurBtn=vg.findViewById(R.id.setBlur);
+        widthBtn=vg.findViewById(R.id.setWidth);
+        statusBar =vg.findViewById(R.id.eraserSeekBar);
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         ViewGroup vg = (ViewGroup) inflater.inflate(R.layout.fragment_eraser, container, false);
+        init();
+        initWidget(vg);
+        EraserView eView = new EraserView(getContext());
+        eView.setBitmap(resultBitmap);
+        eraserMainLayout.addView(eView);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                processActivity.setProcessedBitmap(eView.getResult());
+                endTask();
+            }
+        });
+        blurBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentVar=Var.blur;
+                if(eView!=null)
+                {
+                    statusBar.setProgress((int)(eView.getPaintBlur()));
+                }
+            }
+        });
+        widthBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentVar=Var.wid;
+                if(eView!=null)
+                {
+                    statusBar.setProgress((int)(eView.getPaintWidth()/3));
+                }
+            }
+        });
+        statusBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                if(eView!=null)
+                {
+                    if(currentVar==Var.wid)
+                    {
+                        seekBar.setProgress((int)(eView.getPaintWidth()/3));
+                    }
+                    else if(currentVar==Var.blur)
+                    {
+                        seekBar.setProgress((int)(eView.getPaintBlur()));
+                    }
+                }
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                if(eView!=null)
+                {
+                    if(currentVar==Var.wid)
+                    {
+                        eView.setPaintWidth(seekBar.getProgress()*3);
+                    }
+                    else if(currentVar==Var.blur)
+                    {
+                        eView.setBlur(seekBar.getProgress());
+                    }
+                }
+            }
+        });
 
         return vg;
     }
@@ -89,5 +171,12 @@ public class EraserFragment extends Fragment implements IGetImage{
     @Override
     public void setProcessedBitmap(Bitmap bitmap) {
         resultBitmap=bitmap;
+    }
+
+    public void endTask()
+    {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction().remove(EraserFragment.this).commit();
+        fragmentManager.popBackStack();
     }
 }

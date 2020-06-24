@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".FreeCropFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -11,11 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/white"
+        android:background="@color/themeColor"
         android:clickable="true"
         android:weightSum="7"
         >
         <LinearLayout
+            android:background="@color/themeColorLight"
+            android:layout_margin="5dp"
             android:id="@+id/freeCropMainLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -23,30 +26,30 @@
             android:orientation="vertical">
 
         </LinearLayout>
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/freeCropWidgetLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal"
             >
-            <EditText
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="test"
-            />
             <Button
+                android:layout_alignParentRight="true"
+                android:background="@drawable/button_border"
+                android:fontFamily="@font/dovemayo"
+                android:textStyle="bold"
                 android:id="@+id/loadBeforeBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="불러와봐"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:textSize="25dp"
+                android:text="@string/save"
                 />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/testImgView"
                 />
-        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 
 </FrameLayout>

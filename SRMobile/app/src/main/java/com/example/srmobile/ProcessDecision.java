@@ -1,5 +1,7 @@
 package com.example.srmobile;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +9,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 
 
 /**
@@ -54,13 +58,21 @@ public class ProcessDecision extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+    MainActivity mainActivity;
+    Button processBtn;
+    Button srBtn;
+    ImageView preview;
+
     public void init()
     {
-
+        mainActivity = MainActivity.singletone;
     }
+
     public void widget_init(ViewGroup vg)
     {
-
+        preview = vg.findViewById(R.id.sampleImageView);
+        processBtn = vg.findViewById(R.id.decisionOtherBtn);
+        srBtn = vg.findViewById(R.id.decisionSRBtn);
     }
 
     @Override
@@ -70,6 +82,24 @@ public class ProcessDecision extends Fragment {
         ViewGroup vg= (ViewGroup) inflater.inflate(R.layout.fragment_process_decision, container, false);
         init();
         widget_init(vg);
+        preview.setImageBitmap(mainActivity.getInputImg());
+        processBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainActivity.setFragmentNotStack(MainActivity.Screen.select);
+                Intent intent = new Intent(getContext(),ProcessActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        srBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainActivity.setFragmentNotStack(MainActivity.Screen.select);
+                Intent intent = new Intent(getContext(),RectSRActivity.class);
+                startActivity(intent);
+            }
+        });
         return vg;
     }
 }

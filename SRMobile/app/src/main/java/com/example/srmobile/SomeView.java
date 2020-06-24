@@ -60,16 +60,6 @@ public class SomeView extends View implements View.OnTouchListener {
         super(c);
         returnPage=parent;
         mContext = c;
-        /*
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        ((AppCompatActivity)mContext).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-
-        height= displayMetrics.heightPixels;
-        width = displayMetrics.widthPixels;
-
-        Float size = getScaleY();
-        Log.e("width_2",size.toString());
-        */
         mainActivity=MainActivity.singletone;
         Log.e("load","createThis");
         width=mainActivity.screenWidth;
@@ -125,9 +115,12 @@ public class SomeView extends View implements View.OnTouchListener {
         float scale = (float) ((width/(float)original.getWidth()));
         originHeight=original.getHeight();
         originWidth=original.getWidth();
+        float ratio = (float)originHeight/originWidth;
         int image_w = (int) (original.getWidth()*scale);
-        int image_h = (int) (original.getHeight()*scale);
-
+        int image_h = (int) ((float)image_w*ratio);
+        Log.e("width",Integer.toString(originWidth));
+        Log.e("width",Integer.toString(originHeight));
+        Log.e("width",Float.toString(ratio));
         bitmap = Bitmap.createScaledBitmap(original, image_w, image_h, true);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
@@ -248,7 +241,6 @@ public class SomeView extends View implements View.OnTouchListener {
                     case DialogInterface.BUTTON_POSITIVE:
                         Bitmap resultImg = makeBitmap(dotPoints,byteArray);
                         returnPage.getBitmap(resultImg);
-                        //이미지 전송파트
                         break;
                     case DialogInterface.BUTTON_NEGATIVE:
                         bfirstpoint = false;
@@ -270,15 +262,9 @@ public class SomeView extends View implements View.OnTouchListener {
         DisplayMetrics dm = new DisplayMetrics();
         Log.e("windowSize",Integer.toString(width));
         int widthOfScreen = width;
-        int heightOfScreen = (width*originHeight)/originWidth;
-        Log.e("height",Integer.toString(heightOfScreen));
-        /*
-        try {
-            getWindowManager().getDefaultDisplay().getMetrics(dm);
-        }catch(Exception ex){}
-        widthOfScreen = dm.widthPixels;
-        heightOfScreen = 1080;//dm.heightPixels;
-        */
+        float ratio = (float)originHeight/originWidth;
+        int heightOfScreen = (int) (width*(ratio));
+
         Bitmap resultingImage = Bitmap.createBitmap(widthOfScreen, heightOfScreen, bitmap.getConfig());
         Canvas canvas = new Canvas(resultingImage);
         Paint paint = new Paint();
@@ -292,7 +278,6 @@ public class SomeView extends View implements View.OnTouchListener {
         canvas.drawBitmap(bitmap, 0, 0, paint);
 
         resultingImage = Bitmap.createScaledBitmap(resultingImage,originWidth,originHeight,true);
-
         return resultingImage;
     }
 
@@ -301,7 +286,6 @@ public class SomeView extends View implements View.OnTouchListener {
         pointX = getWidth();
         pointY = getHeight();
         Integer Y = pointY;
-        Log.e("height_r",Y.toString());
     }
 }
 
@@ -311,7 +295,15 @@ class DotPoint {
     public float dy;
     public float dx;
     float x, y;
+    public DotPoint()
+    {
 
+    }
+    public DotPoint(float _x, float _y)
+    {
+        x=_x;
+        y=_y;
+    }
     @Override
     public String toString() {
         return x + ", " + y;
