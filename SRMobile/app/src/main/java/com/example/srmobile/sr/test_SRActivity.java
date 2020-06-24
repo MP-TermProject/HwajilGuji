@@ -15,15 +15,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.example.srmobile.MainActivity;
 import com.example.srmobile.R;
+import com.example.srmobile.RectCrop;
+import com.example.srmobile.ResultPage;
 import com.zhihu.matisse.Matisse;
 
 
-@SuppressLint({"Registered","CheckResult"})
+@SuppressLint({"Registered", "CheckResult"})
 public class test_SRActivity extends AppCompatActivity {
 
     ImageGenerator imagegenerator;
@@ -31,38 +36,42 @@ public class test_SRActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_CHOOSE = 23;
 
     ImageView imageView2;
-
+    Button submitBtn;
+    Bitmap result;
+    MainActivity mainActivity;
+    com.example.srmobile.ImageGenerator generator;
     private static int RESULT_LOAD_IMAGE = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test_activity_sr);
 
-
+        mainActivity = MainActivity.singletone;
+        generator = mainActivity.generator;
         imagegenerator = new ImageGenerator(Utils.assetFilePath(this, "generator_mobile_700.pt"));
+        ImageView imageView = (ImageView) findViewById(R.id.sampleImageView);
+        Button buttonLoadImage = (Button) findViewById(R.id.loadBtn);
+        Button decisionSRBtn = (Button) findViewById(R.id.decisionSRBtn);
 
-        Button buttonLoadImage = (Button) findViewById(R.id.button);
-        Button detectButton = (Button) findViewById(R.id.detect);
 
+//        imageView2 = findViewById(R.id.convertimage);
 
-        imageView2 = findViewById(R.id.convertimage);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-        }
+        requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
 
         Intent myCallerIntent = getIntent();
         Bundle myBundle = myCallerIntent.getExtras(); // bundle에서 꺼낼 때
         if (myBundle != null) {
             String path = myBundle.getString("dataID");
             Log.d("bundle", path);
-            ImageView imageView = (ImageView) findViewById(R.id.image);
+
 
             Glide.with(this)
                     .asBitmap() // some .jpeg files are actually gif
                     .load(path)
-                    .apply(new RequestOptions() {{
+                    .apply(new RequestOptions() {
+                        {
                             override(Target.SIZE_ORIGINAL);
                         }
                     })
@@ -73,8 +82,8 @@ public class test_SRActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-                TextView textView = findViewById(R.id.result_text);
-                textView.setText("");
+//                TextView textView = findViewById(R.id.result_text);
+//                textView.setText("");
                 Intent i = new Intent(
                         Intent.ACTION_PICK,
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -83,23 +92,29 @@ public class test_SRActivity extends AppCompatActivity {
             }
         });
 
-        detectButton.setOnClickListener(new View.OnClickListener() {
+
+        decisionSRBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bitmap bitmap = null;
-                //Getting the image from the image view
-                ImageView imageView = (ImageView) findViewById(R.id.image);
-
                 try {
                     bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                    result = generator.ImageProcess(bitmap, mainActivity.width, mainActivity.height);
+                    ResultPage resultPage = new ResultPage();
+                    resultPage.setResultImage(result);
+                    Log.d("result", String.valueOf(result));
+                    loadFragment(resultPage);
                 } catch (Exception e) {
                     finish();
                 }
-
-                Bitmap bmp = imagegenerator.ImageProcess(bitmap, 400, 400);
-                imageView2.setImageBitmap(bmp);
             }
         });
+    }
+
+    public void loadFragment(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.srLayout, fragment).commit();
+        transaction.addToBackStack(null);
     }
 
     @SuppressLint("CheckResult")
@@ -107,27 +122,6 @@ public class test_SRActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //This functions return the selected image from gallery
         super.onActivityResult(requestCode, resultCode, data);
-
-//        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-//            Uri selectedImage = data.getData();
-//            String[] filePathColumn = { MediaStore.Images.Media.DATA };
-//
-//            Cursor cursor = getContentResolver().query(selectedImage,
-//                    filePathColumn, null, null, null);
-//            cursor.moveToFirst();
-//
-//            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-//            String picturePath = cursor.getString(columnIndex);
-//            cursor.close();
-//
-//            ImageView imageView = (ImageView) findViewById(R.id.image);
-//            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-//
-//            //Setting the URI so we can read the Bitmap from the image
-//            imageView.setImageURI(null);
-//            imageView.setImageURI(selectedImage);
-//
-//        }
 
         if (requestCode == 1 && resultCode == 1) {
             Bundle myBundle = data.getExtras(); // bundle에서 꺼낼 때
@@ -154,8 +148,5 @@ public class test_SRActivity extends AppCompatActivity {
         } else {
             Log.d("ttt", "wrong");
         }
-
-
     }
-
 }

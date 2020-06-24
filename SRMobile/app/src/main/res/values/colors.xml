@@ -9,4 +9,5 @@
     <color name="themeColor">#8CC400</color>
     <color name="themeColorDark">#507000</color>
     <color name="themeColorLight">#E1ED00</color>
+    <color name="whiteBackground">#F0F6E0</color>
 </resources>

@@ -4,140 +4,143 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".ProcessActivity">
+
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/fragmentField"
-        >
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <LinearLayout
-            android:background="@color/themeColorDark"
+            android:id="@+id/preprocessMain"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/themeColorDark"
             android:orientation="vertical"
-            android:id="@+id/preprocessMain"
             android:weightSum="8">
+
             <FrameLayout
-                android:layout_margin="5dp"
-                android:background="@color/white"
                 android:id="@+id/preprocessMainLayout"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_margin="5dp"
                 android:layout_weight="7"
-                android:orientation="vertical"
-                >
+                android:background="@color/white"
+                android:orientation="vertical">
+
                 <ImageView
+                    android:id="@+id/imageBackground"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:id="@+id/imageBackground"
-                    android:scaleType="fitCenter"
-                    >
-                </ImageView>
+                    android:scaleType="fitCenter"></ImageView>
             </FrameLayout>
+
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:weightSum="1"
                 android:orientation="vertical"
-                >
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.5"
-                >
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/themeColorLight"
-                    android:clickable="true"
-                    android:orientation="horizontal">
-                    <Button
-                        android:background="@drawable/button_border"
-                        android:fontFamily="@font/dovemayo"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:id="@+id/addObjectBtn"
-                        android:text="@string/addObject"
-                        />
-                    <Button
-                        android:background="@drawable/button_border"
-                        android:fontFamily="@font/dovemayo"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:id="@+id/objectMoveBtn"
-                        android:text="@string/move"
-                        />
-                    <Button
-                        android:background="@drawable/button_border"
-                        android:fontFamily="@font/dovemayo"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:id="@+id/objectRotateBtn"
-                        android:text="@string/Rotate"
-                        />
-                    <Button
-                        android:background="@drawable/button_border"
-                        android:fontFamily="@font/dovemayo"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:id="@+id/freeCropBtn"
-                        android:text="@string/FreeCrop"
-                        />
-                    <Button
-                        android:background="@drawable/button_border"
-                        android:fontFamily="@font/dovemayo"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:id="@+id/rectCropBtn"
-                        android:text="@string/RectCrop"
-                        />
-                    <Button
-                        android:background="@drawable/button_border"
-                        android:fontFamily="@font/dovemayo"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:id="@+id/superResolutionBtn"
-                        android:text="@string/SuperResolution"
-                        />
-                    <Button
-                        android:background="@drawable/button_border"
-                        android:fontFamily="@font/dovemayo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/removeActiveView"
-                        android:text="@string/removeView"
-                        />
+                android:weightSum="1">
 
-                    <Button
-                        android:background="@drawable/button_border"
-                        android:fontFamily="@font/dovemayo"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:id="@+id/eraserBtn"
-                        android:text="@string/erase"/>
-                    <Button
-                        android:background="@drawable/button_border"
-                        android:fontFamily="@font/dovemayo"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:id="@+id/btn"
-                        android:text="@string/save"/>
-                </LinearLayout>
-            </HorizontalScrollView>
-            <SeekBar
-                android:visibility="invisible"
-                android:max="255"
-                android:progress="255"
-                android:thumb="@drawable/thumb"
-                android:id="@+id/transparentSeekBar"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.5"
-                />
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/themeColorLight"
+                        android:clickable="true"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/addObjectBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/button_border"
+                            android:fontFamily="@font/dovemayo"
+                            android:text="@string/addObject" />
+
+                        <Button
+                            android:id="@+id/objectMoveBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/button_border"
+                            android:fontFamily="@font/dovemayo"
+                            android:text="@string/move" />
+
+                        <Button
+                            android:id="@+id/objectRotateBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/button_border"
+                            android:fontFamily="@font/dovemayo"
+                            android:text="@string/Rotate" />
+
+                        <Button
+                            android:id="@+id/freeCropBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/button_border"
+                            android:fontFamily="@font/dovemayo"
+                            android:text="@string/FreeCrop" />
+
+                        <Button
+                            android:id="@+id/rectCropBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/button_border"
+                            android:fontFamily="@font/dovemayo"
+                            android:text="@string/RectCrop" />
+
+                        <Button
+                            android:id="@+id/superResolutionBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/button_border"
+                            android:fontFamily="@font/dovemayo"
+                            android:text="@string/SuperResolution" />
+
+                        <Button
+                            android:id="@+id/removeActiveView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/button_border"
+                            android:fontFamily="@font/dovemayo"
+                            android:text="@string/removeView" />
+
+                        <Button
+                            android:id="@+id/eraserBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/button_border"
+                            android:fontFamily="@font/dovemayo"
+                            android:text="@string/erase" />
+
+                        <Button
+                            android:id="@+id/btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/button_border"
+                            android:fontFamily="@font/dovemayo"
+                            android:text="@string/save" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+                <SeekBar
+                    android:id="@+id/transparentSeekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"
+                    android:max="255"
+                    android:progress="255"
+                    android:thumb="@drawable/thumb"
+                    android:visibility="invisible" />
             </LinearLayout>
             <!--<com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottom_navigation"

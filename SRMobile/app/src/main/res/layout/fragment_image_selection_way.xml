@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/whiteBackground"
+    android:fitsSystemWindows="true"
     tools:context=".ImageSelectionWay">
 
     <FrameLayout
@@ -17,7 +19,7 @@
         <ss.com.bannerslider.Slider
             android:id="@+id/main_banner"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="230dp"
             app:slider_emptyView="@layout/layout_empty_view"
             app:slider_interval="5000"
             app:slider_loopSlides="true" />
@@ -47,8 +49,8 @@
                 android:background="@drawable/button_border"
                 android:fontFamily="@font/dovemayo"
                 android:id="@+id/main_gallery_btn"
-                android:layout_width="145dp"
-                android:layout_height="65dp"
+                android:layout_width="160dp"
+                android:layout_height="80dp"
                 android:layout_marginEnd="15dp"
                 android:text="갤러리" />
 
@@ -57,8 +59,8 @@
                 android:background="@drawable/button_border"
                 android:fontFamily="@font/dovemayo"
                 android:id="@+id/main_imageProcessing_btn"
-                android:layout_width="145dp"
-                android:layout_height="65dp"
+                android:layout_width="160dp"
+                android:layout_height="80dp"
                 android:layout_marginStart="15dp"
                 android:text="이미지프로세싱" />
 
@@ -75,8 +77,8 @@
                 android:background="@drawable/button_border"
                 android:fontFamily="@font/dovemayo"
                 android:id="@+id/main_sr_btn"
-                android:layout_width="145dp"
-                android:layout_height="65dp"
+                android:layout_width="160dp"
+                android:layout_height="80dp"
                 android:layout_marginEnd="15dp"
                 android:text="SR" />
 
@@ -85,8 +87,8 @@
                 android:background="@drawable/button_border"
                 android:fontFamily="@font/dovemayo"
                 android:id="@+id/main_superCamera_btn"
-                android:layout_width="145dp"
-                android:layout_height="65dp"
+                android:layout_width="160dp"
+                android:layout_height="80dp"
                 android:layout_marginStart="15dp"
                 android:text="임시버튼" />
         </LinearLayout>
@@ -105,8 +107,8 @@
 
         <ImageButton
             android:id="@+id/main_camera_btn"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             android:layout_gravity="center"
             android:background="@drawable/baseline_camera_alt_black_24"
             android:text="카메라" />

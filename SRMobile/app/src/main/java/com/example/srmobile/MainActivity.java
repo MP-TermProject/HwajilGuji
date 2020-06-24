@@ -30,7 +30,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
@@ -49,6 +48,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
     Button cameraBtn;
     Button galleryBtn;
     Button configure;
+    @SuppressLint("StaticFieldLeak")
     private static ImageView gallery_image;
 
     public void setScreenSize() {
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
     public void initFragment() {
         selectionWay = new ImageSelectionWay();
         processing = new Processing();
-        decision=new ProcessDecision();
+        decision = new ProcessDecision();
         resultPage = new ResultPage();
         fragmentHashMap = new HashMap<>();
         fragmentHashMap.put(Screen.select, selectionWay);
@@ -161,7 +162,40 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
         setFragmentNotStack(Screen.select);
+
+
+//        Intent intent = getIntent();
+//        String action = intent.getAction();
+//        String type = intent.getType();
+//
+//        if (Intent.ACTION_SEND.equals(action) && type != null) {
+//            if (type.startsWith("image/")) {
+//                handleSendImage(intent); // Handle single image being sent
+//            }
+//        } else if (Intent.ACTION_SEND_MULTIPLE.equals(action) && type != null) {
+//            if (type.startsWith("image/")) {
+//                handleSendMultipleImages(intent); // Handle multiple images being sent
+//            }
+//        } else {
+//            // Handle other intents, such as being started from the home screen
+//        }
+
     }
+
+
+//    void handleSendImage(Intent intent) {
+//        Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+//        if (imageUri != null) {
+//            // Update UI to reflect image being shared
+//        }
+//    }
+//
+//    void handleSendMultipleImages(Intent intent) {
+//        ArrayList<Uri> imageUris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+//        if (imageUris != null) {
+//            // Update UI to reflect multiple images being shared
+//        }
+//    }
 
     public void requestFoundImage(int requestCode) {
         if (ContextCompat.checkSelfPermission(this,
@@ -169,31 +203,18 @@ public class MainActivity extends AppCompatActivity {
                 != PackageManager.PERMISSION_GRANTED) {
 
             // Permission is not granted
-            // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 ImagePicker(requestCode);
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
             } else {
                 // No explanation needed; request the permission
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         permissionRequestCode);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
             }
-        } else {
+        } else {    // Permission has already been granted
             ImagePicker(requestCode);
-            // Permission has already been granted
         }
-//        Intent intent = new Intent();
-//        intent.setType("image/*");
-//        intent.setAction(Intent.ACTION_GET_CONTENT);
-//        startActivityForResult(intent, requestCode);
     }
 
 
@@ -233,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public File generateSampleImage() throws IOException {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "Test_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
@@ -269,11 +290,8 @@ public class MainActivity extends AppCompatActivity {
     private void ImagePicker(int requestcode) {
         Matisse.from(this)
                 .choose(MimeType.ofImage(), false)
-                .theme(R.style.Matisse_Dracula)
+//                .theme(R.style.Matisse_Dracula)
                 .countable(true)
-                .capture(true)
-                .captureStrategy(
-                        new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider", "test"))
                 .maxSelectable(9)
                 .gridExpectedSize(
                         getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
@@ -284,8 +302,6 @@ public class MainActivity extends AppCompatActivity {
                     Log.e("onSelected", "onSelected: pathList=" + pathList);
                 })
                 .showSingleMediaType(true)
-                .originalEnable(true)
-                .maxOriginalSize(10)
                 .autoHideToolbarOnSingleTap(true)
                 .setOnCheckedListener(isChecked -> {
                     Log.e("isChecked", "onCheck: isChecked=" + isChecked);
@@ -360,7 +376,7 @@ public class MainActivity extends AppCompatActivity {
                 if (path != null) {
                     Intent intent = new Intent(this, test_SRActivity.class);
 //                        String dataId = DataHolder.putDataHolder(path);
-                    intent.putExtra("dataID",path);
+                    intent.putExtra("dataID", path);
                     startActivityForResult(intent, 1);
 
                 } else
