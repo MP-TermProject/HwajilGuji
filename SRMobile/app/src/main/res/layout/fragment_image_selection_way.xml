@@ -45,24 +45,24 @@
             android:layout_margin="20dp">
 
             <Button
-                android:textStyle="bold"
-                android:background="@drawable/button_border"
-                android:fontFamily="@font/dovemayo"
                 android:id="@+id/main_gallery_btn"
                 android:layout_width="160dp"
                 android:layout_height="80dp"
                 android:layout_marginEnd="15dp"
-                android:text="갤러리" />
-
-            <Button
-                android:textStyle="bold"
                 android:background="@drawable/button_border"
                 android:fontFamily="@font/dovemayo"
+                android:text="갤러리"
+                android:textStyle="bold" />
+
+            <Button
                 android:id="@+id/main_imageProcessing_btn"
                 android:layout_width="160dp"
                 android:layout_height="80dp"
                 android:layout_marginStart="15dp"
-                android:text="이미지프로세싱" />
+                android:background="@drawable/button_border"
+                android:fontFamily="@font/dovemayo"
+                android:text="이미지프로세싱"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -73,24 +73,24 @@
             android:layout_margin="20dp">
 
             <Button
-                android:textStyle="bold"
-                android:background="@drawable/button_border"
-                android:fontFamily="@font/dovemayo"
                 android:id="@+id/main_sr_btn"
                 android:layout_width="160dp"
                 android:layout_height="80dp"
                 android:layout_marginEnd="15dp"
-                android:text="SR" />
-
-            <Button
-                android:textStyle="bold"
                 android:background="@drawable/button_border"
                 android:fontFamily="@font/dovemayo"
+                android:text="SR"
+                android:textStyle="bold" />
+
+            <Button
                 android:id="@+id/main_superCamera_btn"
                 android:layout_width="160dp"
                 android:layout_height="80dp"
                 android:layout_marginStart="15dp"
-                android:text="임시버튼" />
+                android:background="@drawable/button_border"
+                android:fontFamily="@font/dovemayo"
+                android:text="임시버튼"
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 
@@ -98,11 +98,12 @@
         android:id="@+id/main_buttonLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+
         android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@id/main_buttonLayout3"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_buttonLayout"
+        app:layout_constraintTop_toBottomOf="@id/main_buttonLayout"
         tools:ignore="MissingConstraints">
 
         <ImageButton
@@ -118,11 +119,12 @@
         android:id="@+id/main_buttonLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_buttonLayout2"
+        app:layout_constraintTop_toBottomOf="@id/main_buttonLayout2"
         tools:ignore="MissingConstraints">
 
         <ImageButton
@@ -140,8 +142,8 @@
             android:layout_height="40dp"
             android:layout_marginStart="135dp"
             android:layout_marginEnd="30dp"
-            android:background="@drawable/baseline_settings_black_24"
-            android:text="추가버튼"
+            android:background="@drawable/twotone_help_black_24"
+            android:text="설명"
             app:layout_constraintRight_toRightOf="parent" />
 
     </LinearLayout>

@@ -33,9 +33,7 @@ public class ImageSelectionWay extends Fragment{
     private String mParam1;
     private String mParam2;
     private ImageButton cameraBtn;
-    private Button galleryBtn;
     private ImageButton configureBtn;
-    private Button srBtn;
 
     public ImageSelectionWay() {
         // Required empty public constructor
@@ -77,9 +75,10 @@ public class ImageSelectionWay extends Fragment{
         mainActivity = (MainActivity) getActivity();
         ViewGroup selectionPage = (ViewGroup) inflater.inflate(R.layout.fragment_image_selection_way, container, false);
         cameraBtn = selectionPage.findViewById(R.id.main_camera_btn);
-        galleryBtn = selectionPage.findViewById(R.id.main_gallery_btn);
         configureBtn = selectionPage.findViewById(R.id.main_setting_btn);
-        srBtn=selectionPage.findViewById(R.id.main_sr_btn);
+        Button galleryBtn = selectionPage.findViewById(R.id.main_gallery_btn);
+        Button srBtn = selectionPage.findViewById(R.id.main_sr_btn);
+        Button imageProcessingBtn = selectionPage.findViewById(R.id.main_imageProcessing_btn);
 
         cameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,10 +95,17 @@ public class ImageSelectionWay extends Fragment{
             }
         });
 
+
         srBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mainActivity.requestFoundImage(180);
+            }
+        });
+        imageProcessingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainActivity.requestFoundImage(mainActivity.imageProcessingCode);
             }
         });
 

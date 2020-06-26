@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     int cameraRequestCode = 100;
     int imageConvertRequestCode = 101;
     int galleryCode = 102;
+    int imageProcessingCode = 104;
 
     int srRequestCode = 180;
     int defaultGalleryCode;
@@ -82,19 +83,12 @@ public class MainActivity extends AppCompatActivity {
     private Screen currentScreen;
     HashMap<Screen, Fragment> fragmentHashMap;
 
-
     Bitmap inputImg;
     Bitmap resultImg;
 
-    private String imageFilePath;
     private Uri photoUri;
 
     String path;
-    Button cameraBtn;
-    Button galleryBtn;
-    Button configure;
-    @SuppressLint("StaticFieldLeak")
-    private static ImageView gallery_image;
 
     public void setScreenSize() {
         Display display = getWindowManager().getDefaultDisplay();
@@ -160,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
         }
         setFragmentNotStack(Screen.select);
 
+        // Todo: 공유기능 추가해야함..
 
 //        Intent intent = getIntent();
 //        String action = intent.getAction();
@@ -257,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
         File image = File.createTempFile(
                 imageFileName, ".jpg", storageDir
         );
-        imageFilePath = image.getAbsolutePath();
+        String imageFilePath = image.getAbsolutePath();
         return image;
     }
 
@@ -375,6 +370,15 @@ public class MainActivity extends AppCompatActivity {
 
                 } else
                     Toast.makeText(this, "Request code error.", Toast.LENGTH_SHORT).show();
+            } else if (requestCode == imageProcessingCode) {
+                path = Matisse.obtainPathResult(data).get(0);
+                if (path != null) {
+                    Intent intent = new Intent(this, ProcessActivity.class);
+                    intent.putExtra("dataID", path);
+                    startActivityForResult(intent, 1);
+
+                } else
+                    Toast.makeText(this, "Request code error.", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -395,9 +399,9 @@ public class MainActivity extends AppCompatActivity {
         } else
             Toast.makeText(getApplicationContext(), "해당 화면을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
     }
-    public void firstFragment()
-    {
-        getSupportFragmentManager().beginTransaction().add(R.id.main_layout,selectionWay).commit();
+
+    public void firstFragment() {
+        getSupportFragmentManager().beginTransaction().add(R.id.main_layout, selectionWay).commit();
     }
 
     public int setFragment(Screen fragment_id) {
