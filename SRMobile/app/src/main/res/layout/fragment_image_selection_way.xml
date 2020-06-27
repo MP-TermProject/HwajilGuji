@@ -39,57 +39,22 @@
         tools:ignore="MissingConstraints">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="20dp">
+            android:layout_margin="20dp"
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/main_gallery_btn"
-                android:layout_width="160dp"
-                android:layout_height="80dp"
-                android:layout_marginEnd="15dp"
+
+                android:layout_width="250dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
                 android:background="@drawable/button_border"
+                android:textSize="20dp"
                 android:fontFamily="@font/dovemayo"
-                android:text="갤러리"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/main_imageProcessing_btn"
-                android:layout_width="160dp"
-                android:layout_height="80dp"
-                android:layout_marginStart="15dp"
-                android:background="@drawable/button_border"
-                android:fontFamily="@font/dovemayo"
-                android:text="이미지프로세싱"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="20dp">
-
-            <Button
-                android:id="@+id/main_sr_btn"
-                android:layout_width="160dp"
-                android:layout_height="80dp"
-                android:layout_marginEnd="15dp"
-                android:background="@drawable/button_border"
-                android:fontFamily="@font/dovemayo"
-                android:text="SR"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/main_superCamera_btn"
-                android:layout_width="160dp"
-                android:layout_height="80dp"
-                android:layout_marginStart="15dp"
-                android:background="@drawable/button_border"
-                android:fontFamily="@font/dovemayo"
-                android:text="임시버튼"
+                android:text="@string/loading"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
@@ -108,44 +73,11 @@
 
         <ImageButton
             android:id="@+id/main_camera_btn"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
             android:layout_gravity="center"
             android:background="@drawable/baseline_camera_alt_black_24"
-            android:text="카메라" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/main_buttonLayout3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/main_buttonLayout2"
-        tools:ignore="MissingConstraints">
-
-        <ImageButton
-            android:id="@+id/main_setting_btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="135dp"
-            android:background="@drawable/baseline_settings_black_24"
-            android:text="설정" />
-
-        <ImageButton
-            android:id="@+id/main_extra_btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="135dp"
-            android:layout_marginEnd="30dp"
-            android:background="@drawable/twotone_help_black_24"
-            android:text="설명"
-            app:layout_constraintRight_toRightOf="parent" />
-
+            android:text="@string/camera" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.Guideline

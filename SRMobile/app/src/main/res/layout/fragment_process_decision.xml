@@ -20,7 +20,7 @@
             android:layout_height="0dp"
             android:layout_weight="4"
             android:orientation="vertical"
-            android:background="@color/themeColorLight"
+            android:background="@color/whiteBackground"
             >
             <ImageView
                 android:id="@+id/sampleImageView"

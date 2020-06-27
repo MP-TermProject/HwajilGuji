@@ -75,10 +75,9 @@ public class ImageSelectionWay extends Fragment{
         mainActivity = (MainActivity) getActivity();
         ViewGroup selectionPage = (ViewGroup) inflater.inflate(R.layout.fragment_image_selection_way, container, false);
         cameraBtn = selectionPage.findViewById(R.id.main_camera_btn);
-        configureBtn = selectionPage.findViewById(R.id.main_setting_btn);
-        Button galleryBtn = selectionPage.findViewById(R.id.main_gallery_btn);
-        Button srBtn = selectionPage.findViewById(R.id.main_sr_btn);
-        Button imageProcessingBtn = selectionPage.findViewById(R.id.main_imageProcessing_btn);
+
+        galleryBtn = selectionPage.findViewById(R.id.main_gallery_btn);
+
 
         cameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,19 +94,6 @@ public class ImageSelectionWay extends Fragment{
             }
         });
 
-
-        srBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mainActivity.requestFoundImage(180);
-            }
-        });
-        imageProcessingBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mainActivity.requestFoundImage(mainActivity.imageProcessingCode);
-            }
-        });
 
         Slider.init(new PicassoImageLoadingService());
         Slider slider = selectionPage.findViewById(R.id.main_banner);

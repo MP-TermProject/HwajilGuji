@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
     public int width = 150;
     public int height = 150;
 
+    long prevMillis=-2000;
     public ImageGenerator generator;
     ImageSelectionWay selectionWay;
     ProcessDecision decision;
@@ -115,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void init() {
         singletone = this;
+        currentScreen=Screen.select;
         setScreenSize();
         Drawable drawable = getDrawable(R.drawable.bird_mid);
         inputImg = ((BitmapDrawable) drawable).getBitmap();
@@ -189,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //    }
 
+
     public void requestFoundImage(int requestCode) {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -244,6 +247,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
 
     public File generateSampleImage() throws IOException {
         @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -384,6 +388,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void volitileFragment(Fragment fragment) {
+        currentScreen=Screen.processing;
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_layout, fragment).commit();
         fragmentTransaction.addToBackStack(null);
@@ -391,9 +396,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void setFragmentNotStack(Screen fragment_id) {
         if (fragmentHashMap.containsKey(fragment_id)) {
+            currentScreen=Screen.select;
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             Fragment f = fragmentHashMap.get(fragment_id);
             transaction.replace(R.id.main_layout, f);
+            if(fragment_id==Screen.select)
+            {
+                for(int i = 0; i<getSupportFragmentManager().getBackStackEntryCount();i++)
+                {
+                    getSupportFragmentManager().popBackStack();
+                }
+            }
             transaction.commit();
             currentScreen = fragment_id;
         } else
