@@ -18,6 +18,10 @@
     <string name="erase">지우기</string>
     <string name="blur">블러</string>
     <string name="width">크기</string>
+    <string name="range">영역을 지정해주세요!</string>
+    <string name="configuration">설정</string>
+    <string name="camera">카메라</string>
+    <string name="loading">이미지 불러오기</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
