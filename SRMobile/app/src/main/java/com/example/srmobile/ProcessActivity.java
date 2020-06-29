@@ -1,11 +1,13 @@
 package com.example.srmobile;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -26,7 +28,12 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.Resource;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.srmobile.sr.ImageGenerator;
 
 import java.io.ByteArrayOutputStream;
@@ -104,6 +111,7 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
         captureBtn = findViewById(R.id.btn);
     }
 
+    @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,6 +119,43 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
 
         init();
         setWidgets();
+
+        // Todo: 메인에서 이미지 프로세싱 버튼 눌렀을 때 선택 된 이미지가 바로 편집 가능하도록...
+        // Todo: 현재는 그 이미지 위에 새롭게 추가한 이미지만 편집가능..
+        Intent myCallerIntent = getIntent();
+        Bundle myBundle = myCallerIntent.getExtras(); // bundle에서 꺼낼 때
+        if (myBundle != null) {
+            String path = myBundle.getString("dataID");
+//            Log.d("bundle", path);
+
+            Glide.with(this)
+                    .asBitmap() // some .jpeg files are actually gif
+                    .load(path)
+                    .apply(new RequestOptions() {
+                        {
+                            override(Target.SIZE_ORIGINAL);
+                        }
+                    })
+                    .into(new CustomTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                            Log.d("Bitmap", String.valueOf(resource));
+                            imagBackground.setImageBitmap(resource);
+                        }
+
+                        @Override
+                        public void onLoadCleared(@Nullable Drawable placeholder) {
+                        }
+
+                        @Override
+                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                            super.onLoadFailed(errorDrawable);
+                            Log.d("glideError", String.valueOf(errorDrawable));
+
+                        }
+                    });
+        }
+
         if (mainActivity.getInputImg() != null)
             imagBackground.setImageBitmap(mainActivity.getInputImg());
         newObjBtn.setOnClickListener(new View.OnClickListener() {
@@ -148,7 +193,7 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
                 Bitmap result = capture();
                 //ResultPage resultPage = new ResultPage();
                 //resultPage.setResultImage(result);
-                CropFragment cropFragment=new CropFragment();
+                CropFragment cropFragment = new CropFragment();
                 cropFragment.setImage(result);
                 volitileFragment(cropFragment);
             }
@@ -367,6 +412,7 @@ public class ProcessActivity extends AppCompatActivity implements IActiveView, I
         }
     }
 
+    @SuppressLint("HandlerLeak")
     public class ChangeImageHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {

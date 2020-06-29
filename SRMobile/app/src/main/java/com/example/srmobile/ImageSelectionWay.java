@@ -33,8 +33,8 @@ public class ImageSelectionWay extends Fragment{
     private String mParam1;
     private String mParam2;
     private ImageButton cameraBtn;
-    private Button galleryBtn;
 
+    private Button galleryBtn;
     public ImageSelectionWay() {
         // Required empty public constructor
     }
@@ -75,7 +75,9 @@ public class ImageSelectionWay extends Fragment{
         mainActivity = (MainActivity) getActivity();
         ViewGroup selectionPage = (ViewGroup) inflater.inflate(R.layout.fragment_image_selection_way, container, false);
         cameraBtn = selectionPage.findViewById(R.id.main_camera_btn);
+
         galleryBtn = selectionPage.findViewById(R.id.main_gallery_btn);
+
 
         cameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +93,7 @@ public class ImageSelectionWay extends Fragment{
                 mainActivity.requestFoundImage(mainActivity.galleryCode);
             }
         });
+
 
         Slider.init(new PicassoImageLoadingService());
         Slider slider = selectionPage.findViewById(R.id.main_banner);
