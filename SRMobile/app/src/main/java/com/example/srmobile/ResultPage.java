@@ -1,6 +1,7 @@
 package com.example.srmobile;
 
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kakao.kakaolink.KakaoLink;
+import com.kakao.kakaolink.KakaoTalkLinkMessageBuilder;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -93,6 +99,7 @@ public class ResultPage extends Fragment {
         processActivity = ProcessActivity.singletone;
         result_img = resultPage.findViewById(R.id.result_imgBtn);
         result_img.setImageBitmap(resultImage);
+
         Button restartBtn = resultPage.findViewById(R.id.restartBtn);
         Button shareBtn = resultPage.findViewById(R.id.shareBtn);
         Button saveBtn = resultPage.findViewById(R.id.saveBtn);
@@ -110,29 +117,13 @@ public class ResultPage extends Fragment {
             }
         });
 
-//        shareBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                Intent shareIntent = new Intent();
-////                shareIntent.setAction(Intent.ACTION_SEND);
-////                shareIntent.putExtra(Intent.EXTRA_STREAM, "https://t1.daumcdn.net/cfile/tistory/994BEF355CD0313D05");
-////                shareIntent.setType("image/jpeg");
-////                startActivity(Intent.createChooser(shareIntent, "Share images to.."));
-//
-//
-//                File imageFileToShare = new File(resultImage);
-//                // Get the URI of the image 'pic1.png' exists under pgguru right under SD card
-//                Uri uri = Uri.fromFile(imageFileToShare);
-//                // Set the action to be performed i.e 'Send Data'
-//                Intent sendIntent = new Intent(Intent.ACTION_SEND);
-//                // Add the URI holding a stream of data
-//                sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
-//                // Set the type of data i.e 'image/* which means image/png, image/jpg, image/jpeg etc.,'
-//                sendIntent.setType("image/*");
-//                // Launches the activity; Open 'Gallery' if you set it as default app to handle Image
-//                startActivity(Intent.createChooser(sendIntent, "Share images to.."));
-//            }
-//        });
+        shareBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                shareKakao();
+
+            }
+        });
 
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
@@ -209,5 +200,35 @@ public class ResultPage extends Fragment {
         String formatDate = sdfNow.format(date);
 
         return formatDate;
+    }
+    private Uri getImageUri(Context context, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    private void shareKakao(){
+        try{
+            final KakaoLink kakaoLink = KakaoLink.getKakaoLink(getContext());
+            final KakaoTalkLinkMessageBuilder kakaoBuilder = kakaoLink.createKakaoTalkLinkMessageBuilder();
+
+            kakaoBuilder.addText("화질구지 앱에서 이미지를 공유했습니다.");
+
+
+            Bitmap sharebmp = resultImage;
+            Uri imangeUri = getImageUri(getContext(), sharebmp);
+            Log.e("uri", String.valueOf(imangeUri));
+
+
+
+            kakaoBuilder.addImage(String.valueOf(imangeUri),160,160);
+            kakaoBuilder.addAppButton("앱 실행 혹은 다운로드");
+
+            kakaoLink.sendMessage(kakaoBuilder, getContext());
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

@@ -13,7 +13,9 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
@@ -22,6 +24,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Display;
 import android.widget.Button;
@@ -45,6 +48,8 @@ import com.zhihu.matisse.engine.impl.GlideEngine;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -156,7 +161,13 @@ public class MainActivity extends AppCompatActivity {
         }
         setFragmentNotStack(Screen.select);
 
-        // Todo: 공유기능 추가해야함..
+        // hash key 받아오기
+
+        getAppKeyHash();
+
+
+
+
 
 //        Intent intent = getIntent();
 //        String action = intent.getAction();
@@ -212,6 +223,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void getAppKeyHash(){
+        /* 카카오톡 연계를 위해서 해시키 값 가져오기 위한 변수
+         * */
+        try{
+            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures){
+                MessageDigest md;
+                md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String something = new String(Base64.encode(md.digest(),0));
+                Log.e("Hash key : ", something);
+            }
+        }catch(Exception e){
+            //TODO Auto-generated catch block
+            Log.e("name not found", e.toString());
+        }
+    }
 
     public void setInputImg(Bitmap img) {
         inputImg = img;//Bitmap.createScaledBitmap(img, width, height, false);

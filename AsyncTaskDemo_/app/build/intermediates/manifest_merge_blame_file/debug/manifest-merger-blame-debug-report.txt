@@ -1,0 +1,47 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="org.android.assignment.asynctaskdemo_"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="15"
+8-->C:\Users\law95\Desktop\prototype\HwajilGuji\AsyncTaskDemo_\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="29" />
+9-->C:\Users\law95\Desktop\prototype\HwajilGuji\AsyncTaskDemo_\app\src\main\AndroidManifest.xml
+10
+11    <application
+11-->C:\Users\law95\Desktop\prototype\HwajilGuji\AsyncTaskDemo_\app\src\main\AndroidManifest.xml:5:5-19:19
+12        android:allowBackup="true"
+12-->C:\Users\law95\Desktop\prototype\HwajilGuji\AsyncTaskDemo_\app\src\main\AndroidManifest.xml:6:9-35
+13        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
+13-->[com.android.support:support-compat:28.0.0] C:\Users\law95\.gradle\caches\transforms-2\files-2.1\09c1f5634c674c46b74176ad3d1ddced\support-compat-28.0.0\AndroidManifest.xml:22:18-91
+14        android:debuggable="true"
+15        android:icon="@mipmap/ic_launcher"
+15-->C:\Users\law95\Desktop\prototype\HwajilGuji\AsyncTaskDemo_\app\src\main\AndroidManifest.xml:7:9-43
+16        android:label="@string/app_name"
+16-->C:\Users\law95\Desktop\prototype\HwajilGuji\AsyncTaskDemo_\app\src\main\AndroidManifest.xml:8:9-41
+17        android:roundIcon="@mipmap/ic_launcher_round"
+17-->C:\Users\law95\Desktop\prototype\HwajilGuji\AsyncTaskDemo_\app\src\main\AndroidManifest.xml:9:9-54
+18        android:supportsRtl="true"
+18-->C:\Users\law95\Desktop\prototype\HwajilGuji\AsyncTaskDemo_\app\src\main\AndroidManifest.xml:10:9-35
+19        android:testOnly="true"
+20        android:theme="@style/AppTheme" >
+20-->C:\Users\law95\Desktop\prototype\HwajilGuji\AsyncTaskDemo_\app\src\main\AndroidManifest.xml:11:9-40
+21        <activity android:name="org.android.assignment.asynctaskdemo_.MainActivity" >
+21-->C:\Users\law95\Desktop\prototype\HwajilGuji\AsyncTaskDemo_\app\src\main\AndroidManifest.xml:12:9-18:20
+21-->C:\Users\law95\Desktop\prototype\HwajilGuji\AsyncTaskDemo_\app\src\main\AndroidManifest.xml:12:19-47
+22            <intent-filter>
+22-->C:\Users\law95\Desktop\prototype\HwajilGuji\AsyncTaskDemo_\app\src\main\AndroidManifest.xml:13:13-17:29
+23                <action android:name="android.intent.action.MAIN" />
+23-->C:\Users\law95\Desktop\prototype\HwajilGuji\AsyncTaskDemo_\app\src\main\AndroidManifest.xml:14:17-69
+23-->C:\Users\law95\Desktop\prototype\HwajilGuji\AsyncTaskDemo_\app\src\main\AndroidManifest.xml:14:25-66
+24
+25                <category android:name="android.intent.category.LAUNCHER" />
+25-->C:\Users\law95\Desktop\prototype\HwajilGuji\AsyncTaskDemo_\app\src\main\AndroidManifest.xml:16:17-77
+25-->C:\Users\law95\Desktop\prototype\HwajilGuji\AsyncTaskDemo_\app\src\main\AndroidManifest.xml:16:27-74
+26            </intent-filter>
+27        </activity>
+28    </application>
+29
+30</manifest>

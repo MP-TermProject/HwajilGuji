@@ -1,0 +1,4 @@
+#Thu Jun 18 20:42:31 KST 2020
+base.0=C\:\\Users\\law95\\Desktop\\prototype\\HwajilGuji\\VideoView\\app\\build\\intermediates\\dex\\debug\\out\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

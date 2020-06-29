@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.srmobile">
-
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -27,6 +27,9 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
+            <meta-data
+                android:name="com.kakao.sdk.Appkey"
+                android:value="@string/kakao_app_key"/>
         </provider>
 
         <activity
@@ -44,10 +47,22 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="image/jpeg" />
             </intent-filter>
+
             <meta-data
                 android:name="android.service.chooser.chooser_target_service"
                 android:value="androidx.sharetarget.ChooserTargetServiceCompat" />
         </activity>
+        <activity android:name=".ResultPage">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="@string/kakao_scheme"
+                    android:host="@string/kakaolink_host"/>
+            </intent-filter>
+        </activity>
+
         <activity android:name=".sr.SRActivity" />
     </application>
 
