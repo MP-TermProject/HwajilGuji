@@ -33,8 +33,8 @@ public class ImageSelectionWay extends Fragment{
     private String mParam1;
     private String mParam2;
     private ImageButton cameraBtn;
-    private ImageButton configureBtn;
 
+    private Button galleryBtn;
     public ImageSelectionWay() {
         // Required empty public constructor
     }
@@ -102,6 +102,4 @@ public class ImageSelectionWay extends Fragment{
 
         return selectionPage;
     }
-
-
 }

@@ -102,7 +102,8 @@ public class ResultPage extends Fragment {
             public void onClick(View v) {
                 if(processActivity==null)
                 {
-                    RectSRActivity.rectSRActivity.finish();
+                    RectSRActivity temp = (RectSRActivity) getContext();
+                    temp.finish();
                 }
                 else
                     processActivity.finish();
