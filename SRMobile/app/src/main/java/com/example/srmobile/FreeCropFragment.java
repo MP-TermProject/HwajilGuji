@@ -22,7 +22,7 @@ import android.widget.LinearLayout;
  * Use the {@link FreeCropFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FreeCropFragment extends Fragment implements ISomeView{
+public class FreeCropFragment extends Fragment implements ISomeView {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -63,35 +63,36 @@ public class FreeCropFragment extends Fragment implements ISomeView{
         }
     }
 
-    private LinearLayout mainLayout=null;
-    private MainActivity mainActivity=null;
-    private ProcessActivity processActivity=null;
-    private SomeView someView=null;
-    private Bitmap currentBitmap=null;
+    private LinearLayout mainLayout = null;
+    private MainActivity mainActivity = null;
+    private ProcessActivity processActivity = null;
+    private SomeView someView = null;
+    private Bitmap currentBitmap = null;
     private Bitmap resultBitmap = null;
     //test
     Button loadBtn;
     ImageView testImageView;
+
     //
-    private void init(ViewGroup vg)
-    {
-        mainLayout=vg.findViewById(R.id.freeCropMainLayout);
-        mainActivity=MainActivity.singletone;
-        processActivity=ProcessActivity.singletone;
-        someView = new SomeView(getContext(),this);
+    private void init(ViewGroup vg) {
+        mainLayout = vg.findViewById(R.id.freeCropMainLayout);
+        mainActivity = MainActivity.singletone;
+        processActivity = ProcessActivity.singletone;
+        someView = new SomeView(getContext(), this);
         someView.setBitmap(currentBitmap);
         mainLayout.addView(someView);
         //test
-        loadBtn=vg.findViewById(R.id.loadBeforeBtn);
-        testImageView=vg.findViewById(R.id.testImgView);
+        loadBtn = vg.findViewById(R.id.loadBeforeBtn);
+        testImageView = vg.findViewById(R.id.testImgView);
         //
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Log.e("isCalled","OCV Called");
-        ViewGroup vg= (ViewGroup) inflater.inflate(R.layout.fragment_free_crop, container, false);
+        Log.e("isCalled", "OCV Called");
+        ViewGroup vg = (ViewGroup) inflater.inflate(R.layout.fragment_free_crop, container, false);
 
         init(vg);
 
@@ -104,10 +105,10 @@ public class FreeCropFragment extends Fragment implements ISomeView{
 
         return vg;
     }
-    public void setBitmap(Bitmap bitmap)
-    {
-        Log.e("setBitmap","access");
-        if(bitmap!=null) {
+
+    public void setBitmap(Bitmap bitmap) {
+        Log.e("setBitmap", "access");
+        if (bitmap != null) {
             Log.e("setBitmap", Integer.toString(bitmap.getWidth()));
             currentBitmap = bitmap;
         }
@@ -115,14 +116,13 @@ public class FreeCropFragment extends Fragment implements ISomeView{
 
     @Override
     public void getBitmap(Bitmap bitmap) {
-        resultBitmap=bitmap;
+        resultBitmap = bitmap;
         processActivity.setProcessedBitmap(bitmap);
         testImageView.setImageBitmap(resultBitmap);
         //endTask();
     }
 
-    public void endTask()
-    {
+    public void endTask() {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction().remove(FreeCropFragment.this).commit();
         fragmentManager.popBackStack();

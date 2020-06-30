@@ -3,11 +3,10 @@
     <item>
         <shape>
             <size
-                android:height="15dp"
                 android:width="15dp"
-                />
-            <solid android:color="@android:color/transparent"/>
+                android:height="15dp" />
+            <solid android:color="@android:color/transparent" />
         </shape>
     </item>
-    <item android:drawable="@drawable/icon"/>
+    <item android:drawable="@drawable/icon" />
 </layer-list>

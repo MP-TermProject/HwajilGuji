@@ -8,34 +8,33 @@
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:weightSum="5"
-        android:orientation="vertical"
+        android:layout_height="match_parent"
         android:background="@color/white"
         android:clickable="true"
-        >
+        android:orientation="vertical"
+        android:weightSum="5">
+
         <com.example.srmobile.RectCrop
             android:id="@+id/rectCropScreen"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="4"
-            />
+            android:layout_weight="4" />
+
         <RelativeLayout
-            android:layout_height="0dp"
             android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@color/themeColor"
-            >
+            android:background="@color/themeColor">
+
             <Button
-                android:background="@drawable/button_border"
-                android:fontFamily="@font/dovemayo"
                 android:id="@+id/submitResult"
                 android:layout_width="230dp"
                 android:layout_height="120dp"
-                android:text="Submit"
                 android:layout_alignParentRight="true"
-                />
+                android:background="@drawable/button_border"
+                android:fontFamily="@font/dovemayo"
+                android:text="Submit" />
         </RelativeLayout>
     </LinearLayout>
 

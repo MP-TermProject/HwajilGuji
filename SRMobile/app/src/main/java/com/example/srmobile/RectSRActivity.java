@@ -18,17 +18,18 @@ public class RectSRActivity extends AppCompatActivity {
     RectCrop cropView;
     ImageGenerator generator;
     public static RectSRActivity rectSRActivity;
-    private void init()
-    {
+
+    private void init() {
         submitBtn = findViewById(R.id.rcsrSubmitBtn);
-        mainActivity=MainActivity.singletone;
+        mainActivity = MainActivity.singletone;
         cropView = findViewById(R.id.rcSrRectCrop);
         generator = mainActivity.generator;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        rectSRActivity=this;
+        rectSRActivity = this;
         setContentView(R.layout.activity_rect_s_r);
         init();
         cropView.setBitmap(mainActivity.inputImg);
@@ -36,9 +37,8 @@ public class RectSRActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 result = cropView.CropImage();
-                if(result!=null)
-                {
-                    result = generator.ImageProcess(result,mainActivity.width,mainActivity.height);
+                if (result != null) {
+                    result = generator.ImageProcess(result, mainActivity.width, mainActivity.height);
                     ResultPage resultPage = new ResultPage();
                     resultPage.setResultImage(result);
                     loadFragment(resultPage);
@@ -55,10 +55,10 @@ public class RectSRActivity extends AppCompatActivity {
         }
         */
     }
-    public void loadFragment(Fragment fragment)
-    {
+
+    public void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.rcsrMainLayout,fragment).commit();
+        transaction.add(R.id.rcsrMainLayout, fragment).commit();
         transaction.addToBackStack(null);
     }
 }

@@ -59,20 +59,22 @@ public class RectCropFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     ProcessActivity processActivity;
-    Bitmap cropBitmap=null;
+    Bitmap cropBitmap = null;
     Button cropBtn;
     RectCrop rc;
     ImageView resultImg;
-    public void init()
-    {
-        processActivity=ProcessActivity.singletone;
+
+    public void init() {
+        processActivity = ProcessActivity.singletone;
     }
-    public void initWidget(ViewGroup vg)
-    {
+
+    public void initWidget(ViewGroup vg) {
         rc = vg.findViewById(R.id.rectCropScreen);
         cropBtn = vg.findViewById(R.id.submitResult);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -84,23 +86,22 @@ public class RectCropFragment extends Fragment {
         cropBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(rc.CropImage()!=null) {
+                if (rc.CropImage() != null) {
                     Bitmap output = rc.CropImage();
                     processActivity.setProcessedBitmap(output);
                     endTask();
-                }
-                else
-                    Toast.makeText(getContext(),"사이즈가 작습니다.",Toast.LENGTH_SHORT).show();
+                } else
+                    Toast.makeText(getContext(), "사이즈가 작습니다.", Toast.LENGTH_SHORT).show();
             }
         });
         return vg;
     }
-    public void setCropBitmap(Bitmap bitmap)
-    {
-        cropBitmap=bitmap;
+
+    public void setCropBitmap(Bitmap bitmap) {
+        cropBitmap = bitmap;
     }
-    public void endTask()
-    {
+
+    public void endTask() {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction().remove(RectCropFragment.this).commit();
         fragmentManager.popBackStack();

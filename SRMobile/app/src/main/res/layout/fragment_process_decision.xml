@@ -10,57 +10,57 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:background="@color/themeColor"
-        android:weightSum="5"
-        >
+        android:orientation="vertical"
+        android:weightSum="5">
+
         <LinearLayout
-            android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_margin="10dp"
             android:layout_weight="4"
-            android:orientation="vertical"
             android:background="@color/whiteBackground"
-            >
+            android:orientation="vertical">
+
             <ImageView
                 android:id="@+id/sampleImageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="50dp"
-                android:layout_marginBottom="50dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginRight="10dp"
-                />
+                android:layout_marginBottom="50dp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:weightSum="2"
+            android:background="@color/themeColor"
             android:orientation="horizontal"
-            android:background="@color/themeColor">
+            android:weightSum="2">
+
             <Button
-                android:background="@drawable/button_border"
-                android:textStyle="bold"
-                android:fontFamily="@font/dovemayo"
                 android:id="@+id/decisionSRBtn"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:textSize="25dp"
-                android:text="@string/sr"
-                />
-            <Button
+                android:layout_weight="1"
                 android:background="@drawable/button_border"
-                android:textStyle="bold"
                 android:fontFamily="@font/dovemayo"
+                android:text="@string/sr"
+                android:textSize="25dp"
+                android:textStyle="bold" />
+
+            <Button
                 android:id="@+id/decisionOtherBtn"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:textSize="25dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_border"
+                android:fontFamily="@font/dovemayo"
                 android:text="@string/etc"
-                />
+                android:textSize="25dp"
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 

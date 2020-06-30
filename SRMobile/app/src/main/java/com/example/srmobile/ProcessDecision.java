@@ -58,18 +58,17 @@ public class ProcessDecision extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     MainActivity mainActivity;
     Button processBtn;
     Button srBtn;
     ImageView preview;
 
-    public void init()
-    {
+    public void init() {
         mainActivity = MainActivity.singletone;
     }
 
-    public void widget_init(ViewGroup vg)
-    {
+    public void widget_init(ViewGroup vg) {
         preview = vg.findViewById(R.id.sampleImageView);
         processBtn = vg.findViewById(R.id.decisionOtherBtn);
         srBtn = vg.findViewById(R.id.decisionSRBtn);
@@ -79,7 +78,7 @@ public class ProcessDecision extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ViewGroup vg= (ViewGroup) inflater.inflate(R.layout.fragment_process_decision, container, false);
+        ViewGroup vg = (ViewGroup) inflater.inflate(R.layout.fragment_process_decision, container, false);
         init();
         widget_init(vg);
         preview.setImageBitmap(mainActivity.getInputImg());
@@ -87,7 +86,7 @@ public class ProcessDecision extends Fragment {
             @Override
             public void onClick(View v) {
                 mainActivity.setFragmentNotStack(MainActivity.Screen.select);
-                Intent intent = new Intent(getContext(),ProcessActivity.class);
+                Intent intent = new Intent(getContext(), ProcessActivity.class);
                 startActivity(intent);
             }
         });
@@ -96,7 +95,7 @@ public class ProcessDecision extends Fragment {
             @Override
             public void onClick(View v) {
                 mainActivity.setFragmentNotStack(MainActivity.Screen.select);
-                Intent intent = new Intent(getContext(),RectSRActivity.class);
+                Intent intent = new Intent(getContext(), RectSRActivity.class);
                 startActivity(intent);
             }
         });

@@ -3,81 +3,77 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:fitsSystemWindows="true"
-    tools:context=".ResultPage"
-    >
+    android:orientation="vertical"
+    tools:context=".ResultPage">
 
     <!-- TODO: Update blank fragment layout -->
 
     <LinearLayout
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:orientation="vertical"
         android:id="@+id/result_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/birdInside"
         android:clickable="true"
-        android:weightSum="4"
-        android:background="@color/birdInside">
+        android:orientation="vertical"
+        android:weightSum="4">
 
 
         <ImageView
-            android:layout_marginTop="30dp"
             android:id="@+id/result_imgBtn"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="30dp"
             android:layout_weight="2.5"
-            android:src="@drawable/bird_mid"
-            />
+            android:src="@drawable/bird_mid" />
+
         <RelativeLayout
-            android:paddingTop="50dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.5"
-            >
+            android:paddingTop="50dp">
+
             <Button
-                android:background="@drawable/button_border"
+                android:id="@+id/restartBtn"
+                android:layout_width="130dp"
+                android:layout_height="100dp"
+                android:layout_alignParentLeft="true"
+                android:layout_gravity="center"
                 android:layout_marginTop="40dp"
                 android:layout_marginRight="20dp"
-                android:layout_alignParentLeft="true"
+                android:background="@drawable/button_border"
                 android:fontFamily="@font/dovemayo"
-                android:textStyle="bold"
-                android:layout_height="100dp"
-                android:layout_width="130dp"
-                android:layout_gravity="center"
                 android:text="@string/restart"
                 android:textSize="20dp"
-                android:id="@+id/restartBtn"
-                />
+                android:textStyle="bold" />
 
             <Button
-                android:background="@drawable/button_border"
-                android:layout_marginTop="40dp"
-                android:layout_toRightOf="@id/restartBtn"
-                android:layout_toLeftOf="@id/saveBtn"
-                android:fontFamily="@font/dovemayo"
-                android:textStyle="bold"
-                android:layout_height="100dp"
+                android:id="@+id/shareBtn"
                 android:layout_width="130dp"
+                android:layout_height="100dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="40dp"
+                android:layout_toLeftOf="@id/saveBtn"
+                android:layout_toRightOf="@id/restartBtn"
+                android:background="@drawable/button_border"
+                android:fontFamily="@font/dovemayo"
                 android:text="공유"
                 android:textSize="30dp"
-                android:id="@+id/shareBtn"
-                />
+                android:textStyle="bold" />
 
             <Button
-                android:background="@drawable/button_border"
-                android:layout_marginTop="40dp"
-                android:layout_marginLeft="20dp"
-                android:layout_alignParentRight="true"
-                android:fontFamily="@font/dovemayo"
-                android:textStyle="bold"
-                android:layout_height="100dp"
+                android:id="@+id/saveBtn"
                 android:layout_width="130dp"
+                android:layout_height="100dp"
+                android:layout_alignParentRight="true"
                 android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/button_border"
+                android:fontFamily="@font/dovemayo"
                 android:text="@string/save"
                 android:textSize="30dp"
-                android:id="@+id/saveBtn"
-                />
+                android:textStyle="bold" />
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

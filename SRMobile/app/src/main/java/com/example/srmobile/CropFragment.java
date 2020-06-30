@@ -56,17 +56,19 @@ public class CropFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     LinearLayout layout;
-    public void init()
-    {
+
+    public void init() {
 
     }
 
-    public void initWidget(ViewGroup vg)
-    {
+    public void initWidget(ViewGroup vg) {
         layout = vg.findViewById(R.id.cropMainPage);
     }
+
     Bitmap img;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -79,8 +81,8 @@ public class CropFragment extends Fragment {
         layout.addView(cropView);
         return vg;
     }
-    public void setImage(Bitmap _img)
-    {
+
+    public void setImage(Bitmap _img) {
         img = _img;
     }
 }

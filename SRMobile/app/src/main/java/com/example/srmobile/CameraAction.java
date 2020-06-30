@@ -11,7 +11,9 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
+
 import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.TextureView;

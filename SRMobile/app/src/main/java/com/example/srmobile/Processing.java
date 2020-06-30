@@ -25,7 +25,7 @@ import java.util.List;
  * Use the {@link Processing#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Processing extends Fragment implements IActiveView, IGetImage{
+public class Processing extends Fragment implements IActiveView, IGetImage {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -66,44 +66,46 @@ public class Processing extends Fragment implements IActiveView, IGetImage{
         }
         init();
     }
+
     ImageGenerator generator;
     MainActivity mainActivity;
     FrameLayout processMain;
     ActiveView currentView;
     Bitmap defaultImage;
-    Button moveBtn=null;
-    Button rotateBtn =null;
-    Button freeCropBtn=null;
-    Button rectCropBtn=null;
+    Button moveBtn = null;
+    Button rotateBtn = null;
+    Button freeCropBtn = null;
+    Button rectCropBtn = null;
     Button removeBtn = null;
     Button resolutionBtn = null;
 
     //test
     ImageView tIV;
     //test
-    List<ActiveView> activeViews=null;
-    private void init()
-    {
-        mainActivity=MainActivity.singletone;
-        activeViews=new ArrayList<>();
-        defaultImage=mainActivity.inputImg;
+    List<ActiveView> activeViews = null;
+
+    private void init() {
+        mainActivity = MainActivity.singletone;
+        activeViews = new ArrayList<>();
+        defaultImage = mainActivity.inputImg;
     }
-    private void setWidgets(ViewGroup vg)
-    {
-        processMain=vg.findViewById(R.id.preprocessMainLayout);
-        moveBtn=vg.findViewById(R.id.objectMoveBtn);
-        rotateBtn=vg.findViewById(R.id.objectRotateBtn);
+
+    private void setWidgets(ViewGroup vg) {
+        processMain = vg.findViewById(R.id.preprocessMainLayout);
+        moveBtn = vg.findViewById(R.id.objectMoveBtn);
+        rotateBtn = vg.findViewById(R.id.objectRotateBtn);
         freeCropBtn = vg.findViewById(R.id.freeCropBtn);
-        rectCropBtn=vg.findViewById(R.id.rectCropBtn);
-        removeBtn=vg.findViewById(R.id.removeActiveView);
-        resolutionBtn=vg.findViewById(R.id.superResolutionBtn);
+        rectCropBtn = vg.findViewById(R.id.rectCropBtn);
+        removeBtn = vg.findViewById(R.id.removeActiveView);
+        resolutionBtn = vg.findViewById(R.id.superResolutionBtn);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ViewGroup processingPage = (ViewGroup)inflater.inflate(R.layout.fragment_processing, container, false);
-        Log.e("isCalled","onCreate");
+        ViewGroup processingPage = (ViewGroup) inflater.inflate(R.layout.fragment_processing, container, false);
+        Log.e("isCalled", "onCreate");
 
         setWidgets(processingPage);
         ActiveView activeView = new ActiveView(getContext());
@@ -126,9 +128,9 @@ public class Processing extends Fragment implements IActiveView, IGetImage{
         freeCropBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FreeCropFragment freeCropFragment=new FreeCropFragment();
+                FreeCropFragment freeCropFragment = new FreeCropFragment();
                 Bitmap input = getCurrentActiveBitmap();
-                if(input!=null) {
+                if (input != null) {
                     freeCropFragment.setBitmap(input);
                     mainActivity.volitileFragment(freeCropFragment);
                 }
@@ -149,58 +151,54 @@ public class Processing extends Fragment implements IActiveView, IGetImage{
         });
         return processingPage;
     }
-    public void addActiveView(Bitmap image)
-    {
-        if(activeViews.size()<10)
-        {
+
+    public void addActiveView(Bitmap image) {
+        if (activeViews.size() < 10) {
             ActiveView activeView = new ActiveView(getContext());
             activeView.setiActivity(this);
             activeView.setImage(image);
             activeViews.add(activeView);
             processMain.addView(activeView);
-        }
-        else
-            Toast.makeText(getContext(),"Object가 너무 많습니다!",Toast.LENGTH_SHORT).show();
+        } else
+            Toast.makeText(getContext(), "Object가 너무 많습니다!", Toast.LENGTH_SHORT).show();
     }
-    public void process(Bitmap input)
-    {
-        if(currentView!=null){
+
+    public void process(Bitmap input) {
+        if (currentView != null) {
             Bitmap result = mainActivity.generator.ImageProcess(input, mainActivity.width, mainActivity.height);
             //mainActivity.setResultImg(result);
             currentView.setImage(result);
         }
     }
 
-    public Bitmap getCurrentActiveBitmap()
-    {
-        if(currentView!=null)
+    public Bitmap getCurrentActiveBitmap() {
+        if (currentView != null)
             return currentView.getBitmap();
         else
-            Log.e("setBitmap","null");
+            Log.e("setBitmap", "null");
         return null;
     }
 
-    public boolean removeCurrentView()
-    {
-        if(currentView==null)
+    public boolean removeCurrentView() {
+        if (currentView == null)
             return false;
         processMain.removeView(currentView);
         activeViews.remove(currentView);
-        currentView=null;
+        currentView = null;
         return true;
     }
 
     @Override
     public void getTouchedView(ActiveView a) {
-        currentView=a;
+        currentView = a;
     }
 
     @Override
     public void setState(ActiveView.state s) {
-        if(currentView!=null)
+        if (currentView != null)
             currentView.setCurrentState(s);
         else
-            Toast.makeText(getContext(),"오브젝트가 선택되지 않았습니다.",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "오브젝트가 선택되지 않았습니다.", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -210,30 +208,30 @@ public class Processing extends Fragment implements IActiveView, IGetImage{
 
     @Override
     public void setProcessedBitmap(Bitmap bitmap) {
-        Log.e("isCalled","called");
-        if(currentView==null)
-            Log.e("isCalled","isnull");
-        else{
+        Log.e("isCalled", "called");
+        if (currentView == null)
+            Log.e("isCalled", "isnull");
+        else {
             currentView.setImage(bitmap);
             tIV.setImageBitmap(bitmap);
         }
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState)
-    {
+    public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Log.e("isCalled","DestroyView");
-        Log.e("isCalled",Integer.toString(activeViews.size()));
+        Log.e("isCalled", "DestroyView");
+        Log.e("isCalled", Integer.toString(activeViews.size()));
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e("isCalled","Destroy");
+        Log.e("isCalled", "Destroy");
     }
 }
