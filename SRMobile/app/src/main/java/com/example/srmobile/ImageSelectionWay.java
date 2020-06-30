@@ -1,16 +1,13 @@
 package com.example.srmobile;
 
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 
 import com.example.srmobile.mainBanner.MainSliderAdapter;
 import com.example.srmobile.mainBanner.PicassoImageLoadingService;
@@ -23,7 +20,7 @@ import ss.com.bannerslider.Slider;
  * Use the {@link ImageSelectionWay#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ImageSelectionWay extends Fragment{
+public class ImageSelectionWay extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -32,9 +29,10 @@ public class ImageSelectionWay extends Fragment{
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private ImageButton cameraBtn;
 
+    private Button cameraBtn;
     private Button galleryBtn;
+
     public ImageSelectionWay() {
         // Required empty public constructor
     }
@@ -75,7 +73,6 @@ public class ImageSelectionWay extends Fragment{
         mainActivity = (MainActivity) getActivity();
         ViewGroup selectionPage = (ViewGroup) inflater.inflate(R.layout.fragment_image_selection_way, container, false);
         cameraBtn = selectionPage.findViewById(R.id.main_camera_btn);
-
         galleryBtn = selectionPage.findViewById(R.id.main_gallery_btn);
 
 

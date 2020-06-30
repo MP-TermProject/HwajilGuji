@@ -47,14 +47,13 @@
 
             <Button
                 android:id="@+id/main_gallery_btn"
-
                 android:layout_width="250dp"
                 android:layout_height="120dp"
                 android:layout_gravity="center"
                 android:background="@drawable/button_border"
-                android:textSize="20dp"
                 android:fontFamily="@font/dovemayo"
                 android:text="@string/loading"
+                android:textSize="20dp"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
@@ -70,13 +69,16 @@
         app:layout_constraintTop_toBottomOf="@id/main_buttonLayout"
         tools:ignore="MissingConstraints">
 
-        <ImageButton
+        <Button
             android:id="@+id/main_camera_btn"
-            android:layout_width="85dp"
-            android:layout_height="85dp"
+            android:layout_width="250dp"
+            android:layout_height="120dp"
             android:layout_gravity="center"
-            android:background="@drawable/baseline_camera_alt_black_24"
-            android:text="@string/camera" />
+            android:background="@drawable/button_border"
+            android:fontFamily="@font/dovemayo"
+            android:text="@string/camera"
+            android:textSize="20dp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.Guideline

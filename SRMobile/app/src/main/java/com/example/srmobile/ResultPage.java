@@ -95,7 +95,7 @@ public class ResultPage extends Fragment {
         // Inflate the layout for this fragment
         ViewGroup resultPage = (ViewGroup) inflater.inflate(R.layout.fragment_result_page, container, false);
         context = container.getContext();
-        mainActivity=MainActivity.singletone;
+        mainActivity = MainActivity.singletone;
         processActivity = ProcessActivity.singletone;
         result_img = resultPage.findViewById(R.id.result_imgBtn);
         result_img.setImageBitmap(resultImage);
@@ -107,17 +107,15 @@ public class ResultPage extends Fragment {
         restartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(processActivity==null)
-                {
+                if (processActivity == null) {
                     RectSRActivity temp = (RectSRActivity) getContext();
                     temp.finish();
-                }
-                else
+                } else
                     processActivity.finish();
             }
         });
 
-        shareBtn.setOnClickListener(new View.OnClickListener(){
+        shareBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 shareKakao();
@@ -201,6 +199,7 @@ public class ResultPage extends Fragment {
 
         return formatDate;
     }
+
     private Uri getImageUri(Context context, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
@@ -208,8 +207,8 @@ public class ResultPage extends Fragment {
         return Uri.parse(path);
     }
 
-    private void shareKakao(){
-        try{
+    private void shareKakao() {
+        try {
             final KakaoLink kakaoLink = KakaoLink.getKakaoLink(getContext());
             final KakaoTalkLinkMessageBuilder kakaoBuilder = kakaoLink.createKakaoTalkLinkMessageBuilder();
 
@@ -221,13 +220,12 @@ public class ResultPage extends Fragment {
             Log.e("uri", String.valueOf(imangeUri));
 
 
-
-            kakaoBuilder.addImage(String.valueOf(imangeUri),160,160);
+            kakaoBuilder.addImage(String.valueOf(imangeUri), 160, 160);
             kakaoBuilder.addAppButton("앱 실행 혹은 다운로드");
 
             kakaoLink.sendMessage(kakaoBuilder, getContext());
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

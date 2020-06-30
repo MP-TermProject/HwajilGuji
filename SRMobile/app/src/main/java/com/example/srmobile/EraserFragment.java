@@ -20,7 +20,7 @@ import android.widget.SeekBar;
  * Use the {@link EraserFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EraserFragment extends Fragment implements IGetImage{
+public class EraserFragment extends Fragment implements IGetImage {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -60,32 +60,34 @@ public class EraserFragment extends Fragment implements IGetImage{
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     Bitmap resultBitmap;
-    LinearLayout eraserMainLayout=null;
+    LinearLayout eraserMainLayout = null;
     Button backBtn = null;
-    Button widthBtn=null;
+    Button widthBtn = null;
     Button blurBtn = null;
     EraserView eView;
     SeekBar statusBar;
     ProcessActivity processActivity;
-    enum Var
-    {
-        idle,wid,blur
-    }
-    Var currentVar=Var.idle;
-    private void init()
-    {
-        processActivity=ProcessActivity.singletone;
+
+    enum Var {
+        idle, wid, blur
     }
 
-    private void initWidget(ViewGroup vg)
-    {
-        eraserMainLayout= vg.findViewById(R.id.eraserMainLayout);
-        backBtn = vg.findViewById(R.id.eraser_backBtn);
-        blurBtn=vg.findViewById(R.id.setBlur);
-        widthBtn=vg.findViewById(R.id.setWidth);
-        statusBar =vg.findViewById(R.id.eraserSeekBar);
+    Var currentVar = Var.idle;
+
+    private void init() {
+        processActivity = ProcessActivity.singletone;
     }
+
+    private void initWidget(ViewGroup vg) {
+        eraserMainLayout = vg.findViewById(R.id.eraserMainLayout);
+        backBtn = vg.findViewById(R.id.eraser_backBtn);
+        blurBtn = vg.findViewById(R.id.setBlur);
+        widthBtn = vg.findViewById(R.id.setWidth);
+        statusBar = vg.findViewById(R.id.eraserSeekBar);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -106,20 +108,18 @@ public class EraserFragment extends Fragment implements IGetImage{
         blurBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentVar=Var.blur;
-                if(eView!=null)
-                {
-                    statusBar.setProgress((int)(eView.getPaintBlur()));
+                currentVar = Var.blur;
+                if (eView != null) {
+                    statusBar.setProgress((int) (eView.getPaintBlur()));
                 }
             }
         });
         widthBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentVar=Var.wid;
-                if(eView!=null)
-                {
-                    statusBar.setProgress((int)(eView.getPaintWidth()/3));
+                currentVar = Var.wid;
+                if (eView != null) {
+                    statusBar.setProgress((int) (eView.getPaintWidth() / 3));
                 }
             }
         });
@@ -131,29 +131,21 @@ public class EraserFragment extends Fragment implements IGetImage{
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                if(eView!=null)
-                {
-                    if(currentVar==Var.wid)
-                    {
-                        seekBar.setProgress((int)(eView.getPaintWidth()/3));
-                    }
-                    else if(currentVar==Var.blur)
-                    {
-                        seekBar.setProgress((int)(eView.getPaintBlur()));
+                if (eView != null) {
+                    if (currentVar == Var.wid) {
+                        seekBar.setProgress((int) (eView.getPaintWidth() / 3));
+                    } else if (currentVar == Var.blur) {
+                        seekBar.setProgress((int) (eView.getPaintBlur()));
                     }
                 }
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                if(eView!=null)
-                {
-                    if(currentVar==Var.wid)
-                    {
-                        eView.setPaintWidth(seekBar.getProgress()*3);
-                    }
-                    else if(currentVar==Var.blur)
-                    {
+                if (eView != null) {
+                    if (currentVar == Var.wid) {
+                        eView.setPaintWidth(seekBar.getProgress() * 3);
+                    } else if (currentVar == Var.blur) {
                         eView.setBlur(seekBar.getProgress());
                     }
                 }
@@ -170,11 +162,10 @@ public class EraserFragment extends Fragment implements IGetImage{
 
     @Override
     public void setProcessedBitmap(Bitmap bitmap) {
-        resultBitmap=bitmap;
+        resultBitmap = bitmap;
     }
 
-    public void endTask()
-    {
+    public void endTask() {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction().remove(EraserFragment.this).commit();
         fragmentManager.popBackStack();

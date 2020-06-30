@@ -58,20 +58,20 @@ public class SomeView extends View implements View.OnTouchListener {
     @SuppressLint("WrongThread")
     public SomeView(Context c, ISomeView parent) {
         super(c);
-        returnPage=parent;
+        returnPage = parent;
         mContext = c;
-        mainActivity=MainActivity.singletone;
-        Log.e("load","createThis");
-        width=mainActivity.screenWidth;
-        height=mainActivity.screenHeight;
+        mainActivity = MainActivity.singletone;
+        Log.e("load", "createThis");
+        width = mainActivity.screenWidth;
+        height = mainActivity.screenHeight;
 
         Bitmap original = BitmapFactory.decodeResource(getResources(), R.drawable.bird_mid);//비트맵도 인풋으로 받기
-        float scale = (float) ((width/(float)original.getWidth()));//이미지가 결국, 300, 300 size가 됨.
-        originHeight=original.getHeight();
-        originWidth=original.getWidth();
+        float scale = (float) ((width / (float) original.getWidth()));//이미지가 결국, 300, 300 size가 됨.
+        originHeight = original.getHeight();
+        originWidth = original.getWidth();
 
-        int image_w = (int) (original.getWidth()*scale);
-        int image_h = (int) (original.getHeight()*scale);
+        int image_w = (int) (original.getWidth() * scale);
+        int image_h = (int) (original.getHeight() * scale);
 
         bitmap = Bitmap.createScaledBitmap(original, image_w, image_h, true);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -83,7 +83,7 @@ public class SomeView extends View implements View.OnTouchListener {
 
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStyle(Paint.Style.STROKE);
-        paint.setPathEffect(new DashPathEffect(new float[] { 10, 10 }, 0));
+        paint.setPathEffect(new DashPathEffect(new float[]{10, 10}, 0));
         paint.setStrokeWidth(5);
         paint.setColor(Color.RED);
 
@@ -108,24 +108,24 @@ public class SomeView extends View implements View.OnTouchListener {
         bfirstpoint = false;
 
     }
+
     @SuppressLint("WrongThread")
-    public void setBitmap(Bitmap get_img)
-    {
+    public void setBitmap(Bitmap get_img) {
         Bitmap original = get_img;
-        float scale = (float) ((width/(float)original.getWidth()));
-        originHeight=original.getHeight();
-        originWidth=original.getWidth();
-        float ratio = (float)originHeight/originWidth;
-        int image_w = (int) (original.getWidth()*scale);
-        int image_h = (int) ((float)image_w*ratio);
-        Log.e("width",Integer.toString(originWidth));
-        Log.e("width",Integer.toString(originHeight));
-        Log.e("width",Float.toString(ratio));
+        float scale = (float) ((width / (float) original.getWidth()));
+        originHeight = original.getHeight();
+        originWidth = original.getWidth();
+        float ratio = (float) originHeight / originWidth;
+        int image_w = (int) (original.getWidth() * scale);
+        int image_h = (int) ((float) image_w * ratio);
+        Log.e("width", Integer.toString(originWidth));
+        Log.e("width", Integer.toString(originHeight));
+        Log.e("width", Float.toString(ratio));
         bitmap = Bitmap.createScaledBitmap(original, image_w, image_h, true);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byteArray = stream.toByteArray();
-        Log.e("setBitmap",Integer.toString(bitmap.getWidth()));
+        Log.e("setBitmap", Integer.toString(bitmap.getWidth()));
         setFocusable(true);
         setFocusableInTouchMode(true);
         invalidate();
@@ -239,7 +239,7 @@ public class SomeView extends View implements View.OnTouchListener {
                 Intent intent;
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
-                        Bitmap resultImg = makeBitmap(dotPoints,byteArray);
+                        Bitmap resultImg = makeBitmap(dotPoints, byteArray);
                         returnPage.getBitmap(resultImg);
                         break;
                     case DialogInterface.BUTTON_NEGATIVE:
@@ -256,14 +256,13 @@ public class SomeView extends View implements View.OnTouchListener {
                 .setCancelable(false);
     }
 
-    public Bitmap makeBitmap(List<DotPoint> dotPoints, byte[] byteArray)
-    {
+    public Bitmap makeBitmap(List<DotPoint> dotPoints, byte[] byteArray) {
         Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
         DisplayMetrics dm = new DisplayMetrics();
-        Log.e("windowSize",Integer.toString(width));
+        Log.e("windowSize", Integer.toString(width));
         int widthOfScreen = width;
-        float ratio = (float)originHeight/originWidth;
-        int heightOfScreen = (int) (width*(ratio));
+        float ratio = (float) originHeight / originWidth;
+        int heightOfScreen = (int) (width * (ratio));
 
         Bitmap resultingImage = Bitmap.createBitmap(widthOfScreen, heightOfScreen, bitmap.getConfig());
         Canvas canvas = new Canvas(resultingImage);
@@ -277,7 +276,7 @@ public class SomeView extends View implements View.OnTouchListener {
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, 0, 0, paint);
 
-        resultingImage = Bitmap.createScaledBitmap(resultingImage,originWidth,originHeight,true);
+        resultingImage = Bitmap.createScaledBitmap(resultingImage, originWidth, originHeight, true);
         return resultingImage;
     }
 
@@ -295,15 +294,16 @@ class DotPoint {
     public float dy;
     public float dx;
     float x, y;
-    public DotPoint()
-    {
+
+    public DotPoint() {
 
     }
-    public DotPoint(float _x, float _y)
-    {
-        x=_x;
-        y=_y;
+
+    public DotPoint(float _x, float _y) {
+        x = _x;
+        y = _y;
     }
+
     @Override
     public String toString() {
         return x + ", " + y;
